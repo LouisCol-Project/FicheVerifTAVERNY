@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VSSUAP – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+/* ===== RESET ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img { height: 45px; }
+
+header h1 {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+/* ===== MAIN ===== */
+main {
+  padding: 1rem;
+  max-width: 700px;
+  margin: auto;
+}
+
+/* ===== FIELDSETS ===== */
+fieldset {
+  border: 1px solid #FFB74D;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  background: #FFF8E1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+legend {
+  font-weight: bold;
+  color: #E65100;
+  text-transform: uppercase;
+}
+
+fieldset img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 0.8rem;
+}
+
+/* ===== CHECKLIST ===== */
+label {
+  display: flex;
+  gap: 10px;
+  padding: 0.6rem;
+  border-bottom: 1px solid #FFE0B2;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+label:last-child { border-bottom: none; }
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #FF7043;
+}
+
+/* ===== BOUTONS ===== */
+button {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+  background: #FF7043;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 0.8rem;
+}
+
+.buttons {
+  display: grid;
+  gap: 12px;
+}
+
+/* ===== POPUP O2 ===== */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.popup-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popup-content {
+  background: #fff;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 18px;
+  padding: 1.5rem;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.popup-overlay.active .popup-content {
+  transform: scale(1);
+}
+
+.popup-content h2 {
+  text-align: center;
+  color: #E65100;
+}
+
+.popup-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.popup-list {
+  list-style: none;
+}
+
+.popup-list li {
+  padding: 0.6rem;
+  border-bottom: 1px solid #FFE0B2;
+}
+
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.popup-validate {
+  margin-top: 1.2rem;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  header h1 { font-size: 1rem; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications Conducteur VSSUAP</h1>
+</header>
+
+<main>
+
+<!-- RAPPEL -->
+<fieldset>
+  <legend>RAPPEL</legend>
+  <p>Vérification feux de signalisation</p>
+  <p>Vérification des niveaux</p>
+  <p>Plein d'essence</p>
+  <p>Plein d'AdBlue</p>
+  <p>État général et propreté intérieur et extérieur</p>
+</fieldset>
+
+<!-- AVANT VSAV -->
+<fieldset>
+  <legend>AVANT DU VSAV</legend>
+  <img src="images/avant VSAV.jpg">
+  <label><input type="checkbox">1 pochette bleue (CG + assurance + constat)</label>
+  <label><input type="checkbox">3 GHV</label>
+  <label><input type="checkbox">2 boites de gants</label>
+  <label><input type="checkbox">1 BER</label>
+  <label><input type="checkbox">1 flacon de gel hydroalcoolique</label>
+  <label><input type="checkbox">1 cale de roue</label>
+  <label><input type="checkbox">1 boite de masques chirurgicaux</label>
+</fieldset>
+
+<!-- COFFRE LATÉRAL DROIT -->
+<fieldset>
+  <legend>COFFRE LATÉRAL DROIT</legend>
+  <img src="images/COFFRE LATERAL DROIT.jpg">
+  <label><input type="checkbox">LOT sauv’AQUA</label>
+  <label><input type="checkbox">1 casque F2</label>
+  <label><input type="checkbox">1 bâche de désincarcération</label>
+  <label><input type="checkbox">1 paire de gants isolants</label>
+  <label><input type="checkbox">1 paire de gants de déblai</label>
+  <label><input type="checkbox">1 rouleau de rubalise</label>
+  <label><input type="checkbox">1 commande en sac</label>
+  <label><input type="checkbox">1 cale roue</label>
+  <label><input type="checkbox">1 harnais pédiatrique</label>
+  <label><input type="checkbox">1 réhausseur</label>
+  <label><input type="checkbox">2 flashmax</label>
+  <label><input type="checkbox">1 extincteur poudre</label>
+  <label><input type="checkbox">1 jeu de chaînes neige</label>
+  <label><input type="checkbox">Boîte de 6 balises</label>
+  <label><input type="checkbox">1 pack d’eau</label>
+  <label><input type="checkbox">1 coupe-boulon</label>
+  <label><input type="checkbox">1 brancard cuillère</label>
+</fieldset>
+
+<!-- COFFRE 2 -->
+<fieldset>
+  <legend>COFFRE 2</legend>
+  <img src="images/COFFRE 2.jpg">
+  <label><input type="checkbox">2 immobilisateurs de tête + 2 sangles</label>
+  <label><input type="checkbox">6 sangles de maintien</label>
+</fieldset>
+
+<!-- COFFRE 3 -->
+<fieldset>
+  <legend>COFFRE 3</legend>
+  <img src="images/COFFRE 3.jpg">
+  <label><input type="checkbox">Sac d’attelles</label>
+  <label><input type="checkbox">1 GHV apprenant</label>
+</fieldset>
+
+<!-- MATÉRIEL DIVERS + POPUP -->
+<fieldset>
+  <legend>MATÉRIEL DIVERS</legend>
+  <img src="images/Matériel divers.jpg">
+  <label><input type="checkbox">1 MID + pompe + drap UU</label>
+  <label><input type="checkbox">1 chaise de transport</label>
+  <label><input type="checkbox">1 brancard + plan dur</label>
+  <label><input type="checkbox">1 sac d’oxygénothérapie</label>
+
+  <button type="button" onclick="openPopupO2()">📋 Inventaire du sac O₂</button>
+</fieldset>
+
+<!-- STOCK O2 -->
+<fieldset>
+  <legend>STOCK OXYGÈNE</legend>
+  <img src="images/stock O2.jpg">
+  <label><input type="checkbox">1 bouteille O₂ 15 L</label>
+  <label><input type="checkbox">2 bouteilles O₂ 5 L</label>
+</fieldset>
+
+<div class="buttons">
+  <button onclick="location.href='index.html'">RETOUR AU MENU PRINCIPAL</button>
+</div>
+
+</main>
+
+<!-- POPUP O2 -->
+<div id="popupO2" class="popup-overlay">
+  <div class="popup-content">
+    <h2>Sac d’oxygénothérapie</h2>
+    <p class="popup-subtitle">Inventaire réglementaire</p>
+
+    <ul class="popup-list">
+      <li>Canules de Guedel (000 à 5)</li>
+      <li>Masques UU adulte</li>
+      <li>Filtre insufflateur</li>
+      <li>2 canules aspiration CH26</li>
+      <li>2 raccords biconiques</li>
+      <li>Tubulure O₂ 2,1 m</li>
+      <li>3 masques FFP2</li>
+      <li>Lunettes de protection</li>
+      <li>2 lunettes O₂ adulte</li>
+      <li>Bouteille O₂</li>
+      <li>Masque HC adulte</li>
+      <li>Masque HC enfant</li>
+      <li>Insufflateur manuel UU adulte</li>
+      <li>Sondes CH2 / CH6 / CH12</li>
+      <li>3 masques chirurgicaux</li>
+    </ul>
+
+    <button class="popup-validate" onclick="closePopupO2()">✔ Inventaire vérifié</button>
+  </div>
+</div>
+
+<script>
+const popupO2 = document.getElementById("popupO2");
+
+function openPopupO2() {
+  popupO2.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closePopupO2() {
+  popupO2.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+popupO2.addEventListener("click", e => {
+  if (e.target === popupO2) closePopupO2();
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && popupO2.classList.contains("active")) {
+    closePopupO2();
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accueil – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img {
+  height: 50px;
+}
+
+header h1 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 600px;
+  margin: auto;
+  width: 100%;
+}
+
+.card {
+  background: #FFF3E0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #FFD180;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.card h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  color: #BF360C;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.2s ease;
+  text-transform: uppercase;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.vsav { background: linear-gradient(90deg, #FF8A65, #FF7043); }
+.fpt  { background: linear-gradient(90deg, #FFB74D, #FFA726); }
+.ccf  { background: linear-gradient(90deg, #81C784, #66BB6A); }
+.vsr  { background: linear-gradient(90deg, #BA68C8, #AB47BC); }
+.vtu  { background: linear-gradient(90deg, #FFD54F, #FFCA28); }
+.stat { background: linear-gradient(90deg, #A1887F, #8D6E63); }
+
+button img {
+  width: 24px;
+  height: 24px;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #5D4037;
+  border-top: 1px solid #E0E0E0;
+}
+
+@media (max-width: 480px) {
+  header h1 { font-size: 1.2rem; }
+  button { padding: 0.8rem; font-size: 0.95rem; }
+  .card { padding: 1rem; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications journalières</h1>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Choisissez un véhicule ou un poste</h2>
+    <div class="buttons">
+      <button class="vsav" onclick="location.href='VSAV.html'">VSSUAP</button>
+      <button class="fpt" onclick="location.href='FPT.html'">FPTGP</button>
+      <button class="ccf" onclick="location.href='CCF.html'">CCFM</button>
+      <button class="vsr" onclick="location.href='VSR.html'">VSRM</button>
+      <button class="vtu" onclick="location.href='VTU.html'">VTU</button>
+      <button class="stat" onclick="location.href='Stats.html'">STATIONNAIRE</button>
+    </div>
+  </div>
+</main>
+
+   <div class="card">
+    <h2>Informations sur l'application</h2>
+    <table style="width:100%; border-collapse: collapse;">
+      <thead>
+        <tr style="background:#D1C4E9; text-align:left;">
+          <th style="padding:8px; border:1px solid #B39DDB;">Section</th>
+          <th style="padding:8px; border:1px solid #B39DDB;">Détails</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:8px; border:1px solid #B39DDB;">Version</td>
+          <td style="padding:8px; border:1px solid #B39DDB;">1.0 – Mise à jour janvier 2026</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #B39DDB;">Usage</td>
+          <td style="padding:8px; border:1px solid #B39DDB;">Vérification quotidienne des véhicules et postes</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid #B39DDB;">Contact</td>
+          <td style="padding:8px; border:1px solid #B39DDB;">CIS Taverny – Bureau OPS et SGT COLIN Louis</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<footer>
+  CIS Taverny – Vérifications opérationnelles
+</footer>
+
+</body>
+</html>

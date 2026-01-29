@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCFM – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+/* ===== RESET & SÉCURITÉ MOBILE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img {
+  height: 45px;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* ===== MAIN ===== */
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 700px;
+  margin: auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===== FIELDSETS ===== */
+fieldset {
+  border: 1px solid #FFB74D;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  background: #FFF8E1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+legend {
+  padding: 0 10px;
+  font-weight: bold;
+  color: #E65100;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* ===== IMAGES RESPONSIVES BÉTON ===== */
+.image-container {
+  width: 100%;
+  margin: 0 auto 1rem;
+  padding: 0.5rem;
+  background: #FFF3E0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* ===== CHECKLIST ===== */
+label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #FFE0B2;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+label:last-child {
+  border-bottom: none;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #FF7043;
+}
+
+/* ===== BOUTONS ===== */
+.buttons {
+  display: grid;
+  gap: 12px;
+}
+
+button {
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: #FF7043;
+  cursor: pointer;
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark fieldset,
+body.dark .image-container {
+  background: #1e1e1e;
+  border-color: #FF7043;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications Equipier CCFM</h1>
+</header>
+
+<main>
+
+<fieldset>
+    <legend>COFFRE DROIT</legend>
+    <img src="images/COFFRE DROIT CCF.jpg" />
+    <label><input type="checkbox" id="tuyaux-70-20m-5">5 Tuyaux Ø70/20m</label>
+    <label><input type="checkbox" id="tuyaux-45-20m-2">2 Tuyaux Ø45/20m</label>
+    <label><input type="checkbox" id="tuyaux-25-20m-2">2 Tuyaux Ø25/20m</label>
+    <label><input type="checkbox" id="hydro-ejecteur">1 Hydro-éjecteur</label>
+    <label><input type="checkbox" id="tuyaux-45-10m">1 Tuyau Ø45/10m</label>
+    <label><input type="checkbox" id="lance-queue-paon">1 Lance queue de paon</label>
+    <label><input type="checkbox" id="commande-sac">1 Commande en sac</label>
+    <label><input type="checkbox" id="elingues-2">2 Élingues</label>
+    <label><input type="checkbox" id="seaux-pompe-dorsal-3">3 Seaux pompe dorsal</label>
+    <label><input type="checkbox" id="grosse-lance">1 Grosse lance</label>
+    <label><input type="checkbox" id="petite-lance">1 Petite lance</label>
+    <label><input type="checkbox" id="poulie-mdf-rea">1 Poulie MDF à REA amovible</label>
+    <label><input type="checkbox" id="manille-grand-modele">1 Manille grand modèle</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>TOIT</legend>
+    <img src="images/TOIT CCF.jpg" />
+    <label><input type="checkbox" id="claie-45">1 Claie de portage de 45</label>
+    <label><input type="checkbox" id="tuyaux-45-20m-4">4 Tuyaux Ø45/20m</label>
+    <label><input type="checkbox" id="vanne-arret-45">1 Vanne d’arrêt</label>
+    <label><input type="checkbox" id="division-fdf-40-40-2x20">1 Division FDF Ø40/40-2x20 vanne ¼</label>
+    <label><input type="checkbox" id="sangle-45">1 Sangle</label>
+    <label><input type="checkbox" id="claie-25">1 Claie de portage de 25</label>
+    <label><input type="checkbox" id="tuyaux-45-20m-1">1 Tuyau Ø45/20m</label>
+    <label><input type="checkbox" id="tuyaux-25-20m-4">4 Tuyaux Ø25/20m</label>
+    <label><input type="checkbox" id="division-fdf-40-40-2x20-25">1 Division FDF Ø40/40-2x20 vanne ¼</label>
+    <label><input type="checkbox" id="sangle-25">1 Sangle</label>
+    <label><input type="checkbox" id="lances-20-7">2 Lances traditionnelles Ø20/7</label>
+    <label><input type="checkbox" id="piquets-ancrage-3">3 Piquets d’ancrage</label>
+    <label><input type="checkbox" id="masse">1 Masse</label>
+    <label><input type="checkbox" id="pioche-manche">1 Pioche + son manche</label>
+    <label><input type="checkbox" id="pelle">1 Pelle</label>
+    <label><input type="checkbox" id="barre-remorquage">1 Barre de remorquage</label>
+    <label><input type="checkbox" id="fourche-recourbee">1 Fourche recourbée</label>
+    <label><input type="checkbox" id="fourche-droite">1 Fourche droite</label>
+    <label><input type="checkbox" id="rateau-canadien">1 Râteau canadien</label>
+    <label><input type="checkbox" id="cordage">1 Cordage</label>
+  </fieldset>
+<div class="buttons">
+  <button onclick="location.href='index.html'">RETOUR AU MENU PRINCIPAL</button>
+</div>
+
+</main>
+
+</body>
+</html>

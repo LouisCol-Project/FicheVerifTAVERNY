@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VSSUAP – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img {
+  height: 50px;
+}
+
+header h1 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 600px;
+  margin: auto;
+  width: 100%;
+}
+
+.card {
+  background: #FFF3E0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #FFD180;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.card h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  color: #BF360C;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.2s ease;
+  text-transform: uppercase;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.vsav { background: linear-gradient(90deg, #FF8A65, #FF7043); }
+.fpt  { background: linear-gradient(90deg, #FFB74D, #FFA726); }
+.ccf  { background: linear-gradient(90deg, #81C784, #66BB6A); }
+.vsr  { background: linear-gradient(90deg, #BA68C8, #AB47BC); }
+.vtu  { background: linear-gradient(90deg, #FFD54F, #FFCA28); }
+.stat { background: linear-gradient(90deg, #A1887F, #8D6E63); }
+
+button img {
+  width: 24px;
+  height: 24px;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #5D4037;
+  border-top: 1px solid #E0E0E0;
+}
+
+@media (max-width: 480px) {
+  header h1 { font-size: 1.2rem; }
+  button { padding: 0.8rem; font-size: 0.95rem; }
+  .card { padding: 1rem; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications STATIONNAIRE</h1>
+</header>
+
+   <fieldset>
+  <ul>
+    <li>Stylos Bleu ou noir et rouge</li>
+    <li>Vérifier la quantité de papier dans l'imprimante</li>
+    <li>Si il reste 2 feuilles journalière refaire des photocopies</li>
+    <li>Ranger la feuille d'intervention de la veille</li>
+    <li>Si début du mois retiré les feuilles du classeur du mois dernier et les mettre dans le bureau OPS avec une feuille plié en deux avec écrit mois et année</li>
+	<li>Mettre le téléhone portable en charge</li>
+    <li>Vérifier le courrier à 14H30</li>
+    <li>Sortir les poubelles du jour (cf fiche TIG)</li>
+    <li>Vérification le matériel de premier secours (Inventaire dans les sacs)</li>
+  </ul>
+</fieldset>
+
+<footer>
+  CIS Taverny – Vérifications opérationnelles
+</footer>
+
+</body>
+</html>

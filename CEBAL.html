@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FPTGP – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+/* ===== RESET & SÉCURITÉ MOBILE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img {
+  height: 45px;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* ===== MAIN ===== */
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 700px;
+  margin: auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===== FIELDSETS ===== */
+fieldset {
+  border: 1px solid #FFB74D;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  background: #FFF8E1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+legend {
+  padding: 0 10px;
+  font-weight: bold;
+  color: #E65100;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* ===== IMAGES RESPONSIVES BÉTON ===== */
+.image-container {
+  width: 100%;
+  margin: 0 auto 1rem;
+  padding: 0.5rem;
+  background: #FFF3E0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* ===== CHECKLIST ===== */
+label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #FFE0B2;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+label:last-child {
+  border-bottom: none;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #FF7043;
+}
+
+/* ===== BOUTONS ===== */
+.buttons {
+  display: grid;
+  gap: 12px;
+}
+
+button {
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: #FF7043;
+  cursor: pointer;
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark fieldset,
+body.dark .image-container {
+  background: #1e1e1e;
+  border-color: #FF7043;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications Chef BAL FPTGP</h1>
+</header>
+
+<main>
+
+<fieldset>
+  <legend>CABINE ARRIERE</legend>
+  <div class="image-container"><img src="images/Cabine arriere binome.jpg" alt="Cabine arrière"></div>
+  <label><input type="checkbox" id="ari-complet">1 ARI complet (Lampe ADALIT, 1 Liaison personnel, 1 Pièce faciale, 1 Cagoule, 1 Cagoule d’évacuation et 1 collier d’amarrage)</label>
+  <label><input type="checkbox" id="tth-micro">1 TTH + Micro déporté</label>
+  <label><input type="checkbox" id="rhinoevac">1 Rhinoevac</label>
+  <label><input type="checkbox" id="chasuble">1 Chasuble</label>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE AVANT DROIT</legend>
+  <div class="image-container"><img src="images/Coffre avant droit.jpg" alt="Coffre avant droit"></div>
+  <label><input type="checkbox" id="tuyaux-z-70">4 Tuyaux en Z Ø70 / 20m</label>
+  <label><input type="checkbox" id="division-65-2x40">1 Division 65 / 2x40</label>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE AVANT GAUCHE</legend>
+  <div class="image-container"><img src="images/Coffre avant gauche.jpg" alt="Coffre avant gauche"></div>
+  <label><input type="checkbox" id="tuyaux-70-20m">2 Tuyaux Ø70 / 20m</label>
+  <label><input type="checkbox" id="tuyaux-45-20m">2 Tuyaux Ø45 / 20m</label>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE MILIEUX GAUCHE</legend>
+  <div class="image-container"><img src="images/coffre milieu gauche.jpg" alt="Coffre milieu gauche"></div>
+  <label><input type="checkbox" id="tuyaux-70-20m-2">1 Tuyaux Ø70 / 20m</label>
+  <label><input type="checkbox" id="tuyaux-110-10m">2 Tuyaux Ø110 / 10m</label>
+  <label><input type="checkbox" id="tuyaux-70-10m">1 Tuyaux Ø70 / 10m</label>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE MILIEUX DROIT</legend>
+  <div class="image-container"><img src="images/Coffre milieux droit.jpg" alt="Coffre milieux droit"></div>
+  <label><input type="checkbox" id="pulverisateur-dorsale">1 Pulvérisateur dorsale</label>
+  <label><input type="checkbox" id="lance-feu-cheminee">1 Lance feu de cheminée</label>
+  <label><input type="checkbox" id="hachette">1 Hachette</label>
+  <label><input type="checkbox" id="lot-feu-cheminee">1 Lot feu de cheminée</label>
+  <label><input type="checkbox" id="sacoche-herisson">1 Sacoche de hérisson</label>
+</fieldset>
+
+<div class="buttons">
+  <button onclick="location.href='index.html'">RETOUR AU MENU PRINCIPAL</button>
+</div>
+
+</main>
+
+</body>
+</html>

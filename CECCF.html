@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCFM – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+/* ===== RESET & SÉCURITÉ MOBILE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img {
+  height: 45px;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* ===== MAIN ===== */
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 700px;
+  margin: auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===== FIELDSETS ===== */
+fieldset {
+  border: 1px solid #FFB74D;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  background: #FFF8E1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+legend {
+  padding: 0 10px;
+  font-weight: bold;
+  color: #E65100;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* ===== IMAGES RESPONSIVES BÉTON ===== */
+.image-container {
+  width: 100%;
+  margin: 0 auto 1rem;
+  padding: 0.5rem;
+  background: #FFF3E0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* ===== CHECKLIST ===== */
+label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #FFE0B2;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+label:last-child {
+  border-bottom: none;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #FF7043;
+}
+
+/* ===== BOUTONS ===== */
+.buttons {
+  display: grid;
+  gap: 12px;
+}
+
+button {
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: #FF7043;
+  cursor: pointer;
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark fieldset,
+body.dark .image-container {
+  background: #1e1e1e;
+  border-color: #FF7043;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications Chef CCFM</h1>
+</header>
+
+<main>
+
+<fieldset>
+    <legend>CABINE ARRIERE CCF</legend>
+    <img src="images/Cabine avant CCF.jpg" />
+    <label><input type="checkbox" id="triangle-pre-signalisation"> 1 Triangle de pré-signalisation</label>
+    <label><input type="checkbox" id="masques-fenzy-bouteille-ari"> 5 Masques FENZY + Bouteille ARI</label>
+    <label><input type="checkbox" id="ceintures-securite-marche-pied"> 2 Ceintures de sécurité pour marche pied</label>
+    <label><input type="checkbox" id="sous-siege-droit"> Sous le siège Droit : 1 mano pression + flexible et 1 télécommande pour le treuil</label>
+    <label><input type="checkbox" id="sous-siege-gauche"> Sous le siège Gauche : 1 cric, 1 lot démonte roue et 1 trousse à outils</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>COFFRE GAUCHE</legend>
+    <img src="images/COFFRE GAUCHE CCF.jpg" />
+    <label><input type="checkbox" id="tronconneuse"> 1 Tronçonneuse</label>
+    <label><input type="checkbox" id="paire-guetre"> 1 Paire de guêtre</label>
+    <label><input type="checkbox" id="surpantalon-veste"> 1 Surpantalon + 1 Veste</label>
+    <label><input type="checkbox" id="paire-elargisseur"> 1 Paire d’élargisseur</label>
+    <label><input type="checkbox" id="gants-protection"> 3 Paires de gants de protection</label>
+    <label><input type="checkbox" id="jeu-outils-tronconneuse"> 1 Jeu d’outils pour tronçonneuse + 1 chaine</label>
+    <label><input type="checkbox" id="bidon-carburant-huile"> 1 Bidon Carburant + Huile de chaine</label>
+    <label><input type="checkbox" id="claie-forestage"> 1 Claie de forestage</label>
+    <label><input type="checkbox" id="serpes"> 2 Serpes</label>
+    <label><input type="checkbox" id="viboux"> 1 Viboux</label>
+    <label><input type="checkbox" id="sac-tricoises-bouchons"> 1 Sac avec : 2 tricoises de 110, 1 tricoise de 70, 1 bouchon Ø100, 1 bouchon Ø65 et 1 bouchon Ø40</label>
+    <label><input type="checkbox" id="tuyaux-70-10m-25"> 1 Tuyaux Ø70/10m + 1 tuyaux Ø25 gueule baie</label>
+    <label><input type="checkbox" id="division-fdf"> 1 Division FDF Ø65/2x40 Vanne ¼</label>
+    <label><input type="checkbox" id="raccords-reduction-dsp"> 2 Raccords de réduction DSP 65/40</label>
+    <label><input type="checkbox" id="raccord-filtre-100"> 1 Raccord filtre Ø100</label>
+    <label><input type="checkbox" id="raccord-transformation-dsp-gfr"> 1 Raccord de transformation DSP/GFR Ø40/20 (1 mâle et 1 femelle)</label>
+    <label><input type="checkbox" id="cle-federale"> 1 Clé Fédérale</label>
+    <label><input type="checkbox" id="cle-barrage"> 1 Clé de barrage</label>
+    <label><input type="checkbox" id="crepine-100"> 1 Crépine Ø100</label>
+    <label><input type="checkbox" id="flotteur-chainette"> 1 Flotteur avec chainette</label>
+    <label><input type="checkbox" id="collecteur-alimentation"> 1 Collecteur d’alimentation</label>
+    <label><input type="checkbox" id="retenue"> 1 Retenue</label>
+    <label><input type="checkbox" id="rallonge-electrique-projecteur"> 1 Rallonge électrique pour projecteur</label>
+  </fieldset>
+
+<div class="buttons">
+  <button onclick="location.href='index.html'">RETOUR AU MENU PRINCIPAL</button>
+</div>
+
+</main>
+
+</body>
+</html>

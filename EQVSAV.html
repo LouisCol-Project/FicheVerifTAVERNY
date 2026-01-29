@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VSSUAP – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+/* ===== RESET ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img { height: 45px; }
+
+header h1 {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+/* ===== MAIN ===== */
+main {
+  padding: 1rem;
+  max-width: 700px;
+  margin: auto;
+}
+
+/* ===== FIELDSETS ===== */
+fieldset {
+  border: 1px solid #FFB74D;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  background: #FFF8E1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+legend {
+  font-weight: bold;
+  color: #E65100;
+  text-transform: uppercase;
+}
+
+fieldset img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 0.8rem;
+}
+
+/* ===== CHECKLIST ===== */
+label {
+  display: flex;
+  gap: 10px;
+  padding: 0.6rem;
+  border-bottom: 1px solid #FFE0B2;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+label:last-child { border-bottom: none; }
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #FF7043;
+}
+
+/* ===== BOUTONS ===== */
+button {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+  background: #FF7043;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 0.8rem;
+}
+
+.buttons {
+  display: grid;
+  gap: 12px;
+}
+
+/* ===== POPUP O2 ===== */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.popup-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popup-content {
+  background: #fff;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 18px;
+  padding: 1.5rem;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.popup-overlay.active .popup-content {
+  transform: scale(1);
+}
+
+.popup-content h2 {
+  text-align: center;
+  color: #E65100;
+}
+
+.popup-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.popup-list {
+  list-style: none;
+}
+
+.popup-list li {
+  padding: 0.6rem;
+  border-bottom: 1px solid #FFE0B2;
+}
+
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.popup-validate {
+  margin-top: 1.2rem;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  header h1 { font-size: 1rem; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications Equipier VSSUAP</h1>
+</header>
+
+<main>
+
+<fieldset>
+    <legend>RAPPEL</legend>
+    <p>À chaque retour d’intervention, je passe un coup de serpillière dans la cellule.</p>
+    <p>En quittant ma garde, je vide les seaux et les rince.</p>
+    <p>Je vide les poubelles du VSAV et celles du chariot, puis je remets des sacs (1 sac DASRI et 1 sac poubelle <strong>noir</strong>).</p>
+    <p>Je nettoie le local VSAV ainsi que l’évier.</p>
+    <p>Je prends ma caméra avec mon matricule.</p>
+  </fieldset>
+
+  <fieldset>
+  <legend>COFFRE 1</legend>
+  <ul>
+    <li>5 draps à usage unique</li>
+    <li>Tabliers à usage unique</li>
+    <li>1 spray SURFANIOS</li>
+    <li>1 paquet de lingette</li>
+    <li>1 flacon de gel hydroalcoolique</li>
+  </ul>
+</fieldset>
+
+ <button class="btn" onclick="openPopupO2()">Vérification du sac premier secours</button>
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <fieldset>
+  <legend>COFFRE 5 ET 6 </legend>
+  <ul>
+   <li> Sac poubelle NOIR</li>
+    <li> Sac DASRI</li>
+  </ul>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE 7</legend>
+  <ul>
+    <li>1 Rouleau de sac DASRI, rouge et transparent</li>
+    <li>1 Boite OPTC</li>
+    <li>1 Boite de gants taille S</li>
+    <li>1 Boite de masques chirurgicaux</li>
+  </ul>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE 8</legend>
+  <ul>
+    <li>4 Tenues CUO27</li>
+    <li>1 Bassin</li>
+  </ul>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE 9</legend>
+  <ul>
+    <li>10 Compresses</li>
+    <li>3 Bandes crêpe de 15cm</li>
+    <li>3 Bandes crêpe de 10cm</li>
+    <li>1 Paire de ciseaux JESCO</li>
+    <li>10 Couvres thermomètres</li>
+    <li>1 Rouleau de sparadrap</li>
+    <li>10 Auto piqueurs + 10 Compresses antiseptiques</li>
+    <li>2 Chlorures de sodium de 45ml et 10 de 5ml</li>
+    <li>1 BETADINE de 100ml et 10 de 5ml</li>
+  </ul>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE 10</legend>
+  <ul>
+    <li>2 Poches de froid</li>
+    <li>2 Écharpes</li>
+    <li>1 Lampe Stylo</li>
+    <li>2 Pansements Israéliens</li>
+    <li>1 Garrot tourniquet</li>
+    <li>1 Kit AES</li>
+    <li>2 Couvertures de survie</li>
+  </ul>
+</fieldset>
+
+
+<fieldset>
+  <legend>COFFRE 11</legend>
+  <ul>
+    <li>Filet tubulaire (4 tailles différentes)</li>
+    <li>10 Pansements absorbants</li>
+    <li>3 Champs stériles + gants stériles taille 7, 8 et 9</li>
+    <li>3 Sacs à Uribag</li>
+    <li>5 Sacs Vomix</li>
+    <li>5 Bassins type haricot</li>
+  </ul>
+</fieldset>
+
+
+<fieldset>
+  <legend>COFFRE 12</legend>
+  <ul>
+    <li>1 Brancard souple</li>
+    <li>2 Housses mortuaire</li>
+  </ul>
+</fieldset>
+
+
+<fieldset>
+  <legend>COFFRE 13</legend>
+  <ul>
+    <li>3 Masques insufflateurs adulte S, M, L</li>
+    <li>3 Masques insufflateurs pédiatrique néonat, enfant et toddler</li>
+  </ul>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE 14</legend>
+  <ul>
+    <li>4 MHC et 1 lunettes O2 Pédiatrique</li>
+    <li>4 MHC et 1 lunettes O2 Adulte</li>
+    <li>3 Raccords biconique</li>
+    <li>6 Canules (000, 00, 1, 2, 4 et 5)</li>
+  </ul>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE 15</legend>
+  <ul>
+    <li>1 Aspirateur manuel</li>
+    <li>3 Sondes d’aspiration (Taille CH6, CH8 et CH12)</li>
+    <li>3 Canules d’aspiration CH26</li>
+    <li>3 Poches d’aspiration + 3 tubulures</li>
+    <li>1 BAVU adulte</li>
+    <li>2 Tubulures O2</li>
+  </ul>
+</fieldset>
+
+<div class="buttons">
+  <button onclick="location.href='index.html'">RETOUR AU MENU PRINCIPAL</button>
+</div>
+
+</main>
+
+<!-- POPUP O2 -->
+<div id="popupO2" class="popup-overlay">
+  <div class="popup-content">
+	<h2>SAC PS</h2>
+    <p class="popup-subtitle">Inventaire réglementaire</p>
+
+    <ul class="popup-list">
+		<li>1 flacon de betadine 125ml</li>
+        <li>2 flacons de chlorure de sodium 100ml</li>
+        <li>1 paire de ciseaux de dégagement</li>
+        <li>6 masques FFP2</li>
+        <li>1 boite à aiguilles</li>
+        <li>gants à usage unique</li>
+        <li>6 masques chirurgicaux</li>
+        <li>2 draps à usage unique</li>
+        <li>1 radio</li>
+        <li>plusieurs fiches bilan papier</li>
+        <li>1 sac rouge</li>
+        <li>2 sacs DASRI</li>
+        <li>1 sac transparent</li>
+        <li>1 sac uribag</li>
+        <li>1 sac vomix</li>
+        <li>3 pansements américains stériles</li>
+        <li>6 sachets de compresses stériles</li>
+        <li>1 stétoscope</li>
+        <li>1 tensiomètre mano-poire avec 3 brassards (adulte, enfant, large)</li>
+        <li>2 pansements israéliens</li>
+        <li>2 écharpes à usage unique</li>
+        <li>2 champs stériles à usage unique</li>
+        <li>2 couvertures de survie</li>
+        <li>1 garrot tourniquet</li>
+        <li>2 poches de froid</li>
+        <li>1 rouleau de sparadrap</li>
+        <li>1 masque bouche à bouche</li>
+        <li>1 indicateur de température</li>
+        <li>1 paire de ciseaux JESCO</li>
+        <li>4 dosettes de betadine</li>
+        <li>4 dosettes de chlorure de sodium</li>
+        <li>2 garrots à usage unique</li>
+        <li>1 flacon de gel hydroalcoolique</li>
+        <li>1 lampe stylo</li>
+        <li>2 bandes de crêpe de 10cm</li>
+        <li>2 bandes de crêpe de 15cm</li>
+        <li>1 paire de gants stériles taille moyenne</li>
+        <li>1 paire de gants stériles taille large</li>
+        <li>Lot de filet élastique SURGIFIX différentes tailles</li>
+    </ul>
+
+    <button class="popup-validate" onclick="closePopupO2()">✔ Inventaire vérifié</button>
+  </div>
+</div>
+
+<script>
+const popupO2 = document.getElementById("popupO2");
+
+function openPopupO2() {
+  popupO2.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closePopupO2() {
+  popupO2.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+popupO2.addEventListener("click", e => {
+  if (e.target === popupO2) closePopupO2();
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && popupO2.classList.contains("active")) {
+    closePopupO2();
+  }
+});
+</script>
+
+</body>
+</html>

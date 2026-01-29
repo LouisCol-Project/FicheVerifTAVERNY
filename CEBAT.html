@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FPTGP – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+/* ===== RESET & SÉCURITÉ MOBILE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img {
+  height: 45px;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* ===== MAIN ===== */
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 700px;
+  margin: auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===== FIELDSETS ===== */
+fieldset {
+  border: 1px solid #FFB74D;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  background: #FFF8E1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+legend {
+  padding: 0 10px;
+  font-weight: bold;
+  color: #E65100;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* ===== IMAGES RESPONSIVES BÉTON ===== */
+.image-container {
+  width: 100%;
+  margin: 0 auto 1rem;
+  padding: 0.5rem;
+  background: #FFF3E0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* ===== CHECKLIST ===== */
+label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #FFE0B2;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+label:last-child {
+  border-bottom: none;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #FF7043;
+}
+
+/* ===== BOUTONS ===== */
+.buttons {
+  display: grid;
+  gap: 12px;
+}
+
+button {
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: #FF7043;
+  cursor: pointer;
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark fieldset,
+body.dark .image-container {
+  background: #1e1e1e;
+  border-color: #FF7043;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications Chef BAT FPTGP</h1>
+</header>
+
+<main>
+
+<fieldset>
+  <legend>CABINE ARRIERE</legend>
+  <div class="image-container"><img src="images/Cabine arriere binome.jpg" alt="Cabine arrière"></div>
+  <label><input type="checkbox" id="ari-complet">1 ARI complet (Lampe ADALIT, 1 Liaison personnel, 1 Pièce faciale, 1 Cagoule, 1 Collier d’amarrage, 1 Cagoule d’évacuation)</label>
+  <label><input type="checkbox" id="tth-micro">1 TTH + Micro déporté</label>
+  <label><input type="checkbox" id="rhinoevac">1 Rhinoevac</label>
+  <label><input type="checkbox" id="couverture-antifeu">1 Couverture Anti-feu</label>
+  <label><input type="checkbox" id="chasuble">1 Chasuble</label>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE AVANT DROIT</legend>
+  <div class="image-container"><img src="images/Coffre avant droit.jpg" alt="Coffre avant droit"></div>
+  <label><input type="checkbox" id="ldv-preconnectee">1 LDV pré-connectée : 1 LDV500 + 4 Tuyaux Ø45 / 20m</label>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE MILIEUX DROIT</legend>
+  <div class="image-container"><img src="images/Coffre milieux droit.jpg" alt="Coffre milieux droit"></div>
+  <label><input type="checkbox" id="lspcc">1 LSPCC</label>
+  <label><input type="checkbox" id="trepied-projecteur">1 Trépied jaune pour projecteur</label>
+  <label><input type="checkbox" id="caisse-mousse">1 Caisse lance à mousse avec : 1 Bas foisonnement, 1 Haut foisonnement, 1 Paire de gants Anti-feu</label>
+  <label><input type="checkbox" id="sac-isotherme">1 Sac isotherme avec bouteille d’eau</label>
+  <label><input type="checkbox" id="lot-reconnaissance">1 Caisse Lot Reconnaissance (1 Tableau de contrôle, 1 ligne guide, 2 pochettes avec 5 balises lumineuses, cales en bois et 2 pinces)</label>
+  <label><input type="checkbox" id="tronconneuse-disque">1 Tronçonneuse à disque (essai tous les samedis)</label>
+  <label><input type="checkbox" id="bidon-melange">1 Bidon de mélange + Tablier + Crochet + Clé/tournevis</label>
+</fieldset>
+
+<fieldset>
+  <legend>COFFRE ARRIERE DROIT</legend>
+  <div class="image-container"><img src="images/Coffre arriere droit.jpg" alt="Coffre arrière droit"></div>
+  <label><input type="checkbox" id="tuyaux-o-45">2 Tuyaux en O Ø45 / 20m</label>
+  <label><input type="checkbox" id="tuyaux-z-45">4 Tuyaux en Z Ø45 / 20m</label>
+  <label><input type="checkbox" id="ldv500">2 LDV500</label>
+</fieldset>
+
+<div class="buttons">
+  <button onclick="location.href='index.html'">RETOUR AU MENU PRINCIPAL</button>
+</div>
+
+</main>
+
+</body>
+</html>

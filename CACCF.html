@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCFM – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+/* ===== RESET & SÉCURITÉ MOBILE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img {
+  height: 45px;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* ===== MAIN ===== */
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 700px;
+  margin: auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===== FIELDSETS ===== */
+fieldset {
+  border: 1px solid #FFB74D;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  background: #FFF8E1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+legend {
+  padding: 0 10px;
+  font-weight: bold;
+  color: #E65100;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* ===== IMAGES RESPONSIVES BÉTON ===== */
+.image-container {
+  width: 100%;
+  margin: 0 auto 1rem;
+  padding: 0.5rem;
+  background: #FFF3E0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* ===== CHECKLIST ===== */
+label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #FFE0B2;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+label:last-child {
+  border-bottom: none;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #FF7043;
+}
+
+/* ===== BOUTONS ===== */
+.buttons {
+  display: grid;
+  gap: 12px;
+}
+
+button {
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: #FF7043;
+  cursor: pointer;
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark fieldset,
+body.dark .image-container {
+  background: #1e1e1e;
+  border-color: #FF7043;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications Chef d'agrès CCFM</h1>
+</header>
+
+<main>
+
+<fieldset>
+      <legend>CABINE AVANT CCF</legend>
+      <img src="images/Cabine avant CCF.jpg" alt="Cabine avant CCF" />
+      <label><input type="checkbox" id="kit-premier-secours">1 KIT premier secours</label>
+      <label><input type="checkbox" id="atlas-dfci-tanit">1 ATLAS DFCI + TANIT</label>
+      <label><input type="checkbox" id="plan-trou-poulet">1 Plan Trou Poulet HERBLAY</label>
+      <label><input type="checkbox" id="fiche-degagement-ccf">1 Fiche Dégagement CCF</label>
+      <label><input type="checkbox" id="fiche-memo-groupes">1 Fiche Mémo groupes renfort</label>
+      <label><input type="checkbox" id="feuille-rappel-statuts">1 Feuille rappel des statuts</label>
+      <label><input type="checkbox" id="petite-pince">1 Petite pince</label>
+      <label><input type="checkbox" id="dossier-administratif">1 Dossier Administratif : Fiches renseignement, Avis de Passages, Décharges de responsabilité, Caractère privée, Constats de dégâts</label>
+      <label><input type="checkbox" id="casques-f2">4 Casques F2 (3 rouges et 1 jaune)</label>
+      <label><input type="checkbox" id="cagoules">4 Cagoules</label>
+      <label><input type="checkbox" id="rouleau-rubalise">1 Rouleau de rubalise</label>
+      <label><input type="checkbox" id="ceinturons-feu">4 Ceinturons de feu</label>
+      <label><input type="checkbox" id="tricoises-70mm">2 Tricoises Ø70mm</label>
+      <label><input type="checkbox" id="lampe-nightsearcher">1 Lampe NightSearcher</label>
+      <label><input type="checkbox" id="lampe-adalite-5000">1 Lampe ADALITE 5000</label>
+      <label><input type="checkbox" id="ghv">4 GHV</label>
+      <label><input type="checkbox" id="radio-antares">1 Radio Antares</label>
+      <label><input type="checkbox" id="radio-ancien-modele">1 Radio Ancien Modèle</label>
+      <label><input type="checkbox" id="jeton-presence">1 Jeton de présence</label>
+      <label><input type="checkbox" id="trousseau-cles-forets">1 Trousseau de clés accès Forêts</label>
+      <label><input type="checkbox" id="boitier-commande-lance-toiture">1 Boîtier de commande Lance toiture</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>FACE AVANT</legend>
+      <img src="images/Avant CCF.jpg" alt="Face avant CCF" />
+      <label><input type="checkbox" id="lance-toiture">1 Lance toiture</label>
+    </fieldset>
+
+<div class="buttons">
+  <button onclick="location.href='index.html'">RETOUR AU MENU PRINCIPAL</button>
+</div>
+	
+</main>
+
+</body>
+</html>

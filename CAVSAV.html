@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VSSUAP – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<style>
+/* ===== RESET & SÉCURITÉ MOBILE ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background: #FAF3E0;
+  color: #333;
+}
+
+/* ===== HEADER ===== */
+header {
+  background: #FF7043;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 2px solid #E64A19;
+  color: #fff;
+}
+
+header img {
+  height: 45px;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* ===== MAIN ===== */
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 700px;
+  margin: auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===== FIELDSETS ===== */
+fieldset {
+  border: 1px solid #FFB74D;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  background: #FFF8E1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+legend {
+  padding: 0 10px;
+  font-weight: bold;
+  color: #E65100;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* ===== IMAGES RESPONSIVES BÉTON ===== */
+.image-container {
+  width: 100%;
+  margin: 0 auto 1rem;
+  padding: 0.5rem;
+  background: #FFF3E0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* ===== CHECKLIST ===== */
+label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid #FFE0B2;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+label:last-child {
+  border-bottom: none;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #FF7043;
+}
+
+/* ===== BOUTONS ===== */
+.buttons {
+  display: grid;
+  gap: 12px;
+}
+
+button {
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background: #FF7043;
+  cursor: pointer;
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark fieldset,
+body.dark .image-container {
+  background: #1e1e1e;
+  border-color: #FF7043;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Vérifications Chef d'agrès VSSUAP</h1>
+</header>
+
+<main>
+
+<fieldset>
+  <legend>RAPPEL</legend>
+  <p>Recharger la carte VIGIK</p>
+  <p>Transférer les données du TOUCH7</p>
+  <p>Remplir le cahier de désinfection</p>
+</fieldset>
+
+<fieldset>
+  <legend>AVANT DU VSAV</legend>
+  <div class="image-container"><img src="images/avant VSAV CA1.jpg" alt="Avant VSAV"></div>
+  <label><input type="checkbox" id="adalit">Projecteur portatif ADALIT 5000</label>
+  <label><input type="checkbox" id="signalisation">Fiche rappel signalisation d'urgence</label>
+  <label><input type="checkbox" id="kitsinus">2 Kits SINUS</label>
+  <label><input type="checkbox" id="docsadm">1 porte documents avec documents administratif et rappels CUO</label>
+  <label><input type="checkbox" id="ofd">1 OFD + housse</label>
+  <label><input type="checkbox" id="parcellaire">1 parcellaire TAVERNY</label>
+  <label><input type="checkbox" id="tph">1 TPH</label>
+  <label><input type="checkbox" id="telephone">1 téléphone VSSUAP 1</label>
+  <label><input type="checkbox" id="tablette">1 tablette VSSUAP 1</label>
+  <label><input type="checkbox" id="jeu-cles">1 Jeu de clés (Foret et résidence)</label>
+  <label><input type="checkbox" id="tricoise">1 Tricoise</label>
+  <label><input type="checkbox" id="cle-ascenseur">1 Clé ascenseur</label>
+  <label><input type="checkbox" id="cle-portail">1 Clé portail</label>
+  <label><input type="checkbox" id="bip-portail">1 BIP portail CS</label>
+  <label><input type="checkbox" id="rappel-statuts">1 Rappel statuts</label>
+  <label><input type="checkbox" id="brassard-ca1">1 Brassard CA1</label>
+  <label><input type="checkbox" id="brise-vitre">1 Brise vitre</label>
+  <label><input type="checkbox" id="carte-vigik">1 Carte VIGIK + Bandoulière</label>
+  <label><input type="checkbox" id="lunettes-protection">3 Paires de lunettes de protection + masques FFP3</label>
+  <label><input type="checkbox" id="carnet-desinfection">1 Carnet de désinfection</label>
+  <label><input type="checkbox" id="carnet-touch7">1 Carnet de contrôle Touch 7</label>
+</fieldset>
+
+
+    <fieldset>
+      <legend>COFFRE 4</legend>
+      <label><input type="checkbox" id="collier_tall">Colliers cervicales TALL</label>
+      <label><input type="checkbox" id="collier_regular">Colliers cervicales REGULAR</label>
+      <label><input type="checkbox" id="collier_short">Colliers cervicales SHORT</label>
+      <label><input type="checkbox" id="collier_noneck">Colliers cervicales NO NECK</label>
+      <label><input type="checkbox" id="collier_baby">Colliers cervicales BABY NO NECK</label>
+      <label><input type="checkbox" id="collier_pediatric">Colliers cervicales PEDIATRIC</label>
+      <label><input type="checkbox" id="couverture bactériostatique">Couverture bactériostatique </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>COFFRE 17</legend>
+      <label><input type="checkbox" id="attelle_cervico">1 attelle cervicaux thoracique</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Kit pédiatrique</legend>
+      <label><input type="checkbox" id="sondes">1 jeu de sonde d'aspiration (6,8 et 12)</label>
+      <label><input type="checkbox" id="masques_o2">2 masques O2 pédiatrique</label>
+      <label><input type="checkbox" id="raccord">1 raccord biconique</label>
+      <label><input type="checkbox" id="patchs_pedi">1 jeu de patchs pédiatrique</label>
+      <label><input type="checkbox" id="canules">1 jeu de canules (000, 00 et 1)</label>
+      <label><input type="checkbox" id="bavu_pedi">1 BAVU pédiatrique</label>
+      <label><input type="checkbox" id="bavu_neo">1 BAVU néonat</label>
+      <label><input type="checkbox" id="accouchement">Kit accouchement</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>TOUCH7</legend>
+      <label><input type="checkbox" id="brassards">3 brassards à tension de tailles différentes</label>
+      <label><input type="checkbox" id="oxymetre">Oxymètre de pouls adulte et pédiatrique</label>
+      <label><input type="checkbox" id="patchs_adulte">2 patchs adulte</label>
+      <label><input type="checkbox" id="patch_enfant">1 patch enfant</label>
+      <label><input type="checkbox" id="rasoirs">2 rasoirs</label>
+      <label><input type="checkbox" id="compresses">2 sachets de compresses</label>
+      <label><input type="checkbox" id="ecg">Câble ECG + jeu d'électrodes</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Matériel divers</legend>
+        <label><input type="checkbox" id="aspirateur">Aspirateur à mucosité + test effectué</label>
+      <label><input type="checkbox" id="kit_membre">Kit membres sectionnés</label>
+      <label><input type="checkbox" id="kit_brule">Kit brûlé</label>
+    </fieldset>
+
+<div class="buttons">
+  <button onclick="location.href='index.html'">RETOUR AU MENU PRINCIPAL</button>
+</div>
+	
+</main>
+
+</body>
+</html>
