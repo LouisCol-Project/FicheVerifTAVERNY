@@ -183,11 +183,11 @@ footer {
 <script>
 document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 </script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-// 🔹 Config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
@@ -198,11 +198,9 @@ const firebaseConfig = {
   measurementId: "G-KVSC8V8M1B"
 };
 
-// 🔹 Initialisation Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔹 Récupérer toutes les checkboxes
 function getData() {
   const inputs = document.querySelectorAll("input[type=checkbox]");
   const data = {};
@@ -210,77 +208,40 @@ function getData() {
   return data;
 }
 
-// 🔹 Surligner les éléments non cochés
 function highlightMissing(data) {
-  // Reset
-  document.querySelectorAll("label").forEach(label => label.style.backgroundColor = "");
-  // Surligner les manquants
+  document.querySelectorAll("label").forEach(label => label.classList.remove("missing"));
   for (const [id, checked] of Object.entries(data)) {
     if (!checked) {
       const input = document.getElementById(id);
-      if (input) input.parentElement.style.backgroundColor = "#ED1C24";
+      if (input) input.parentElement.classList.add("missing");
     }
   }
 }
 
-// 🔹 Sauvegarder une vérification avec ID unique basé sur la date
 async function saveCheck() {
   const data = getData();
   highlightMissing(data);
-
   try {
     const timestamp = new Date();
-    const docId = "CHEF CCF_" + timestamp.getTime(); // ID unique
+    const docId = "CA VSSUAP_" + timestamp.getTime();
     const docRef = doc(db, "verifications", docId);
-
-    // Récupérer le nom du vérificateur depuis localStorage si existant
     const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
-
-    await setDoc(docRef, {
-      nomDoc: "CHEF CCF",
-      date: timestamp,
-      verificateur: nomVerificateur,
-      data
-    });
-
-    const allChecked = Object.values(data).every(v => v === true);
-  } catch (e) {
-    console.error(e);
-    alert("Erreur enregistrement : " + e.message);
-  }
+    await setDoc(docRef, { nomDoc: "CA VSSUAP", date: timestamp, verificateur: nomVerificateur, data });
+  } catch (e) { console.error(e); alert("Erreur enregistrement : " + e.message); }
 }
 
-// 🔹 Charger le dernier état pour surligner les éléments manquants
 async function highlightLastMissing() {
   try {
-    const q = query(
-      collection(db, "verifications"),
-      where("nomDoc", "==", "CHEF CCF"),
-      orderBy("date", "desc"),
-      limit(1)
-    );
-
+    const q = query(collection(db, "verifications"), where("nomDoc","==","CA VSSUAP"), orderBy("date","desc"), limit(1));
     const snapshot = await getDocs(q);
-    if (!snapshot.empty) {
-      const lastDoc = snapshot.docs[0].data();
-      highlightMissing(lastDoc.data); // Surligner sans cocher
-    }
-  } catch (e) {
-    console.error("Erreur chargement dernière vérification :", e);
-  }
+    if (!snapshot.empty) highlightMissing(snapshot.docs[0].data().data);
+  } catch (e) { console.error(e); }
 }
 
-// 🔹 Fonction combinée pour le bouton : enregistrer et revenir au menu
-window.saveAndReturn = async function() {
-  await saveCheck();           // Sauvegarde la vérification
-  location.href = "index.html"; // Retour au menu principal
-};
-
-// 🔹 Exécuter au chargement pour surligner les éléments manquants précédents
+window.saveAndReturn = async function() { await saveCheck(); location.href = "index.html"; };
 window.addEventListener("DOMContentLoaded", highlightLastMissing);
 </script>
 
-</main>
 
 </body>
 </html>
