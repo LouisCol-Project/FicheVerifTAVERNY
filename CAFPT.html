@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FPTGP – CIS Taverny</title>
+<title>VSSUAP – CIS Taverny</title>
 <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
 
 <style>
@@ -126,25 +126,25 @@ footer {
 </head>
 
 <body>
+
 <header>
   <img src="images/logo.png" alt="Logo CIS Taverny">
-  <h1>Vérifications Chef d'agrès FPTGP</h1>
+  <h1>Vérifications Chef d'agrès VSSUAP</h1>
   <div id="date"></div>
 </header>
 
 <main>
 
-<div class="accordion">
-  <div class="accordion-header">Rappel ▾</div>
-  <div class="accordion-content">
-    <p>Recharger la carte VIGIK</p>
-  </div>
-</div>
+<fieldset>
+  <legend>RAPPEL</legend>
+  <p>Recharger la carte VIGIK</p>
+  <p>Transférer les données du TOUCH7</p>
+</fieldset>
 
-<div class="accordion">
-  <div class="accordion-header">Cabine avant ▾</div>
-  <div class="accordion-content">
-    <div class="image-container"><img src="images/CabineavantFPT.jpg" alt="Cabine avant FPTGP"></div>
+
+<fieldset>
+  <legend>Cabine avant </legend>
+   <div class="image-container"><img src="images/CabineavantFPT.jpg" alt="Cabine avant FPTGP"></div>
     <label><input type="checkbox" id="Commande en sac">Commande en sac</label>
     <label><input type="checkbox" id="Chasuble">Chasuble</label>
     <label><input type="checkbox" id="Jeton de présence">Jeton de présence</label>
@@ -156,37 +156,30 @@ footer {
     <label><input type="checkbox" id="OFD">OFD</label>
     <label><input type="checkbox" id="Caméra thermique">Caméra thermique</label>
     <label><input type="checkbox" id="2 Détecteurs multi-gaz">2 Détecteurs multi-gaz</label>
-    <label><input type="checkbox" id="Carte VIGIK">Carte VIGIK</label>
-  </div>
-</div>
+    <label><input type="checkbox" id="Carte VIGIK">Carte VIGIK</label></fieldset>
 
-<div class="accordion">
-  <div class="accordion-header">Cabine arrière ▾</div>
-  <div class="accordion-content">
-    <div class="image-container"><img src="images/Cabinearriere.jpg" alt="Cabine arrière FPTGP"></div>
+<fieldset>
+  <legend>Cabine arrière </legend>
+  <div class="image-container"><img src="images/Cabinearriere.jpg" alt="Cabine arrière FPTGP"></div>
     <label><input type="checkbox" id="ARI complet">ARI complet</label>
-  </div>
-</div>
+</fieldset>
 
-<div class="accordion">
-  <div class="accordion-header">Coffre avant droit ▾</div>
-  <div class="accordion-content">
-    <div class="image-container"><img src="images/Coffreavantdroit.jpg" alt="Coffre avant droit FPTGP"></div>
+<fieldset>
+  <legend>Coffre avant droit </legend>
+ <div class="image-container"><img src="images/Coffreavantdroit.jpg" alt="Coffre avant droit FPTGP"></div>
     <label><input type="checkbox" id="DAL complète">DAL complète</label>
     <label><input type="checkbox" id="Gabarits tuyaux">Gabarits tuyaux</label>
     <label><input type="checkbox" id="Aspiraux">Aspiraux</label>
     <label><input type="checkbox" id="Haligan + hache">Haligan + hache</label>
-    <label><input type="checkbox" id="Masse">Masse</label>
-  </div>
-</div>
+    <label><input type="checkbox" id="Masse">Masse</label></fieldset>
 
-<div class="accordion">
-  <div class="accordion-header">Coffre milieu droit ▾</div>
-  <div class="accordion-content">
-    <div class="image-container"><img src="images/Coffremilieuxdroit.jpg" alt="Coffre milieu droit FPTGP"></div>
+<fieldset>
+  <legend>coffre milieu droit </legend>
+  <div class="image-container"><img src="images/Coffremilieuxdroit.jpg" alt="Coffre milieu droit FPTGP"></div>
     <label><input type="checkbox" id="Lance COMPACTOR">Lance COMPACTOR</label>
-  </div>
-</div>
+</fieldset>
+
+
 
 <div class="buttons">
   <button onclick="saveAndReturn()">Enregistrer et revenir au menu</button>
@@ -198,7 +191,6 @@ footer {
 
 <script>
 document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-
 </script>
 
 <script type="module">
@@ -240,19 +232,19 @@ async function saveCheck() {
   highlightMissing(data);
   try {
     const timestamp = new Date();
-    const docId = "CA FPTGP_" + timestamp.getTime();
+    const docId = "CA VSSUAP_" + timestamp.getTime();
     const docRef = doc(db, "verifications", docId);
     const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
-    await setDoc(docRef, { nomDoc: "CA FPTGP", date: timestamp, verificateur: nomVerificateur, data });
-  } catch(e) { console.error(e); alert("Erreur enregistrement : "+e.message); }
+    await setDoc(docRef, { nomDoc: "CA VSSUAP", date: timestamp, verificateur: nomVerificateur, data });
+  } catch (e) { console.error(e); alert("Erreur enregistrement : " + e.message); }
 }
 
 async function highlightLastMissing() {
   try {
-    const q = query(collection(db, "verifications"), where("nomDoc","==","CA FPTGP"), orderBy("date","desc"), limit(1));
+    const q = query(collection(db, "verifications"), where("nomDoc","==","CA VSSUAP"), orderBy("date","desc"), limit(1));
     const snapshot = await getDocs(q);
-    if(!snapshot.empty) highlightMissing(snapshot.docs[0].data().data);
-  } catch(e) { console.error(e); }
+    if (!snapshot.empty) highlightMissing(snapshot.docs[0].data().data);
+  } catch (e) { console.error(e); }
 }
 
 window.saveAndReturn = async function() { await saveCheck(); location.href = "index.html"; };
