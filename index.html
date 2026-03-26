@@ -6,168 +6,230 @@
 <title>Accueil – CIS Taverny</title>
 <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
 
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif;}
+body { background:#fff3e0; color:#333; display:flex; flex-direction:column; min-height:100vh;}
+main { flex:1; max-width:1000px; width:95%; margin:auto; padding:2rem 0; display:grid; gap:2rem; }
 
-body {
-  font-family: Arial, sans-serif;
-  background: #FAF3E0;
-  color: #333;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+/* HEADER */
+header { display:flex; align-items:center; justify-content:space-between; padding:1rem 2rem; background:#d32f2f; color:white; border-radius:0 0 15px 15px; box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+header img { height:60px; border-radius:8px; border:2px solid #fff;}
+header h1 { flex:1; text-align:center; font-size:1.8rem; font-weight:700; letter-spacing:1px; }
+header #date { font-size:1rem; opacity:0.9; }
 
-header {
-  background: #FF7043;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 1rem;
-  border-bottom: 2px solid #E64A19;
-  color: #fff;
-}
+/* MESSAGE IMPORTANT LUNDI */
+#lundi-msg { background:#ffd54f; color:#b71c1c; font-weight:bold; text-align:center; padding:1rem; border-radius:12px; box-shadow:0 0 20px #ff6f00; font-size:1.2rem; display:none; }
 
-header img {
-  height: 50px;
-}
+/* INPUT NOM */
+#verificateur { width:100%; padding:0.7rem; border-radius:10px; border:1px solid #ccc; margin-bottom:1rem; font-weight:bold; text-transform:uppercase; font-size:1rem; }
 
-header h1 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  text-transform: uppercase;
-}
+/* CARTES VEHICULES (DASHBOARD POMPIER) */
+.vehicules { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1.5rem; }
+.vehicule { padding:1.5rem; border-radius:14px; color:white; font-weight:bold; text-align:center; font-size:1.1rem; cursor:pointer; transition: transform 0.2s, filter 0.2s; box-shadow:0 4px 12px rgba(0,0,0,0.2); display:flex; flex-direction:column; align-items:center; justify-content:center;}
+.vehicule i { font-size:2rem; margin-bottom:0.5rem; display:block; }
+.vehicule:hover { transform:translateY(-5px); filter:brightness(1.1); }
+.vsav{background:#e53935;} /* rouge AMBULANCE */
+.fpt{background:#fb8c00;} /* orange FPT TRUCKFIRE */
+.ccf{background:#43a047;} /* vert CCF FORET */
+.vsr{background:#8e24aa;} /* violet VSRM ACCIDENT */
+.vtu{background:#fdd835; color:#333;} /* jaune VTU */
+.stat{background:#6d4c41;} /* brun STATIONNAIRE / HISTORIQUE */
 
-main {
-  flex: 1;
-  padding: 1rem;
-  max-width: 600px;
-  margin: auto;
-  width: 100%;
-}
+/* BOUTON ADMIN */
+#btnAdmin { display:block; margin:1.5rem auto; padding:15px 30px; border:none; border-radius:12px; background: linear-gradient(90deg, #1976D2, #1565C0); color:white; font-weight:bold; cursor:pointer; font-size:1.2rem; box-shadow:0 6px 18px rgba(0,0,0,0.25); transition:0.3s; }
+#btnAdmin:hover { transform:translateY(-2px); }
 
-.card {
-  background: #FFF3E0;
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #FFD180;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
+/* CONSIGNES */
+.consignes { background:white; padding:1.5rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+.consignes h2 { text-align:center; color:#d32f2f; margin-bottom:1rem; }
+.consignes fieldset { border:2px solid #d32f2f; border-radius:12px; padding:1rem; background:#fff8e1; }
+.consignes legend { font-weight:bold; color:#b71c1c; padding:0 10px; }
+.consignes p { line-height:1.6; font-weight:bold; }
 
-.card h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-  text-transform: uppercase;
-  color: #BF360C;
-}
+/* INFO APP */
+.info-app { background:white; padding:1.5rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+.info-app table { width:100%; border-collapse:collapse; }
+.info-app th, .info-app td { padding:12px; border:1px solid #b39ddb; text-align:left; }
+.info-app th { background:#d1c4e9; }
 
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
-}
-
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 1rem;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.15s ease, filter 0.2s ease;
-  text-transform: uppercase;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-}
-
-button:hover {
-  transform: translateY(-2px);
-}
-
-.vsav { background: linear-gradient(90deg, #FF8A65, #FF7043); }
-.fpt  { background: linear-gradient(90deg, #FFB74D, #FFA726); }
-.ccf  { background: linear-gradient(90deg, #81C784, #66BB6A); }
-.vsr  { background: linear-gradient(90deg, #BA68C8, #AB47BC); }
-.vtu  { background: linear-gradient(90deg, #FFD54F, #FFCA28); }
-.stat { background: linear-gradient(90deg, #A1887F, #8D6E63); }
-
-button img {
-  width: 24px;
-  height: 24px;
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.85rem;
-  color: #5D4037;
-  border-top: 1px solid #E0E0E0;
-}
-
-@media (max-width: 480px) {
-  header h1 { font-size: 1.2rem; }
-  button { padding: 0.8rem; font-size: 0.95rem; }
-  .card { padding: 1rem; }
-}
+/* MODAL ADMIN */
+.modal-bg { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:9999; animation: fadeIn 0.3s;}
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+.modal-content { background:#fff; padding:30px 25px; border-radius:16px; width:360px; max-width:90%; text-align:center; box-shadow:0 8px 25px rgba(0,0,0,0.4); animation: slideDown 0.3s;}
+@keyframes slideDown { from {transform: translateY(-50px); opacity:0;} to {transform: translateY(0); opacity:1;} }
+.modal-content h2 { margin-bottom:20px; font-size:1.6rem; color:#d32f2f; }
+.modal-content input { width:100%; padding:12px; margin:12px 0; border-radius:8px; border:1px solid #ccc; font-size:1rem; }
+.modal-content input[type=password] { letter-spacing:3px; }
+.modal-content button { background:#1976D2; color:white; border:none; padding:12px 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:1rem; margin-top:15px; transition:0.3s;}
+.modal-content button:hover { background:#1565C0; transform:scale(1.05);}
 </style>
 </head>
-
 <body>
 
 <header>
   <img src="images/logo.png" alt="Logo CIS Taverny">
   <h1>Vérifications journalières</h1>
+  <div id="date"></div>
 </header>
 
+<script>
+document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+</script>
+
 <main>
-  <div class="card">
-    <h2>Choisissez un véhicule ou un poste</h2>
-    <div class="buttons">
-      <button class="vsav" onclick="location.href='VSAV.html'">VSSUAP</button>
-      <button class="fpt" onclick="location.href='FPT.html'">FPTGP</button>
-      <button class="ccf" onclick="location.href='CCF.html'">CCFM</button>
-      <button class="vsr" onclick="location.href='VSR.html'">VSRM</button>
-      <button class="vtu" onclick="location.href='VTU.html'">VTU</button>
-      <button class="stat" onclick="location.href='Stats.html'">STATIONNAIRE</button>
-    </div>
-  </div>
+
+<!-- Message lundi -->
+<div id="lundi-msg">⚠️ Merci de mettre en charge tous les éléments fonctionnant sur batterie ⚠️</div>
+
+<!-- Nom vérificateur -->
+<input type="text" id="verificateur" placeholder="Entrez votre nom">
+
+<!-- Dashboard véhicules -->
+<div class="vehicules">
+  <div class="vehicule vsav" id="btn-vsav" onclick="selectVehicule('VSSUAP')" disabled><i class="fas fa-ambulance"></i>VSSUAP</div>
+  <div class="vehicule fpt" id="btn-fpt" onclick="selectVehicule('FPTGP')" disabled><i class="fas fa-fire-extinguisher"></i>FPTGP</div>
+  <div class="vehicule ccf" id="btn-ccf" onclick="selectVehicule('CCFM')" disabled><i class="fas fa-tree"></i>CCFM</div>
+  <div class="vehicule vsr" id="btn-vsr" onclick="selectVehicule('VSRM')" disabled><i class="fas fa-car-crash"></i>VSRM </div>
+  <div class="vehicule vtu" id="btn-vtu" onclick="selectVehicule('VTU')" disabled><i class="fas fa-truck"></i>VTU</div>
+  <div class="vehicule stat" onclick="location.href='Stats.html'"><i class="fas fa-house"></i>STATIONNAIRE</div>
+  <div class="vehicule stat" onclick="location.href='Historique.html'"><i class="fas fa-history"></i>HISTORIQUE</div>
+</div>
+
+<!-- Consignes -->
+<div class="consignes">
+<h2>Consignes importantes ⚠️</h2>
+<fieldset>
+<p>
+- Cochez le matériel présent.<br>
+- Faites remonter toutes les anomalies rencontrées.<br>
+- Vous pouvez consulter l'historique des vérifications via le bouton « Historique ».<br>
+- Le bouton «📊 Export & Réinitialisation BDD» est réservé au chef de centre, il nécessite un mot de passe.
+</p>
+</fieldset>
+</div>
+
+<!-- Bouton Admin Export -->
+<button id="btnAdmin" onclick="exportAndResetDB()">📊 Export & Réinitialisation BDD (Chef de centre)</button>
+
+<!-- Infos App -->
+<div class="info-app">
+<h2>Informations sur l'application</h2>
+<table>
+<thead><tr><th>Section</th><th>Détails</th></tr></thead>
+<tbody>
+<tr><td>Version</td><td>2.0 – Mars 2026</td></tr>
+<tr><td>Usage</td><td>Vérification quotidienne des véhicules et postes</td></tr>
+<tr><td>Contact</td><td>CIS Taverny – SGT COLIN Louis et Bureau OPS</td></tr>
+</tbody>
+</table>
+</div>
+
 </main>
+<footer>CIS Taverny – Vérifications opérationnelles</footer>
 
-   <div class="card">
-    <h2>Informations sur l'application</h2>
-    <table style="width:100%; border-collapse: collapse;">
-      <thead>
-        <tr style="background:#D1C4E9; text-align:left;">
-          <th style="padding:8px; border:1px solid #B39DDB;">Section</th>
-          <th style="padding:8px; border:1px solid #B39DDB;">Détails</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="padding:8px; border:1px solid #B39DDB;">Version</td>
-          <td style="padding:8px; border:1px solid #B39DDB;">1.0 – Mise à jour janvier 2026</td>
-        </tr>
-        <tr>
-          <td style="padding:8px; border:1px solid #B39DDB;">Usage</td>
-          <td style="padding:8px; border:1px solid #B39DDB;">Vérification quotidienne des véhicules et postes</td>
-        </tr>
-        <tr>
-          <td style="padding:8px; border:1px solid #B39DDB;">Contact</td>
-          <td style="padding:8px; border:1px solid #B39DDB;">CIS Taverny – SGT COLIN Louis et Bureau OPS </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
 
-<footer>
-  CIS Taverny – Vérifications opérationnelles
-</footer>
+<script>
+// Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es",
+  authDomain: "veriftav.firebaseapp.com",
+  projectId: "veriftav",
+  storageBucket: "veriftav.firebasestorage.app",
+  messagingSenderId: "401217101102",
+  appId: "1:401217101102:web:dd375734d4f0464c146ebf",
+  measurementId: "G-KVSC8V8M1B"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// Activer boutons véhicules
+const inputNom = document.getElementById('verificateur');
+const vehicules = ['btn-vsav','btn-fpt','btn-ccf','btn-vsr','btn-vtu'];
+if(new Date().getDay()===1) document.getElementById('lundi-msg').style.display='block';
+inputNom.addEventListener('input', ()=>{
+  const val = inputNom.value.trim().toUpperCase();
+  inputNom.value = val;
+  const enable = val.length>=3;
+  vehicules.forEach(id=>document.getElementById(id).disabled = !enable);
+});
+
+// Sélection véhicule
+function selectVehicule(v){
+  const nom = inputNom.value.trim().toUpperCase();
+  if(nom.length<3){ alert("Merci de renseigner votre nom !"); return; }
+  localStorage.setItem('nomVerificateur', nom);
+  localStorage.setItem('vehiculeSelectionne', v);
+  const pages = { VSSUAP:'VSAV.html', FPTGP:'FPT.html', CCFM:'CCF.html', VSRM:'VSR.html', VTU:'VTU.html'};
+  location.href = pages[v];
+}
+
+// Modal admin et export PDF
+function exportAndResetDB(){
+  const modal = document.createElement('div');
+  modal.className='modal-bg';
+  modal.innerHTML=`
+    <div class="modal-content">
+      <h2>Connexion Admin</h2>
+      <input id="loginUser" placeholder="Nom d'utilisateur">
+      <input id="loginPass" type="password" placeholder="Mot de passe">
+      <button id="loginBtn">Connexion</button>
+    </div>`;
+  document.body.appendChild(modal);
+
+  document.getElementById('loginBtn').onclick=async()=>{
+    const user=document.getElementById('loginUser').value;
+    const pass=document.getElementById('loginPass').value;
+    if(user!=='ChefdeCentre'||pass!=='PompierTav@95150'){ alert('Accès refusé'); return; }
+    document.body.removeChild(modal);
+
+    try{
+      const snapshot = await db.collection("verifications").get();
+      if(snapshot.empty){ alert("Pas de données à exporter !"); return; }
+
+      const details=[];
+      snapshot.forEach(docSnap=>{
+        const d = docSnap.data();
+        const manquants = Object.entries(d.data).filter(([k,v])=>!v).map(([k])=>k);
+        details.push([d.date?.toDate().toLocaleString(), d.nomDoc, d.verificateur, manquants.join(" / ")]);
+      });
+
+      const docPDF = new jspdf.jsPDF();
+      docPDF.setFontSize(16);
+      docPDF.text("Rapport Vérifications CIS Taverny",14,20);
+      docPDF.autoTable({
+        startY:30,
+        head:[["Date","Véhicule","Vérificateur","Matériel manquant"]],
+        body:details,
+        theme:'grid',
+        headStyles:{fillColor:[211,47,47]},
+        alternateRowStyles:{fillColor:[255,243,224]}
+      });
+
+      const fileDate=new Date().toISOString().slice(0,10);
+      docPDF.save(`EXTRACT-VERIFICATION_${fileDate}.pdf`);
+      alert("Export PDF terminé ✅");
+
+      if(confirm("Voulez-vous maintenant réinitialiser la base de données ?")){
+        const batch = db.batch();
+        snapshot.forEach(docSnap=>{ batch.delete(docSnap.ref); });
+        await batch.commit();
+        alert("Base de données réinitialisée ✅");
+      }
+
+    }catch(e){ console.error(e); alert("Erreur : "+e.message);}
+  }
+}
+</script>
 
 </body>
 </html>

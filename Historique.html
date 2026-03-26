@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historique Vérifications – CIS Taverny</title>
+<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<!-- Font Awesome pour icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* { box-sizing: border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif; }
+body { background:#fff3e0; color:#333; min-height:100vh; display:flex; flex-direction:column; }
+header { display:flex; align-items:center; justify-content:space-between; padding:1rem 2rem; background:#d32f2f; color:white; border-radius:0 0 15px 15px; box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+header img { height:60px; border-radius:8px; border:2px solid #fff; }
+header h1 { flex:1; text-align:center; font-size:1.8rem; font-weight:700; letter-spacing:1px; }
+header #date { font-size:1rem; opacity:0.9; }
+
+/* Filtres compacts */
+.filters { display:flex; flex-wrap:wrap; gap:1rem; background:white; padding:1rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); margin:1rem 2rem; align-items:center; }
+.filters label { display:flex; align-items:center; gap:0.5rem; font-weight:bold; }
+.filters input, .filters select { padding:0.5rem 0.7rem; border-radius:8px; border:1px solid #ccc; font-size:0.95rem; }
+.filters button { padding:0.5rem 1rem; border:none; border-radius:8px; font-weight:bold; cursor:pointer; background:#1976D2; color:white; transition:0.2s; }
+.filters button:hover { background:#1565C0; }
+
+/* Tableau historique */
+.table-container { margin:1rem 2rem; overflow-x:auto; }
+table { width:100%; border-collapse:collapse; min-width:700px; }
+th, td { padding:12px 10px; border:1px solid #ccc; text-align:left; font-size:0.95rem; }
+th { background:#d32f2f; color:white; text-transform:uppercase; }
+tr:hover { background:#ffe0b2; }
+.vsav { background:#e53935; } /* rouge */
+.fpt { background:#fb8c00; } /* orange */
+.ccf { background:#43a047; } /* vert */
+.vsr { background:#8e24aa; } /* violet */
+.vtu { background:#fdd835; color:#333; } /* jaune */
+.anomaly { background:#f44336; color:white; padding:2px 6px; border-radius:6px; font-size:0.8rem; margin:1px; display:inline-block; }
+
+/* Info footer */
+footer { text-align:center; padding:1rem; font-size:0.85rem; color:#5D4037; border-top:1px solid #E0E0E0; margin-top:auto; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo.png" alt="Logo CIS Taverny">
+  <h1>Historique des vérifications</h1>
+  <div id="date"></div>
+</header>
+
+<!-- Filtres -->
+<div class="filters">
+  <label>Date : <input type="date" id="filter-date"></label>
+  <label>Véhicule :
+    <select id="filter-verif">
+      <option value="">Tous</option>
+    </select>
+  </label>
+  <button id="apply-filters">Appliquer</button>
+  <button onclick="location.href='index.html'">Menu principal</button>
+</div>
+
+<!-- Tableau historique -->
+<div class="table-container">
+  <table id="historique-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Véhicule</th>
+        <th>Vérificateur</th>
+        <th>Matériel manquant</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rempli dynamiquement par JS -->
+    </tbody>
+  </table>
+</div>
+
+<footer>CIS Taverny – Suivi des vérifications opérationnelles</footer>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es",
+  authDomain: "veriftav.firebaseapp.com",
+  projectId: "veriftav",
+  storageBucket: "veriftav.firebasestorage.app",
+  messagingSenderId: "401217101102",
+  appId: "1:401217101102:web:dd375734d4f0464c146ebf",
+  measurementId: "G-KVSC8V8M1B"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Header date
+document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+// Lundi message
+if(new Date().getDay() === 1) document.getElementById('lundi-msg').style.display='block';
+
+// Charger les données
+async function loadVerifications() {
+  const q = query(collection(db,"verifications"), orderBy("date","desc"));
+  const snapshot = await getDocs(q);
+  const verifications = [];
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    data.nomDoc = data.nomDoc || doc.id;
+    data.verificateur = data.verificateur || "Inconnu";
+    verifications.push(data);
+  });
+  return verifications;
+}
+
+// Remplir filtre véhicules
+async function populateVerifFilter() {
+  const verifs = await loadVerifications();
+  const filter = document.getElementById("filter-verif");
+  const nomsDocs = Array.from(new Set(verifs.map(v=>v.nomDoc))).sort();
+  nomsDocs.forEach(nom=>{
+    const option = document.createElement("option");
+    option.value = nom;
+    option.textContent = nom;
+    filter.appendChild(option);
+  });
+}
+
+// Afficher tableau
+function displayHistorique(data) {
+  const tbody = document.querySelector("#historique-table tbody");
+  tbody.innerHTML = "";
+  data.forEach(entry=>{
+    const tr = document.createElement("tr");
+
+    const dateStr = new Date(entry.date.seconds*1000).toLocaleDateString('fr-FR');
+    
+    // Badge véhicule
+    let vehBadgeClass="";
+    let vehIcon="";
+    switch(entry.nomDoc){
+      case "VSSUAP": vehBadgeClass="vsav"; vehIcon='<i class="fas fa-ambulance"></i>'; break;
+      case "FPTGP": vehBadgeClass="fpt"; vehIcon='<i class="fas fa-fire-extinguisher"></i>'; break;
+      case "CCFM": vehBadgeClass="ccf"; vehIcon='<i class="fas fa-tree"></i>'; break;
+      case "VSRM": vehBadgeClass="vsr"; vehIcon='<i class="fas fa-car-crash"></i>'; break;
+      case "VTU": vehBadgeClass="vtu"; vehIcon='<i class="fas fa-truck"></i>'; break;
+          }
+
+    const manquants = Object.entries(entry.data).filter(([k,v])=>!v).map(([k])=>`<span class="anomaly">${k}</span>`).join(" ");
+    tr.innerHTML = `
+      <td>${dateStr}</td>
+      <td><span class="vehicle-badge ${vehBadgeClass}">${vehIcon} ${entry.nomDoc}</span></td>
+      <td>${entry.verificateur}</td>
+      <td>${manquants || "Aucun"}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Appliquer filtres
+async function applyFilters() {
+  const dateFilter = document.getElementById("filter-date").value;
+  const verifFilter = document.getElementById("filter-verif").value;
+
+  let verifs = await loadVerifications();
+
+  if(dateFilter){
+    verifs = verifs.filter(entry=>{
+      const entryDate = new Date(entry.date.seconds*1000);
+      const [y,m,d] = dateFilter.split("-").map(Number);
+      return entryDate.getFullYear()===y && (entryDate.getMonth()+1)===m && entryDate.getDate()===d;
+    });
+  }
+
+  if(verifFilter) verifs = verifs.filter(entry=>entry.nomDoc===verifFilter);
+
+  displayHistorique(verifs);
+}
+
+document.getElementById("apply-filters").addEventListener("click", applyFilters);
+
+await populateVerifFilter();
+applyFilters();
+
+</script>
+</body>
+</html>
