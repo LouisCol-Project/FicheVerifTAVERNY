@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CCFM – CIS Taverny</title>
+<title>VSSUAP – CIS Taverny</title>
 <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
 
 <style>
@@ -126,18 +126,24 @@ footer {
 </head>
 
 <body>
+
 <header>
   <img src="images/logo.png" alt="Logo CIS Taverny">
-  <h1>Vérifications Chef d'agrès CCFM</h1>
+  <h1>Vérifications Chef d'agrès VSSUAP</h1>
   <div id="date"></div>
 </header>
 
 <main>
 
-<div class="accordion">
-  <div class="accordion-header">CABINE AVANT CCF ▾</div>
-  <div class="accordion-content">
-    <div class="image-container"><img src="images/CabineavantCCF.jpg" alt="Cabine avant CCF" /></div>
+<fieldset>
+  <legend>RAPPEL</legend>
+  <p>Recharger la carte VIGIK</p>
+  </fieldset>
+
+
+<fieldset>
+  <legend>CABINE AVANT CCF </legend>
+   <<div class="image-container"><img src="images/CabineavantCCF.jpg" alt="Cabine avant CCF" /></div>
     <label><input type="checkbox" id="1 KIT premier secours">1 KIT premier secours</label>
     <label><input type="checkbox" id="1 ATLAS DFCI + TANIT">1 ATLAS DFCI + TANIT</label>
     <label><input type="checkbox" id="1 Plan Trou Poulet HERBLAY">1 Plan Trou Poulet HERBLAY</label>
@@ -159,16 +165,16 @@ footer {
     <label><input type="checkbox" id="1 Jeton de présence">1 Jeton de présence</label>
     <label><input type="checkbox" id="1 Trousseau de clés accès Forêts">1 Trousseau de clés accès Forêts</label>
     <label><input type="checkbox" id="1 Boîtier de commande Lance toiture">1 Boîtier de commande Lance toiture</label>
-  </div>
-</div>
+</fieldset>
 
-<div class="accordion">
-  <div class="accordion-header">FACE AVANT ▾</div>
-  <div class="accordion-content">
+<fieldset>
+  <legend>FACE AVANT </legend>
     <div class="image-container"><img src="images/AvantCCF.jpg" alt="Face avant CCF" /></div>
     <label><input type="checkbox" id="1 Lance toiture">1 Lance toiture</label>
-  </div>
-</div>
+</fieldset>
+
+
+
 
 <div class="buttons">
   <button onclick="saveAndReturn()">Enregistrer et revenir au menu</button>
@@ -221,16 +227,16 @@ async function saveCheck() {
   highlightMissing(data);
   try {
     const timestamp = new Date();
-    const docId = "CA CCF_" + timestamp.getTime();
+    const docId = "CA VSSUAP_" + timestamp.getTime();
     const docRef = doc(db, "verifications", docId);
     const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
-    await setDoc(docRef, { nomDoc: "CA CCF", date: timestamp, verificateur: nomVerificateur, data });
+    await setDoc(docRef, { nomDoc: "CA VSSUAP", date: timestamp, verificateur: nomVerificateur, data });
   } catch (e) { console.error(e); alert("Erreur enregistrement : " + e.message); }
 }
 
 async function highlightLastMissing() {
   try {
-    const q = query(collection(db, "verifications"), where("nomDoc","==","CA CCF"), orderBy("date","desc"), limit(1));
+    const q = query(collection(db, "verifications"), where("nomDoc","==","CA VSSUAP"), orderBy("date","desc"), limit(1));
     const snapshot = await getDocs(q);
     if (!snapshot.empty) highlightMissing(snapshot.docs[0].data().data);
   } catch (e) { console.error(e); }
