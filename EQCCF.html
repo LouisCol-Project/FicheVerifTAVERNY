@@ -10,20 +10,20 @@
 * { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif; }
 body { background:#fff3e0; color:#212121; display:flex; flex-direction:column; min-height:100vh; }
 
-/* ===== HEADER (inchangé) ===== */
+/* ===== HEADER ===== */
 header {
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:1rem 1rem;
+  padding:0.8rem 1rem;
   background:#d32f2f;
   color:white;
-  border-radius:0 0 15px 15px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  border-radius:0 0 12px 12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.25);
 }
-header img { height:50px; border-radius:8px; border:2px solid #fff; }
-header h1 { flex:1; text-align:center; font-size:1.3rem; font-weight:700; }
-header #date { font-size:0.9rem; opacity:0.9; }
+header img { height:40px; border-radius:6px; border:2px solid #fff; }
+header h1 { flex:1; text-align:center; font-size:1rem; font-weight:700; margin:0 0.5rem; }
+header #date { font-size:0.75rem; opacity:0.85; }
 
 /* ===== ALERT MESSAGE ===== */
 #attention-msg {
@@ -31,51 +31,52 @@ header #date { font-size:0.9rem; opacity:0.9; }
   color:#b71c1c;
   font-weight:bold;
   text-align:center;
-  padding:0.8rem;
-  border-radius:12px;
-  box-shadow:0 0 15px #ff6f00;
-  font-size:1rem;
+  padding:0.7rem;
+  border-radius:10px;
+  box-shadow:0 0 12px #ff6f00;
+  font-size:0.9rem;
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:0.3rem;
+  gap:0.2rem;
+  margin:0.5rem 0;
 }
 
 /* ===== FIELDSETS ===== */
 fieldset {
   border:2px solid #b71c1c;
-  border-radius:12px;
-  padding:1rem;
+  border-radius:10px;
+  padding:0.8rem;
   background:#fff8e1;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-  margin-bottom:1rem;
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+  margin-bottom:0.8rem;
 }
-legend { font-weight:bold; color:#b71c1c; padding:0 5px; font-size:1rem; }
+legend { font-weight:bold; color:#b71c1c; padding:0 5px; font-size:0.9rem; }
 
 /* ===== IMAGES ===== */
 .image-container {
   width:100%;
   margin:0.5rem 0;
-  border-radius:10px;
+  border-radius:8px;
   overflow:hidden;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
 }
-.image-container img { width:100%; height:auto; display:block; border-radius:10px; }
+.image-container img { width:100%; height:auto; display:block; border-radius:8px; }
 
 /* ===== CHECKLIST ===== */
 label {
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:0.6rem 0.5rem;
+  gap:8px;
+  padding:0.5rem;
   border-bottom:1px solid #ffe0b2;
-  font-size:0.95rem;
+  font-size:0.85rem;
   cursor:pointer;
-  border-radius:6px;
+  border-radius:5px;
   transition:0.2s;
 }
 label:hover { background:#fff176; }
-input[type="checkbox"] { transform:scale(1.5); accent-color:#b71c1c; }
+input[type="checkbox"] { transform:scale(1.3); accent-color:#b71c1c; }
 label.missing { background:#ed1c24; color:white; font-weight:bold; }
 
 /* ===== BOUTONS ===== */
@@ -85,28 +86,41 @@ label.missing { background:#ed1c24; color:white; font-weight:bold; }
   margin:1rem 0 2rem 0;
 }
 button {
-  width:90%;
-  padding:1rem;
+  width:95%;
+  padding:0.8rem;
   border:none;
-  border-radius:12px;
-  font-size:1.1rem;
+  border-radius:10px;
+  font-size:1rem;
   font-weight:bold;
   background:#b71c1c;
   color:white;
   cursor:pointer;
-  box-shadow:0 3px 8px rgba(0,0,0,0.3);
+  box-shadow:0 2px 6px rgba(0,0,0,0.25);
   transition:0.3s;
 }
 button:hover { transform:translateY(-2px); background:#d32f2f; }
 
+/* ===== FOOTER ===== */
+footer {
+  text-align:center;
+  font-size:0.75rem;
+  padding:0.5rem;
+  background:#ffd54f;
+  color:#b71c1c;
+  font-weight:bold;
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
+}
 
 /* ===== RESPONSIVE MOBILE ===== */
 @media (max-width:480px){
-  header img { height:40px; }
-  header h1 { font-size:1.1rem; }
-  header #date { font-size:0.8rem; }
-  label { font-size:0.9rem; padding:0.5rem; }
-  button { font-size:1rem; padding:0.8rem; }
+  header img { height:35px; }
+  header h1 { font-size:0.95rem; }
+  header #date { font-size:0.7rem; }
+  label { font-size:0.8rem; padding:0.4rem; }
+  button { font-size:0.95rem; padding:0.7rem; }
+  fieldset { padding:0.7rem; }
+  legend { font-size:0.85rem; }
 }
 </style>
 </head>
@@ -122,50 +136,52 @@ button:hover { transform:translateY(-2px); background:#d32f2f; }
 <main>
 
 <fieldset>
-    <legend>COFFRE DROIT</legend>
-    <img src="images/COFFRE DROIT CCF.jpg" />
-    <label><input type="checkbox" id="5 Tuyaux Ø70/20m">5 Tuyaux Ø70/20m</label>
-    <label><input type="checkbox" id="2 Tuyaux Ø45/20m">2 Tuyaux Ø45/20m</label>
-    <label><input type="checkbox" id="2 Tuyaux Ø25/20m">2 Tuyaux Ø25/20m</label>
-    <label><input type="checkbox" id="1 Hydro-éjecteur">1 Hydro-éjecteur</label>
-    <label><input type="checkbox" id="1 Tuyau Ø45/10m">1 Tuyau Ø45/10m</label>
-    <label><input type="checkbox" id="1 Lance queue de paon">1 Lance queue de paon</label>
-    <label><input type="checkbox" id="1 Commande en sac">1 Commande en sac</label>
-    <label><input type="checkbox" id="2 Élingues">2 Élingues</label>
-    <label><input type="checkbox" id="3 Seaux pompe dorsal">3 Seaux pompe dorsal</label>
-    <label><input type="checkbox" id="1 Grosse lance">1 Grosse lance</label>
-    <label><input type="checkbox" id="1 Petite lance">1 Petite lance</label>
-    <label><input type="checkbox" id="1 Poulie MDF à REA amovible">1 Poulie MDF à REA amovible</label>
-    <label><input type="checkbox" id="1 Manille grand modèle">1 Manille grand modèle</label>
-  </fieldset>
+  <legend>COFFRE DROIT</legend>
+  <div class="image-container"><img src="images/COFFREDROITCCF.jpg" alt="Coffre droit"></div>
+  <label><input type="checkbox" id="5 Tuyaux Ø70/20m">5 Tuyaux Ø70/20m</label>
+  <label><input type="checkbox" id="2 Tuyaux Ø45/20m">2 Tuyaux Ø45/20m</label>
+  <label><input type="checkbox" id="2 Tuyaux Ø25/20m">2 Tuyaux Ø25/20m</label>
+  <label><input type="checkbox" id="1 Hydro-éjecteur">1 Hydro-éjecteur</label>
+  <label><input type="checkbox" id="1 Tuyau Ø45/10m">1 Tuyau Ø45/10m</label>
+  <label><input type="checkbox" id="1 Lance queue de paon">1 Lance queue de paon</label>
+  <label><input type="checkbox" id="1 Commande en sac">1 Commande en sac</label>
+  <label><input type="checkbox" id="2 Élingues">2 Élingues</label>
+  <label><input type="checkbox" id="3 Seaux pompe dorsal">3 Seaux pompe dorsal</label>
+  <label><input type="checkbox" id="1 Grosse lance">1 Grosse lance</label>
+  <label><input type="checkbox" id="1 Petite lance">1 Petite lance</label>
+  <label><input type="checkbox" id="1 Poulie MDF à REA amovible">1 Poulie MDF à REA amovible</label>
+  <label><input type="checkbox" id="1 Manille grand modèle">1 Manille grand modèle</label>
+</fieldset>
 
-  <fieldset>
-    <legend>TOIT</legend>
-    <img src="images/TOIT CCF.jpg" />
-    <label><input type="checkbox" id="1 Claie de portage de 45">1 Claie de portage de 45</label>
-    <label><input type="checkbox" id="4 Tuyaux Ø45/20m">4 Tuyaux Ø45/20m</label>
-    <label><input type="checkbox" id="1 Vanne d’arrêt">1 Vanne d’arrêt</label>
-    <label><input type="checkbox" id="1 Division FDF Ø40/40-2x20 vanne ¼">1 Division FDF Ø40/40-2x20 vanne ¼</label>
-    <label><input type="checkbox" id="1 Sangle">1 Sangle</label>
-    <label><input type="checkbox" id="1 Claie de portage de 25">1 Claie de portage de 25</label>
-    <label><input type="checkbox" id="1 Tuyau Ø45/20m">1 Tuyau Ø45/20m</label>
-    <label><input type="checkbox" id="4 Tuyaux Ø25/20m">4 Tuyaux Ø25/20m</label>
-    <label><input type="checkbox" id="1 Division FDF Ø40/40-2x20 vanne ¼">1 Division FDF Ø40/40-2x20 vanne ¼</label>
-    <label><input type="checkbox" id="1 Sangle">1 Sangle</label>
-    <label><input type="checkbox" id="2 Lances traditionnelles Ø20/7">2 Lances traditionnelles Ø20/7</label>
-    <label><input type="checkbox" id="3 Piquets d’ancrage">3 Piquets d’ancrage</label>
-    <label><input type="checkbox" id="1 Masse">1 Masse</label>
-    <label><input type="checkbox" id="1 Pioche + son manche">1 Pioche + son manche</label>
-    <label><input type="checkbox" id="1 Pelle">1 Pelle</label>
-    <label><input type="checkbox" id="1 Barre de remorquage">1 Barre de remorquage</label>
-    <label><input type="checkbox" id="1 Fourche recourbée">1 Fourche recourbée</label>
-    <label><input type="checkbox" id="1 Fourche droite">1 Fourche droite</label>
-    <label><input type="checkbox" id="1 Râteau canadien">1 Râteau canadien</label>
-    <label><input type="checkbox" id="1 Cordage">1 Cordage</label>
-  </fieldset>
+<fieldset>
+  <legend>TOIT</legend>
+  <div class="image-container"><img src="images/TOITCCF.jpg" alt="Toit"></div>
+  <label><input type="checkbox" id="1 Claie de portage de 45">1 Claie de portage de 45</label>
+  <label><input type="checkbox" id="4 Tuyaux Ø45/20m">4 Tuyaux Ø45/20m</label>
+  <label><input type="checkbox" id="1 Vanne d’arrêt">1 Vanne d’arrêt</label>
+  <label><input type="checkbox" id="1 Division FDF Ø40/40-2x20 vanne ¼">1 Division FDF Ø40/40-2x20 vanne ¼</label>
+  <label><input type="checkbox" id="1 Sangle">1 Sangle</label>
+  <label><input type="checkbox" id="1 Claie de portage de 25">1 Claie de portage de 25</label>
+  <label><input type="checkbox" id="1 Tuyau Ø45/20m">1 Tuyau Ø45/20m</label>
+  <label><input type="checkbox" id="4 Tuyaux Ø25/20m">4 Tuyaux Ø25/20m</label>
+  <label><input type="checkbox" id="1 Division FDF Ø40/40-2x20 vanne ¼">1 Division FDF Ø40/40-2x20 vanne ¼</label>
+  <label><input type="checkbox" id="1 Sangle">1 Sangle</label>
+  <label><input type="checkbox" id="2 Lances traditionnelles Ø20/7">2 Lances traditionnelles Ø20/7</label>
+  <label><input type="checkbox" id="3 Piquets d’ancrage">3 Piquets d’ancrage</label>
+  <label><input type="checkbox" id="1 Masse">1 Masse</label>
+  <label><input type="checkbox" id="1 Pioche + son manche">1 Pioche + son manche</label>
+  <label><input type="checkbox" id="1 Pelle">1 Pelle</label>
+  <label><input type="checkbox" id="1 Barre de remorquage">1 Barre de remorquage</label>
+  <label><input type="checkbox" id="1 Fourche recourbée">1 Fourche recourbée</label>
+  <label><input type="checkbox" id="1 Fourche droite">1 Fourche droite</label>
+  <label><input type="checkbox" id="1 Râteau canadien">1 Râteau canadien</label>
+  <label><input type="checkbox" id="1 Cordage">1 Cordage</label>
+</fieldset>
+
 <div class="buttons">
   <button onclick="saveAndReturn()">Enregistrer et revenir au menu</button>
 </div>
+
 <footer>
   CIS Taverny – Vérifications opérationnelles
 </footer>
@@ -173,11 +189,11 @@ button:hover { transform:translateY(-2px); background:#d32f2f; }
 <script>
 document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 </script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-// 🔹 Config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
@@ -188,11 +204,9 @@ const firebaseConfig = {
   measurementId: "G-KVSC8V8M1B"
 };
 
-// 🔹 Initialisation Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔹 Récupérer toutes les checkboxes
 function getData() {
   const inputs = document.querySelectorAll("input[type=checkbox]");
   const data = {};
@@ -200,77 +214,40 @@ function getData() {
   return data;
 }
 
-// 🔹 Surligner les éléments non cochés
 function highlightMissing(data) {
-  // Reset
-  document.querySelectorAll("label").forEach(label => label.style.backgroundColor = "");
-  // Surligner les manquants
+  document.querySelectorAll("label").forEach(label => label.classList.remove("missing"));
   for (const [id, checked] of Object.entries(data)) {
     if (!checked) {
       const input = document.getElementById(id);
-      if (input) input.parentElement.style.backgroundColor = "#ED1C24";
+      if (input) input.parentElement.classList.add("missing");
     }
   }
 }
 
-// 🔹 Sauvegarder une vérification avec ID unique basé sur la date
 async function saveCheck() {
   const data = getData();
   highlightMissing(data);
-
   try {
     const timestamp = new Date();
-    const docId = "EQUIPIER CCF_" + timestamp.getTime(); // ID unique
+    const docId = "EQUIPIER CCF_" + timestamp.getTime();
     const docRef = doc(db, "verifications", docId);
-
-    // Récupérer le nom du vérificateur depuis localStorage si existant
     const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
-
-    await setDoc(docRef, {
-      nomDoc: "EQUIPIER CCF",
-      date: timestamp,
-      verificateur: nomVerificateur,
-      data
-    });
-
-    const allChecked = Object.values(data).every(v => v === true);
-  } catch (e) {
-    console.error(e);
-    alert("Erreur enregistrement : " + e.message);
-  }
+    await setDoc(docRef, { nomDoc: "EQUIPIER CCF", date: timestamp, verificateur: nomVerificateur, data });
+  } catch (e) { console.error(e); alert("Erreur enregistrement : " + e.message); }
 }
 
-// 🔹 Charger le dernier état pour surligner les éléments manquants
 async function highlightLastMissing() {
   try {
-    const q = query(
-      collection(db, "verifications"),
-      where("nomDoc", "==", "EQUIPIER CCF"),
-      orderBy("date", "desc"),
-      limit(1)
-    );
-
+    const q = query(collection(db, "verifications"), where("nomDoc","==","EQUIPIER CCF"), orderBy("date","desc"), limit(1));
     const snapshot = await getDocs(q);
-    if (!snapshot.empty) {
-      const lastDoc = snapshot.docs[0].data();
-      highlightMissing(lastDoc.data); // Surligner sans cocher
-    }
-  } catch (e) {
-    console.error("Erreur chargement dernière vérification :", e);
-  }
+    if (!snapshot.empty) highlightMissing(snapshot.docs[0].data().data);
+  } catch (e) { console.error(e); }
 }
 
-// 🔹 Fonction combinée pour le bouton : enregistrer et revenir au menu
-window.saveAndReturn = async function() {
-  await saveCheck();           // Sauvegarde la vérification
-  location.href = "index.html"; // Retour au menu principal
-};
-
-// 🔹 Exécuter au chargement pour surligner les éléments manquants précédents
+window.saveAndReturn = async function() { await saveCheck(); location.href = "index.html"; };
 window.addEventListener("DOMContentLoaded", highlightLastMissing);
 </script>
 
 </main>
-
 </body>
 </html>

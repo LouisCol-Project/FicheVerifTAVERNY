@@ -10,12 +10,12 @@
 * { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif; }
 body { background:#fff3e0; color:#212121; display:flex; flex-direction:column; min-height:100vh; }
 
-/* ===== HEADER (inchangé) ===== */
+/* ===== HEADER ===== */
 header {
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:1rem 1rem;
+  padding:1rem;
   background:#d32f2f;
   color:white;
   border-radius:0 0 15px 15px;
@@ -25,56 +25,33 @@ header img { height:50px; border-radius:8px; border:2px solid #fff; }
 header h1 { flex:1; text-align:center; font-size:1.3rem; font-weight:700; }
 header #date { font-size:0.9rem; opacity:0.9; }
 
-/* ===== ALERT MESSAGE ===== */
-#attention-msg {
-  background:#ffb74d;
-  color:#b71c1c;
-  font-weight:bold;
-  text-align:center;
-  padding:0.8rem;
-  border-radius:12px;
-  box-shadow:0 0 15px #ff6f00;
-  font-size:1rem;
+/* ===== ACCORDIONS ===== */
+.accordion { border:2px solid #b71c1c; border-radius:12px; background:#fff8e1; margin:0.5rem 0; overflow:hidden; }
+.accordion-header {
   display:flex;
   align-items:center;
-  justify-content:center;
-  gap:0.3rem;
+  justify-content:space-between;
+  padding:0.7rem 1rem;
+  cursor:pointer;
+  font-weight:bold;
+  color:#b71c1c;
+  background:#ffe0b2;
+  border-bottom:1px solid #b71c1c;
 }
-
-/* ===== FIELDSETS ===== */
-fieldset {
-  border:2px solid #b71c1c;
-  border-radius:12px;
-  padding:1rem;
-  background:#fff8e1;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-  margin-bottom:1rem;
-}
-legend { font-weight:bold; color:#b71c1c; padding:0 5px; font-size:1rem; }
-
-/* ===== IMAGES ===== */
-.image-container {
-  width:100%;
-  margin:0.5rem 0;
-  border-radius:10px;
-  overflow:hidden;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-.image-container img { width:100%; height:auto; display:block; border-radius:10px; }
-
-/* ===== CHECKLIST ===== */
-label {
+.accordion-content { display:none; padding:0.5rem 1rem; }
+.accordion-content .image-container { margin:0.5rem 0; }
+.accordion-content label {
   display:flex;
   align-items:center;
   gap:10px;
-  padding:0.6rem 0.5rem;
+  padding:0.5rem 0.4rem;
   border-bottom:1px solid #ffe0b2;
   font-size:0.95rem;
   cursor:pointer;
   border-radius:6px;
   transition:0.2s;
 }
-label:hover { background:#fff176; }
+.accordion-content label:hover { background:#fff176; }
 input[type="checkbox"] { transform:scale(1.5); accent-color:#b71c1c; }
 label.missing { background:#ed1c24; color:white; font-weight:bold; }
 
@@ -99,20 +76,31 @@ button {
 }
 button:hover { transform:translateY(-2px); background:#d32f2f; }
 
+/* ===== FOOTER ===== */
+footer {
+  text-align:center;
+  font-size:0.75rem;
+  padding:0.5rem;
+  background:#ffd54f;
+  color:#b71c1c;
+  font-weight:bold;
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
+}
 
-/* ===== RESPONSIVE MOBILE ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width:480px){
   header img { height:40px; }
   header h1 { font-size:1.1rem; }
   header #date { font-size:0.8rem; }
-  label { font-size:0.9rem; padding:0.5rem; }
+  .accordion-header { font-size:1rem; padding:0.5rem 0.8rem; }
+  .accordion-content label { font-size:0.9rem; padding:0.35rem; }
   button { font-size:1rem; padding:0.8rem; }
 }
 </style>
 </head>
 
 <body>
-
 <header>
   <img src="images/logo.png" alt="Logo CIS Taverny">
   <h1>Vérifications Chef d'agrès CCFM</h1>
@@ -121,53 +109,66 @@ button:hover { transform:translateY(-2px); background:#d32f2f; }
 
 <main>
 
-<fieldset>
-      <legend>CABINE AVANT CCF</legend>
-      <img src="images/Cabine avant CCF.jpg" alt="Cabine avant CCF" />
-      <label><input type="checkbox" id="1 KIT premier secours">1 KIT premier secours</label>
-      <label><input type="checkbox" id="1 ATLAS DFCI + TANIT">1 ATLAS DFCI + TANIT</label>
-      <label><input type="checkbox" id="1 Plan Trou Poulet HERBLAY<">1 Plan Trou Poulet HERBLAY</label>
-      <label><input type="checkbox" id="1 Fiche Dégagement CCF">1 Fiche Dégagement CCF</label>
-      <label><input type="checkbox" id="1 Fiche Mémo groupes renfort">1 Fiche Mémo groupes renfort</label>
-      <label><input type="checkbox" id="1 Feuille rappel des statuts">1 Feuille rappel des statuts</label>
-      <label><input type="checkbox" id="1 Petite pince">1 Petite pince</label>
-      <label><input type="checkbox" id="1 Dossier Administratif : Fiches renseignement, Avis de Passages, Décharges de responsabilité, Caractère privée, Constats de dégâts">1 Dossier Administratif : Fiches renseignement, Avis de Passages, Décharges de responsabilité, Caractère privée, Constats de dégâts</label>
-      <label><input type="checkbox" id="4 Casques F2 (3 rouges et 1 jaune)">4 Casques F2 (3 rouges et 1 jaune)</label>
-      <label><input type="checkbox" id="4 Cagoules">4 Cagoules</label>
-      <label><input type="checkbox" id="1 Rouleau de rubalise">1 Rouleau de rubalise</label>
-      <label><input type="checkbox" id="4 Ceinturons de feu">4 Ceinturons de feu</label>
-      <label><input type="checkbox" id="2 Tricoises Ø70mm">2 Tricoises Ø70mm</label>
-      <label><input type="checkbox" id="1 Lampe NightSearcher">1 Lampe NightSearcher</label>
-      <label><input type="checkbox" id="1 Lampe ADALITE 5000">1 Lampe ADALITE 5000</label>
-      <label><input type="checkbox" id="4 GHV">4 GHV</label>
-      <label><input type="checkbox" id="1 Radio Antares">1 Radio Antares</label>
-      <label><input type="checkbox" id="1 Radio Ancien Modèle">1 Radio Ancien Modèle</label>
-      <label><input type="checkbox" id="1 Jeton de présence">1 Jeton de présence</label>
-      <label><input type="checkbox" id="1 Trousseau de clés accès Forêts">1 Trousseau de clés accès Forêts</label>
-      <label><input type="checkbox" id="1 Boîtier de commande Lance toiture">1 Boîtier de commande Lance toiture</label>
-    </fieldset>
+<div class="accordion">
+  <div class="accordion-header">CABINE AVANT CCF ▾</div>
+  <div class="accordion-content">
+    <div class="image-container"><img src="images/CabineavantCCF.jpg" alt="Cabine avant CCF" /></div>
+    <label><input type="checkbox" id="1 KIT premier secours">1 KIT premier secours</label>
+    <label><input type="checkbox" id="1 ATLAS DFCI + TANIT">1 ATLAS DFCI + TANIT</label>
+    <label><input type="checkbox" id="1 Plan Trou Poulet HERBLAY">1 Plan Trou Poulet HERBLAY</label>
+    <label><input type="checkbox" id="1 Fiche Dégagement CCF">1 Fiche Dégagement CCF</label>
+    <label><input type="checkbox" id="1 Fiche Mémo groupes renfort">1 Fiche Mémo groupes renfort</label>
+    <label><input type="checkbox" id="1 Feuille rappel des statuts">1 Feuille rappel des statuts</label>
+    <label><input type="checkbox" id="1 Petite pince">1 Petite pince</label>
+    <label><input type="checkbox" id="1 Dossier Administratif">1 Dossier Administratif : Fiches renseignement, Avis de Passages, Décharges de responsabilité, Caractère privée, Constats de dégâts</label>
+    <label><input type="checkbox" id="4 Casques F2">4 Casques F2 (3 rouges et 1 jaune)</label>
+    <label><input type="checkbox" id="4 Cagoules">4 Cagoules</label>
+    <label><input type="checkbox" id="1 Rouleau de rubalise">1 Rouleau de rubalise</label>
+    <label><input type="checkbox" id="4 Ceinturons de feu">4 Ceinturons de feu</label>
+    <label><input type="checkbox" id="2 Tricoises Ø70mm">2 Tricoises Ø70mm</label>
+    <label><input type="checkbox" id="1 Lampe NightSearcher">1 Lampe NightSearcher</label>
+    <label><input type="checkbox" id="1 Lampe ADALITE 5000">1 Lampe ADALITE 5000</label>
+    <label><input type="checkbox" id="4 GHV">4 GHV</label>
+    <label><input type="checkbox" id="1 Radio Antares">1 Radio Antares</label>
+    <label><input type="checkbox" id="1 Radio Ancien Modèle">1 Radio Ancien Modèle</label>
+    <label><input type="checkbox" id="1 Jeton de présence">1 Jeton de présence</label>
+    <label><input type="checkbox" id="1 Trousseau de clés accès Forêts">1 Trousseau de clés accès Forêts</label>
+    <label><input type="checkbox" id="1 Boîtier de commande Lance toiture">1 Boîtier de commande Lance toiture</label>
+  </div>
+</div>
 
-    <fieldset>
-      <legend>FACE AVANT</legend>
-      <img src="images/Avant CCF.jpg" alt="Face avant CCF" />
-      <label><input type="checkbox" id="1 Lance toiture">1 Lance toiture</label>
-    </fieldset>
+<div class="accordion">
+  <div class="accordion-header">FACE AVANT ▾</div>
+  <div class="accordion-content">
+    <div class="image-container"><img src="images/AvantCCF.jpg" alt="Face avant CCF" /></div>
+    <label><input type="checkbox" id="1 Lance toiture">1 Lance toiture</label>
+  </div>
+</div>
 
 <div class="buttons">
   <button onclick="saveAndReturn()">Enregistrer et revenir au menu</button>
 </div>
+
 <footer>
   CIS Taverny – Vérifications opérationnelles
 </footer>
 
 <script>
 document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+// Accordéons
+document.querySelectorAll('.accordion-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const content = header.nextElementSibling;
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+  });
+});
 </script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-// 🔹 Config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
@@ -178,11 +179,9 @@ const firebaseConfig = {
   measurementId: "G-KVSC8V8M1B"
 };
 
-// 🔹 Initialisation Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔹 Récupérer toutes les checkboxes
 function getData() {
   const inputs = document.querySelectorAll("input[type=checkbox]");
   const data = {};
@@ -190,74 +189,39 @@ function getData() {
   return data;
 }
 
-// 🔹 Surligner les éléments non cochés
 function highlightMissing(data) {
-  // Reset
-  document.querySelectorAll("label").forEach(label => label.style.backgroundColor = "");
-  // Surligner les manquants
+  document.querySelectorAll("label").forEach(label => label.classList.remove("missing"));
   for (const [id, checked] of Object.entries(data)) {
     if (!checked) {
       const input = document.getElementById(id);
-      if (input) input.parentElement.style.backgroundColor = "#ED1C24";
+      if (input) input.parentElement.classList.add("missing");
     }
   }
 }
 
-// 🔹 Sauvegarder une vérification avec ID unique basé sur la date
 async function saveCheck() {
   const data = getData();
   highlightMissing(data);
-
   try {
     const timestamp = new Date();
-    const docId = "CA CCF_" + timestamp.getTime(); // ID unique
+    const docId = "CA CCF_" + timestamp.getTime();
     const docRef = doc(db, "verifications", docId);
-
-    // Récupérer le nom du vérificateur depuis localStorage si existant
     const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
-
-    await setDoc(docRef, {
-      nomDoc: "CA CCF",
-      date: timestamp,
-      verificateur: nomVerificateur,
-      data
-    });
-
-    const allChecked = Object.values(data).every(v => v === true);
-  } catch (e) {
-    console.error(e);
-    alert("Erreur enregistrement : " + e.message);
-  }
+    await setDoc(docRef, { nomDoc: "CA CCF", date: timestamp, verificateur: nomVerificateur, data });
+  } catch (e) { console.error(e); alert("Erreur enregistrement : " + e.message); }
 }
 
-// 🔹 Charger le dernier état pour surligner les éléments manquants
 async function highlightLastMissing() {
   try {
-    const q = query(
-      collection(db, "verifications"),
-      where("nomDoc", "==", "CA CCF"),
-      orderBy("date", "desc"),
-      limit(1)
-    );
-
+    const q = query(collection(db, "verifications"), where("nomDoc","==","CA CCF"), orderBy("date","desc"), limit(1));
     const snapshot = await getDocs(q);
-    if (!snapshot.empty) {
-      const lastDoc = snapshot.docs[0].data();
-      highlightMissing(lastDoc.data); // Surligner sans cocher
-    }
-  } catch (e) {
-    console.error("Erreur chargement dernière vérification :", e);
-  }
+    if (!snapshot.empty) highlightMissing(snapshot.docs[0].data().data);
+  } catch (e) { console.error(e); }
 }
 
-// 🔹 Fonction combinée pour le bouton : enregistrer et revenir au menu
-window.saveAndReturn = async function() {
-  await saveCheck();           // Sauvegarde la vérification
-  location.href = "index.html"; // Retour au menu principal
-};
-
-// 🔹 Exécuter au chargement pour surligner les éléments manquants précédents
+window.saveAndReturn = async function() { await saveCheck(); location.href = "index.html"; };
 window.addEventListener("DOMContentLoaded", highlightLastMissing);
 </script>
+
 </body>
 </html>

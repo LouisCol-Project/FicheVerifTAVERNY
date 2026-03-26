@@ -10,12 +10,12 @@
 * { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif; }
 body { background:#fff3e0; color:#212121; display:flex; flex-direction:column; min-height:100vh; }
 
-/* ===== HEADER (inchangé) ===== */
+/* ===== HEADER ===== */
 header {
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:1rem 1rem;
+  padding:1rem;
   background:#d32f2f;
   color:white;
   border-radius:0 0 15px 15px;
@@ -25,65 +25,38 @@ header img { height:50px; border-radius:8px; border:2px solid #fff; }
 header h1 { flex:1; text-align:center; font-size:1.3rem; font-weight:700; }
 header #date { font-size:0.9rem; opacity:0.9; }
 
-/* ===== ALERT MESSAGE ===== */
-#attention-msg {
-  background:#ffb74d;
-  color:#b71c1c;
-  font-weight:bold;
-  text-align:center;
-  padding:0.8rem;
-  border-radius:12px;
-  box-shadow:0 0 15px #ff6f00;
-  font-size:1rem;
+/* ===== ACCORDIONS ===== */
+.accordion { border:2px solid #b71c1c; border-radius:12px; background:#fff8e1; margin:0.5rem 0; overflow:hidden; }
+.accordion-header {
   display:flex;
   align-items:center;
-  justify-content:center;
-  gap:0.3rem;
+  justify-content:space-between;
+  padding:0.7rem 1rem;
+  cursor:pointer;
+  font-weight:bold;
+  color:#b71c1c;
+  background:#ffe0b2;
+  border-bottom:1px solid #b71c1c;
 }
-
-/* ===== FIELDSETS ===== */
-fieldset {
-  border:2px solid #b71c1c;
-  border-radius:12px;
-  padding:1rem;
-  background:#fff8e1;
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-  margin-bottom:1rem;
-}
-legend { font-weight:bold; color:#b71c1c; padding:0 5px; font-size:1rem; }
-
-/* ===== IMAGES ===== */
-.image-container {
-  width:100%;
-  margin:0.5rem 0;
-  border-radius:10px;
-  overflow:hidden;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-.image-container img { width:100%; height:auto; display:block; border-radius:10px; }
-
-/* ===== CHECKLIST ===== */
-label {
+.badge { background:#b71c1c; color:white; font-size:0.75rem; padding:0.1rem 0.5rem; border-radius:8px; }
+.accordion-content { display:none; padding:0.5rem 1rem; }
+.accordion-content .image-container { margin:0.5rem 0; }
+.accordion-content label {
   display:flex;
   align-items:center;
   gap:10px;
-  padding:0.6rem 0.5rem;
+  padding:0.5rem 0.4rem;
   border-bottom:1px solid #ffe0b2;
   font-size:0.95rem;
   cursor:pointer;
   border-radius:6px;
   transition:0.2s;
 }
-label:hover { background:#fff176; }
-input[type="checkbox"] { transform:scale(1.5); accent-color:#b71c1c; }
+.accordion-content label:hover { background:#fff176; }
 label.missing { background:#ed1c24; color:white; font-weight:bold; }
 
 /* ===== BOUTONS ===== */
-.buttons {
-  display:flex;
-  justify-content:center;
-  margin:1rem 0 2rem 0;
-}
+.buttons { display:flex; justify-content:center; margin:1rem 0 2rem 0; }
 button {
   width:90%;
   padding:1rem;
@@ -99,20 +72,30 @@ button {
 }
 button:hover { transform:translateY(-2px); background:#d32f2f; }
 
+/* ===== FOOTER ===== */
+footer {
+  text-align:center;
+  font-size:0.75rem;
+  padding:0.5rem;
+  background:#ffd54f;
+  color:#b71c1c;
+  font-weight:bold;
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
+}
 
-/* ===== RESPONSIVE MOBILE ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width:480px){
   header img { height:40px; }
   header h1 { font-size:1.1rem; }
   header #date { font-size:0.8rem; }
-  label { font-size:0.9rem; padding:0.5rem; }
+  .accordion-header { font-size:1rem; padding:0.5rem 0.8rem; }
+  .accordion-content label { font-size:0.9rem; padding:0.35rem; }
   button { font-size:1rem; padding:0.8rem; }
 }
 </style>
 </head>
-
 <body>
-
 <header>
   <img src="images/logo.png" alt="Logo CIS Taverny">
   <h1>Vérifications Chef d'agrès VSRM</h1>
@@ -123,7 +106,7 @@ button:hover { transform:translateY(-2px); background:#d32f2f; }
 
 <fieldset>
   <legend>CABINE</legend>
-  <div class="image-container"><img src="images/Cabine vsr ca.jpg" alt="Cabine VSR"></div>
+  <div class="image-container"><img src="images/Cabinevsrca.jpg" alt="Cabine VSR"></div>
     
   <label><input type="checkbox" id="1 TPH">1 TPH</label>
   <label><input type="checkbox" id="1 RADIO">1 RADIO</label>
@@ -162,7 +145,7 @@ button:hover { transform:translateY(-2px); background:#d32f2f; }
 
 <fieldset>
   <legend>COFFRE AVANT DROIT</legend>
-  <div class="image-container"><img src="images/Coffre avd VSR.jpg" alt="Coffre AV droit"></div>
+  <div class="image-container"><img src="images/CoffreavdVSR.jpg" alt="Coffre AV droit"></div>
   <label><input type="checkbox" id="2 Cales escalier (BXC1)">2 Cales escalier (BXC1)</label>
   <label><input type="checkbox" id="2 Cales tiroir avec cordelette (BXC4)">2 Cales tiroir avec cordelette (BXC4)</label>
   <label><input type="checkbox" id="1 Pioche et son manche">1 Pioche et son manche</label>
@@ -188,7 +171,7 @@ button:hover { transform:translateY(-2px); background:#d32f2f; }
 
 <fieldset>
   <legend>COFFRE AVANT GAUCHE</legend>
-  <div class="image-container"><img src="images/Coffre avg VSR.jpg" alt="Coffre AV gauche"></div>
+  <div class="image-container"><img src="images/CoffreavgVSR.jpg" alt="Coffre AV gauche"></div>
   <label><input type="checkbox" id="1 Vérin électroportatif 117cm + batterie">1 Vérin électroportatif 117cm + batterie</label>
   <label><input type="checkbox" id="1 Vérin électroportatif 91cm + batterie">1 Vérin électroportatif 91cm + batterie</label>
   <label><input type="checkbox" id="2 support appui-vérins (sabots)">2 support appui-vérins (sabots)</label>
@@ -204,12 +187,29 @@ button:hover { transform:translateY(-2px); background:#d32f2f; }
 
 <script>
 document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+// Accordéons
+document.querySelectorAll('.accordion-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const content = header.nextElementSibling;
+    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+  });
+});
+
+// Mettre à jour badges manquants
+function updateBadges() {
+  document.querySelectorAll('.accordion').forEach(acc => {
+    const labels = acc.querySelectorAll('label');
+    const missingCount = Array.from(labels).filter(l => l.classList.contains('missing')).length;
+    acc.querySelector('.badge').textContent = missingCount;
+  });
+}
 </script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-// 🔹 Config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
@@ -220,11 +220,9 @@ const firebaseConfig = {
   measurementId: "G-KVSC8V8M1B"
 };
 
-// 🔹 Initialisation Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔹 Récupérer toutes les checkboxes
 function getData() {
   const inputs = document.querySelectorAll("input[type=checkbox]");
   const data = {};
@@ -232,73 +230,43 @@ function getData() {
   return data;
 }
 
-// 🔹 Surligner les éléments non cochés
 function highlightMissing(data) {
-  // Reset
-  document.querySelectorAll("label").forEach(label => label.style.backgroundColor = "");
-  // Surligner les manquants
+  document.querySelectorAll("label").forEach(label => label.classList.remove("missing"));
   for (const [id, checked] of Object.entries(data)) {
     if (!checked) {
       const input = document.getElementById(id);
-      if (input) input.parentElement.style.backgroundColor = "#ED1C24";
+      if (input) input.parentElement.classList.add("missing");
     }
   }
+  // Mettre à jour badges
+  document.querySelectorAll('.accordion').forEach(acc => {
+    const labels = acc.querySelectorAll('label');
+    const missingCount = Array.from(labels).filter(l => l.classList.contains('missing')).length;
+    acc.querySelector('.badge').textContent = missingCount;
+  });
 }
 
-// 🔹 Sauvegarder une vérification avec ID unique basé sur la date
 async function saveCheck() {
   const data = getData();
   highlightMissing(data);
-
   try {
     const timestamp = new Date();
-    const docId = "CA VSRM_" + timestamp.getTime(); // ID unique
+    const docId = "CA VSRM_" + timestamp.getTime();
     const docRef = doc(db, "verifications", docId);
-
-    // Récupérer le nom du vérificateur depuis localStorage si existant
     const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
-
-    await setDoc(docRef, {
-      nomDoc: "CA VSRM",
-      date: timestamp,
-      verificateur: nomVerificateur,
-      data
-    });
-
-    const allChecked = Object.values(data).every(v => v === true);
-  } catch (e) {
-    console.error(e);
-    alert("Erreur enregistrement : " + e.message);
-  }
+    await setDoc(docRef, { nomDoc: "CA VSRM", date: timestamp, verificateur: nomVerificateur, data });
+  } catch(e) { console.error(e); alert("Erreur enregistrement : "+e.message); }
 }
 
-// 🔹 Charger le dernier état pour surligner les éléments manquants
 async function highlightLastMissing() {
   try {
-    const q = query(
-      collection(db, "verifications"),
-      where("nomDoc", "==", "CA VSRM"),
-      orderBy("date", "desc"),
-      limit(1)
-    );
-
+    const q = query(collection(db, "verifications"), where("nomDoc","==","CA VSRM"), orderBy("date","desc"), limit(1));
     const snapshot = await getDocs(q);
-    if (!snapshot.empty) {
-      const lastDoc = snapshot.docs[0].data();
-      highlightMissing(lastDoc.data); // Surligner sans cocher
-    }
-  } catch (e) {
-    console.error("Erreur chargement dernière vérification :", e);
-  }
+    if(!snapshot.empty) highlightMissing(snapshot.docs[0].data().data);
+  } catch(e) { console.error(e); }
 }
 
-// 🔹 Fonction combinée pour le bouton : enregistrer et revenir au menu
-window.saveAndReturn = async function() {
-  await saveCheck();           // Sauvegarde la vérification
-  location.href = "index.html"; // Retour au menu principal
-};
-
-// 🔹 Exécuter au chargement pour surligner les éléments manquants précédents
+window.saveAndReturn = async function() { await saveCheck(); location.href = "index.html"; };
 window.addEventListener("DOMContentLoaded", highlightLastMissing);
 </script>
 	
