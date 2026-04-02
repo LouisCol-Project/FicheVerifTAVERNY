@@ -232,16 +232,16 @@ async function saveCheck() {
   highlightMissing(data);
   try {
     const timestamp = new Date();
-    const docId = "CA VSSUAP_" + timestamp.getTime();
+    const docId = "CA FPT_" + timestamp.getTime();
     const docRef = doc(db, "verifications", docId);
     const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
-    await setDoc(docRef, { nomDoc: "CA VSSUAP", date: timestamp, verificateur: nomVerificateur, data });
+    await setDoc(docRef, { nomDoc: "CA FPT", date: timestamp, verificateur: nomVerificateur, data });
   } catch (e) { console.error(e); alert("Erreur enregistrement : " + e.message); }
 }
 
 async function highlightLastMissing() {
   try {
-    const q = query(collection(db, "verifications"), where("nomDoc","==","CA VSSUAP"), orderBy("date","desc"), limit(1));
+    const q = query(collection(db, "verifications"), where("nomDoc","==","CA FPT"), orderBy("date","desc"), limit(1));
     const snapshot = await getDocs(q);
     if (!snapshot.empty) highlightMissing(snapshot.docs[0].data().data);
   } catch (e) { console.error(e); }

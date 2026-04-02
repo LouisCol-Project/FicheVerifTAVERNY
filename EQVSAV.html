@@ -384,14 +384,14 @@ async function saveCheck() {
 
   try {
     const timestamp = new Date();
-    const docId = "EQUIPIER CCF_" + timestamp.getTime(); // ID unique
+    const docId = "EQUIPIER VSSUAP_" + timestamp.getTime(); // ID unique
     const docRef = doc(db, "verifications", docId);
 
     // Récupérer le nom du vérificateur depuis localStorage si existant
     const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
 
     await setDoc(docRef, {
-      nomDoc: "EQUIPIER CCF",
+      nomDoc: "EQUIPIER VSSUAP",
       date: timestamp,
       verificateur: nomVerificateur,
       data
@@ -409,7 +409,7 @@ async function highlightLastMissing() {
   try {
     const q = query(
       collection(db, "verifications"),
-      where("nomDoc", "==", "EQUIPER CCF"),
+      where("nomDoc", "==", "EQUIPER VSSUAP"),
       orderBy("date", "desc"),
       limit(1)
     );

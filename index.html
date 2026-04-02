@@ -166,6 +166,8 @@ function selectVehicule(v){
 
 // Modal admin et export PDF
 function exportAndResetDB(){
+
+  // 🔐 MODAL LOGIN
   const modal = document.createElement('div');
   modal.className='modal-bg';
   modal.innerHTML=`
@@ -177,48 +179,117 @@ function exportAndResetDB(){
     </div>`;
   document.body.appendChild(modal);
 
-  document.getElementById('loginBtn').onclick=async()=>{
-    const user=document.getElementById('loginUser').value;
-    const pass=document.getElementById('loginPass').value;
-    if(user!=='ChefdeCentre'||pass!=='PompierTav@95150'){ alert('Accès refusé'); return; }
+  document.getElementById('loginBtn').onclick = async () => {
+
+    const user = document.getElementById('loginUser').value;
+    const pass = document.getElementById('loginPass').value;
+
+    if(user !== 'ChefdeCentre' || pass !== 'PompierTav@95150'){
+      alert('Accès refusé');
+      return;
+    }
+
     document.body.removeChild(modal);
 
     try{
-      const snapshot = await db.collection("verifications").get();
-      if(snapshot.empty){ alert("Pas de données à exporter !"); return; }
 
-      const details=[];
+      // 🔥 RÉCUP DATA TRIÉE PAR DATE
+      const snapshot = await db.collection("verifications")
+        .orderBy("date", "asc")
+        .get();
+
+      if(snapshot.empty){
+        alert("Pas de données à exporter !");
+        return;
+      }
+
+      // 🔥 GROUPEMENT PAR JOUR
+      const grouped = {};
+
       snapshot.forEach(docSnap=>{
         const d = docSnap.data();
-        const manquants = Object.entries(d.data).filter(([k,v])=>!v).map(([k])=>k);
-        details.push([d.date?.toDate().toLocaleString(), d.nomDoc, d.verificateur, manquants.join(" / ")]);
+        const dateObj = d.date?.toDate();
+
+        if(!dateObj) return;
+
+        const dayKey = dateObj.toISOString().slice(0,10); // YYYY-MM-DD
+
+        const manquants = Object.entries(d.data || {})
+          .filter(([k,v]) => !v)
+          .map(([k]) => k);
+
+        const row = [
+          dateObj.toLocaleTimeString(), // heure
+          d.nomDoc || "",
+          d.verificateur || "",
+          manquants.length ? manquants.join(" / ") : "RAS"
+        ];
+
+        if(!grouped[dayKey]) grouped[dayKey] = [];
+        grouped[dayKey].push(row);
       });
 
+      // 📄 CRÉATION PDF
       const docPDF = new jspdf.jsPDF();
+
       docPDF.setFontSize(16);
-      docPDF.text("Rapport Vérifications CIS Taverny",14,20);
-      docPDF.autoTable({
-        startY:30,
-        head:[["Date","Véhicule","Vérificateur","Matériel manquant"]],
-        body:details,
-        theme:'grid',
-        headStyles:{fillColor:[211,47,47]},
-        alternateRowStyles:{fillColor:[255,243,224]}
+      docPDF.text("Rapport Vérifications CIS Taverny", 14, 20);
+
+      let currentY = 30;
+
+      // 🔥 PARCOURS PAR JOUR
+      Object.keys(grouped).forEach(day => {
+
+        const dateFR = new Date(day).toLocaleDateString();
+
+        // 👉 Saut de page si nécessaire
+        if(currentY > 250){
+          docPDF.addPage();
+          currentY = 20;
+        }
+
+        // 🔹 TITRE JOUR
+        docPDF.setFontSize(13);
+        docPDF.text(`Date : ${dateFR}`, 14, currentY);
+
+        // 🔹 TABLE
+        docPDF.autoTable({
+          startY: currentY + 5,
+          head:[["Heure","Véhicule","Vérificateur","Matériel manquant"]],
+          body: grouped[day],
+          theme:'grid',
+          headStyles:{fillColor:[211,47,47]},
+          alternateRowStyles:{fillColor:[255,243,224]},
+        });
+
+        currentY = docPDF.lastAutoTable.finalY + 10;
       });
 
-      const fileDate=new Date().toISOString().slice(0,10);
+      // 💾 SAUVEGARDE
+      const fileDate = new Date().toISOString().slice(0,10);
       docPDF.save(`EXTRACT-VERIFICATION_${fileDate}.pdf`);
+
       alert("Export PDF terminé ✅");
 
+      // 🔥 RESET DB
       if(confirm("Voulez-vous maintenant réinitialiser la base de données ?")){
+
         const batch = db.batch();
-        snapshot.forEach(docSnap=>{ batch.delete(docSnap.ref); });
+
+        snapshot.forEach(docSnap=>{
+          batch.delete(docSnap.ref);
+        });
+
         await batch.commit();
+
         alert("Base de données réinitialisée ✅");
       }
 
-    }catch(e){ console.error(e); alert("Erreur : "+e.message);}
-  }
+    }catch(e){
+      console.error(e);
+      alert("Erreur : " + e.message);
+    }
+  };
 }
 </script>
 
