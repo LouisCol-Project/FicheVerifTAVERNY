@@ -138,23 +138,59 @@ document.getElementById('date').textContent = new Date().toLocaleDateString('fr-
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
 
 <script>
-// Firebase config
-const firebaseConfig = { apiKey:"AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es", authDomain:"veriftav.firebaseapp.com", projectId:"veriftav", storageBucket:"veriftav.firebasestorage.app", messagingSenderId:"401217101102", appId:"1:401217101102:web:dd375734d4f0464c146ebf", measurementId:"G-KVSC8V8M1B"};
+// --- Mise à jour de la date ---
+document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+// --- Firebase config ---
+const firebaseConfig = { 
+  apiKey:"AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es", 
+  authDomain:"veriftav.firebaseapp.com", 
+  projectId:"veriftav", 
+  storageBucket:"veriftav.firebasestorage.app", 
+  messagingSenderId:"401217101102", 
+  appId:"1:401217101102:web:dd375734d4f0464c146ebf", 
+  measurementId:"G-KVSC8V8M1B"
+};
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Activer boutons véhicules
+// --- Gestion du nom du vérificateur ---
 const inputNom = document.getElementById('verificateur');
 const vehicules = ['btn-vsav','btn-fpt','btn-ccf','btn-vsr','btn-vtu'];
+
+// Affichage message lundi
 if(new Date().getDay()===1) document.getElementById('lundi-msg').style.display='block';
-inputNom.addEventListener('input', ()=>{
+
+// Vérifier si un nom est déjà stocké et non expiré
+const nomStocke = JSON.parse(localStorage.getItem('nomVerificateur24h'));
+if(nomStocke){
+  const now = new Date().getTime();
+  if(now - nomStocke.timestamp < 24*60*60*1000){ // moins de 24h
+    inputNom.value = nomStocke.nom;
+    // Activer les boutons véhicules si nom valide
+    const enable = nomStocke.nom.length >= 3;
+    vehicules.forEach(id => document.getElementById(id).disabled = !enable);
+  } else {
+    localStorage.removeItem('nomVerificateur24h');
+  }
+}
+
+// Activation des boutons véhicules et stockage du nom
+inputNom.addEventListener('input', () => {
   const val = inputNom.value.trim().toUpperCase();
   inputNom.value = val;
-  const enable = val.length>=3;
-  vehicules.forEach(id=>document.getElementById(id).disabled = !enable);
+  const enable = val.length >= 3;
+  vehicules.forEach(id => document.getElementById(id).disabled = !enable);
+
+  if(enable){
+    localStorage.setItem('nomVerificateur24h', JSON.stringify({
+      nom: val,
+      timestamp: new Date().getTime()
+    }));
+  }
 });
 
-// Sélection véhicule
+// --- Sélection véhicule ---
 function selectVehicule(v){
   const nom = inputNom.value.trim().toUpperCase();
   if(nom.length<3){ alert("Merci de renseigner votre nom !"); return; }
@@ -164,9 +200,8 @@ function selectVehicule(v){
   location.href = pages[v];
 }
 
-// Modal admin et export PDF
+// --- Modal admin et export PDF ---
 function exportAndResetDB(){
-
   // 🔐 MODAL LOGIN
   const modal = document.createElement('div');
   modal.className='modal-bg';
@@ -180,7 +215,6 @@ function exportAndResetDB(){
   document.body.appendChild(modal);
 
   document.getElementById('loginBtn').onclick = async () => {
-
     const user = document.getElementById('loginUser').value;
     const pass = document.getElementById('loginPass').value;
 
@@ -192,69 +226,44 @@ function exportAndResetDB(){
     document.body.removeChild(modal);
 
     try{
-
       // 🔥 RÉCUP DATA TRIÉE PAR DATE
-      const snapshot = await db.collection("verifications")
-        .orderBy("date", "asc")
-        .get();
-
-      if(snapshot.empty){
-        alert("Pas de données à exporter !");
-        return;
-      }
+      const snapshot = await db.collection("verifications").orderBy("date","asc").get();
+      if(snapshot.empty){ alert("Pas de données à exporter !"); return; }
 
       // 🔥 GROUPEMENT PAR JOUR
       const grouped = {};
-
       snapshot.forEach(docSnap=>{
         const d = docSnap.data();
         const dateObj = d.date?.toDate();
-
         if(!dateObj) return;
 
         const dayKey = dateObj.toISOString().slice(0,10); // YYYY-MM-DD
-
-        const manquants = Object.entries(d.data || {})
-          .filter(([k,v]) => !v)
-          .map(([k]) => k);
-
+        const manquants = Object.entries(d.data || {}).filter(([k,v])=>!v).map(([k])=>k);
         const row = [
-          dateObj.toLocaleTimeString(), // heure
+          dateObj.toLocaleTimeString(),
           d.nomDoc || "",
           d.verificateur || "",
           manquants.length ? manquants.join(" / ") : "RAS"
         ];
-
-        if(!grouped[dayKey]) grouped[dayKey] = [];
+        if(!grouped[dayKey]) grouped[dayKey]=[];
         grouped[dayKey].push(row);
       });
 
       // 📄 CRÉATION PDF
       const docPDF = new jspdf.jsPDF();
-
       docPDF.setFontSize(16);
       docPDF.text("Rapport Vérifications CIS Taverny", 14, 20);
-
       let currentY = 30;
 
-      // 🔥 PARCOURS PAR JOUR
-      Object.keys(grouped).forEach(day => {
-
+      Object.keys(grouped).forEach(day=>{
         const dateFR = new Date(day).toLocaleDateString();
+        if(currentY > 250){ docPDF.addPage(); currentY = 20; }
 
-        // 👉 Saut de page si nécessaire
-        if(currentY > 250){
-          docPDF.addPage();
-          currentY = 20;
-        }
-
-        // 🔹 TITRE JOUR
         docPDF.setFontSize(13);
         docPDF.text(`Date : ${dateFR}`, 14, currentY);
 
-        // 🔹 TABLE
         docPDF.autoTable({
-          startY: currentY + 5,
+          startY: currentY+5,
           head:[["Heure","Véhicule","Vérificateur","Matériel manquant"]],
           body: grouped[day],
           theme:'grid',
@@ -268,26 +277,19 @@ function exportAndResetDB(){
       // 💾 SAUVEGARDE
       const fileDate = new Date().toISOString().slice(0,10);
       docPDF.save(`EXTRACT-VERIFICATION_${fileDate}.pdf`);
-
       alert("Export PDF terminé ✅");
 
       // 🔥 RESET DB
       if(confirm("Voulez-vous maintenant réinitialiser la base de données ?")){
-
         const batch = db.batch();
-
-        snapshot.forEach(docSnap=>{
-          batch.delete(docSnap.ref);
-        });
-
+        snapshot.forEach(docSnap=>{ batch.delete(docSnap.ref); });
         await batch.commit();
-
         alert("Base de données réinitialisée ✅");
       }
 
     }catch(e){
       console.error(e);
-      alert("Erreur : " + e.message);
+      alert("Erreur : "+e.message);
     }
   };
 }
