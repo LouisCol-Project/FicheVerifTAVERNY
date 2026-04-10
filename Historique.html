@@ -4,15 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Accueil – CIS Taverny</title>
-<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
 
+<link rel="shortcut icon" href="images/logo.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
+/* =========================
+   BASE
+========================= */
 body{
   margin:0;
-  font-family: Arial;
+  font-family:Arial;
   background:#eef2f7;
   color:#1c1c1c;
 }
@@ -20,62 +24,73 @@ body{
 /* =========================
    HEADER
 ========================= */
-/* HEADER - GARDÉ */
-header { display:flex; align-items:center; justify-content:space-between; padding:1rem 1rem; background:#d32f2f; color:white; border-radius:0 0 15px 15px; box-shadow:0 4px 12px rgba(0,0,0,0.3);}
-header img { height:50px; border-radius:8px; border:2px solid #fff;}
-header h1 { flex:1; text-align:center; font-size:1.4rem; font-weight:700; letter-spacing:0.5px; }
-header #date { font-size:0.9rem; opacity:0.9; }
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1rem;
+  background:#d32f2f;
+  color:white;
+  border-radius:0 0 15px 15px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  gap:10px;
+}
 
+header img{
+  height:45px;
+  border-radius:8px;
+}
+
+header h1{
+  flex:1;
+  text-align:center;
+  font-size:1.2rem;
+  margin:0;
+}
+
+header #date{
+  font-size:0.85rem;
+}
 
 /* =========================
-   KPI GRID (NIVEAU 2)
+   KPI DASHBOARD PRO
 ========================= */
 .grid{
   display:grid;
-  grid-template-columns:repeat(4, minmax(180px,1fr));
-  gap:14px;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
   max-width:1100px;
   margin:20px auto;
   padding:10px;
 }
 
-/* KPI CARD ULTRA CLEAN */
 .card{
-  background: white;
-  border-radius:18px;
+  background:white;
+  border-radius:16px;
   padding:18px;
   text-align:center;
-  box-shadow:0 8px 25px rgba(0,0,0,0.08);
-  transition: all 0.25s ease;
+  box-shadow:0 6px 20px rgba(0,0,0,0.08);
+  transition:0.2s;
   position:relative;
-  overflow:hidden;
 }
 
-/* HOVER LIFT */
 .card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 12px 30px rgba(0,0,0,0.12);
+  transform:translateY(-3px);
 }
 
-/* NUMBER KPI */
 .card h2{
   margin:0;
-  font-size:30px;
-  font-weight:800;
+  font-size:28px;
   color:#b71c1c;
 }
 
-/* LABEL */
 .card p{
-  margin-top:8px;
+  margin-top:6px;
   font-size:13px;
   opacity:0.7;
-  letter-spacing:0.5px;
 }
 
-/* =========================
-   KPI COLOR ACCENTS (BAR TOP)
-========================= */
+/* bar color */
 .card::before{
   content:"";
   position:absolute;
@@ -86,50 +101,19 @@ header #date { font-size:0.9rem; opacity:0.9; }
   background:#b71c1c;
 }
 
-.card:nth-child(1)::before{background:#b71c1c;}
 .card:nth-child(2)::before{background:#2e7d32;}
 .card:nth-child(3)::before{background:#f9a825;}
-.card:nth-child(4)::before{background:#1565c0;}
 
 /* =========================
-   KPI MINI BADGES (OPTIONNEL VISUEL)
+   FILTER BAR
 ========================= */
-.kpi-mini{
-  display:inline-block;
-  margin-top:8px;
-  font-size:11px;
-  padding:3px 8px;
-  border-radius:8px;
-  background:#f1f1f1;
-}
-
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  padding:10px;
-}
-
-.card{
-  background:white;
-  border-radius:12px;
-  padding:12px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.08);
-  text-align:center;
-}
-
-.card h2{
-  margin:0;
-  color:#b71c1c;
-}
-
-/* FILTER BAR */
 .bar{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
   padding:10px;
+  max-width:1100px;
+  margin:auto;
 }
 
 input,select,button{
@@ -145,12 +129,15 @@ button{
   cursor:pointer;
 }
 
-/* TABLE */
+/* =========================
+   TABLE
+========================= */
 table{
   width:100%;
   border-collapse:collapse;
   background:white;
-  margin:10px;
+  margin:10px auto;
+  max-width:1100px;
   border-radius:12px;
   overflow:hidden;
 }
@@ -167,11 +154,12 @@ td{
   border-bottom:1px solid #eee;
 }
 
-/* BADGES VEHICULE */
+/* badges */
 .badge{
-  padding:5px 10px;
+  padding:4px 8px;
   border-radius:6px;
   color:white;
+  font-size:12px;
 }
 
 .vsav{background:#e53935;}
@@ -180,35 +168,62 @@ td{
 .vsr{background:#1e88e5;}
 .vtu{background:#6d4c41;}
 
-/* ALERT SYSTEM */
+/* severity */
 .low{background:#fff8e1;}
 .medium{background:#ffe0b2;}
 .high{background:#ffcdd2;}
 
-/* MANQUANTS */
 .missing{
   background:#d32f2f;
   color:white;
   padding:3px 6px;
-  margin:2px;
   border-radius:6px;
-  display:inline-block;
   font-size:11px;
+  margin:2px;
+  display:inline-block;
 }
+
+/* =========================
+   MOBILE OPTIMISATION
+========================= */
+@media (max-width:768px){
+
+header{
+  flex-direction:column;
+  text-align:center;
+}
+
+.grid{
+  grid-template-columns:1fr;
+}
+
+.bar{
+  flex-direction:column;
+}
+
+.bar input,
+.bar select,
+.bar button{
+  width:100%;
+}
+
+table{
+  display:block;
+  overflow-x:auto;
+  white-space:nowrap;
+}
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-  <img src="images/logo.png" alt="Logo CIS Taverny">
-  <h1>Historique vérifications journalières</h1>
+  <img src="images/logo.png">
+  <h1>Historique vérifications</h1>
   <div id="date"></div>
 </header>
-
-<script>
-document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-</script>
 
 <!-- KPI -->
 <div class="grid">
@@ -222,7 +237,7 @@ document.getElementById('date').textContent = new Date().toLocaleDateString('fr-
   <input type="date" id="dateFilter">
   <select id="vehFilter"><option value="">Tous véhicules</option></select>
   <input type="text" id="search" placeholder="Recherche...">
-  <button class="btn-back" onclick="window.location.href='index.html'">⬅ Retour au menu</button>
+  <button onclick="window.location.href='index.html'">⬅ Retour</button>
 </div>
 
 <!-- TABLE -->
@@ -239,6 +254,7 @@ document.getElementById('date').textContent = new Date().toLocaleDateString('fr-
 </table>
 
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
@@ -252,142 +268,70 @@ const db = getFirestore(app);
 let data = [];
 
 async function load(){
-  const q = query(collection(db,"verifications"), orderBy("date","desc"));
-  const snap = await getDocs(q);
 
-  data = snap.docs.map(d=>d.data());
+const q = query(collection(db,"verifications"), orderBy("date","desc"));
+const snap = await getDocs(q);
 
-  fill();
-  render(data);
-  stats(data);
-  drawChart(data);
+data = snap.docs.map(d=>d.data());
+
+render(data);
+stats(data);
+
 }
 
 function stats(d){
-  document.getElementById("total").innerText = d.length;
 
-  let miss = 0;
-  let ok = 0;
+document.getElementById("total").innerText = d.length;
 
-  d.forEach(e=>{
-    const m = Object.values(e.data).filter(v=>!v).length;
-    if(m === 0) ok++;
-    miss += m;
-  });
+let ok = 0;
+let miss = 0;
 
-  document.getElementById("okRate").innerText =
-    Math.round((ok / d.length) * 100) + "%";
+d.forEach(e=>{
+const m = Object.values(e.data).filter(v=>!v).length;
+if(m === 0) ok++;
+miss += m;
+});
 
-  document.getElementById("alerts").innerText = miss;
+document.getElementById("okRate").innerText =
+Math.round((ok / d.length) * 100) + "%";
 
-  document.getElementById("vehicles").innerText =
-    new Set(d.map(x=>x.nomDoc)).size;
-}
+document.getElementById("alerts").innerText = miss;
 
-function fill(){
-  const sel = vehFilter;
-  [...new Set(data.map(x=>x.nomDoc))].forEach(v=>{
-    sel.innerHTML += `<option>${v}</option>`;
-  });
-}
-
-function severity(m){
-  if(m >= 10) return "high";
-  if(m >= 3) return "medium";
-  return "low";
 }
 
 function render(d){
-  tbody.innerHTML = "";
 
-  d.forEach(e=>{
-    const missing = Object.entries(e.data).filter(([k,v])=>!v);
-    const sev = severity(missing.length);
+tbody.innerHTML="";
 
-    const badge =
-      e.nomDoc=="VSSUAP"?"vsav":
-      e.nomDoc=="FPTGP"?"fpt":
-      e.nomDoc=="CCFM"?"ccf":
-      e.nomDoc=="VSRM"?"vsr":"vtu";
+d.forEach(e=>{
 
-    tbody.innerHTML += `
-      <tr class="${sev}">
-        <td>${new Date(e.date.seconds*1000).toLocaleDateString()}</td>
-        <td><span class="badge ${badge}">${e.nomDoc}</span></td>
-        <td>${e.verificateur}</td>
-        <td>
-          ${missing.length ?
-            missing.map(m=>`<span class="missing">${m[0]}</span>`).join("")
-            : "OK"}
-        </td>
-      </tr>
-    `;
-  });
-}
+const missing = Object.entries(e.data).filter(([k,v])=>!v);
 
-function drawChart(d){
-  const ctx = document.getElementById("chart");
+const sev = missing.length>10?"high":missing.length>3?"medium":"low";
 
-  const labels = d.slice(0,10).map(x =>
-    new Date(x.date.seconds*1000).toLocaleDateString()
-  );
+tbody.innerHTML += `
+<tr class="${sev}">
+<td>${new Date(e.date.seconds*1000).toLocaleDateString()}</td>
+<td><span class="badge vsav">${e.nomDoc}</span></td>
+<td>${e.verificateur}</td>
+<td>
+${missing.length?
+missing.map(m=>`<span class="missing">${m[0]}</span>`).join("")
+:"OK"}
+</td>
+</tr>
+`;
+});
 
-  const values = d.slice(0,10).map(x =>
-    Object.values(x.data).filter(v=>!v).length
-  );
-
-  new Chart(ctx,{
-    type:"line",
-    data:{
-      labels,
-      datasets:[{
-        label:"Manquants",
-        data:values,
-        borderColor:"#b71c1c",
-        tension:0.3
-      }]
-    }
-  });
-}
-
-function filter(){
-  let f = [...data];
-
-  if(dateFilter.value){
-    f = f.filter(x =>
-      new Date(x.date.seconds*1000).toISOString().slice(0,10)
-      === dateFilter.value
-    );
-  }
-
-  if(vehFilter.value) f = f.filter(x=>x.nomDoc==vehFilter.value);
-
-  if(search.value){
-    const s = search.value.toLowerCase();
-    f = f.filter(x =>
-      (x.verificateur||"").toLowerCase().includes(s)
-    );
-  }
-
-  render(f);
-}
-
-dateFilter.oninput = vehFilter.onchange = search.oninput = filter;
-
-window.exportCSV = function(){
-  let csv = "Date,Véhicule,Vérificateur\n";
-  data.forEach(e=>{
-    csv += `${new Date(e.date.seconds*1000).toLocaleDateString()},${e.nomDoc},${e.verificateur}\n`;
-  });
-
-  const blob = new Blob([csv],{type:"text/csv"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "cis_verifications.csv";
-  a.click();
 }
 
 load();
+
+</script>
+
+<script>
+document.getElementById('date').textContent =
+new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 </script>
 
 </body>
