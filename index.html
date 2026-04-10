@@ -140,35 +140,44 @@ document.getElementById('date').textContent = new Date().toLocaleDateString('fr-
 
 <script>
 // --- Mise à jour de la date ---
-document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+document.getElementById('date').textContent =
+  new Date().toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
 
 // --- Firebase config ---
-const firebaseConfig = { 
-  apiKey:"AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es", 
-  authDomain:"veriftav.firebaseapp.com", 
-  projectId:"veriftav", 
-  storageBucket:"veriftav.firebasestorage.app", 
-  messagingSenderId:"401217101102", 
-  appId:"1:401217101102:web:dd375734d4f0464c146ebf", 
-  measurementId:"G-KVSC8V8M1B"
+const firebaseConfig = {
+  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
+  authDomain: "veriftav.firebaseapp.com",
+  projectId: "veriftav",
+  storageBucket: "veriftav.firebasestorage.app",
+  messagingSenderId: "401217101102",
+  appId: "1:401217101102:web:dd375734d4f0464c146ebf",
+  measurementId: "G-KVSC8V8M1B"
 };
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// --- Gestion du nom du vérificateur ---
+// --- Gestion du nom ---
 const inputNom = document.getElementById('verificateur');
 const vehicules = ['btn-vsav','btn-fpt','btn-ccf','btn-vsr','btn-vtu'];
 
-// Affichage message lundi
-if(new Date().getDay()===1) document.getElementById('lundi-msg').style.display='block';
+// Lundi message
+if (new Date().getDay() === 1) {
+  document.getElementById('lundi-msg').style.display = 'block';
+}
 
-// Vérifier si un nom est déjà stocké et non expiré
+// --- stockage 24h ---
 const nomStocke = JSON.parse(localStorage.getItem('nomVerificateur24h'));
-if(nomStocke){
-  const now = new Date().getTime();
-  if(now - nomStocke.timestamp < 24*60*60*1000){ // moins de 24h
+
+if (nomStocke) {
+  const now = Date.now();
+  if (now - nomStocke.timestamp < 24 * 60 * 60 * 1000) {
     inputNom.value = nomStocke.nom;
-    // Activer les boutons véhicules si nom valide
     const enable = nomStocke.nom.length >= 3;
     vehicules.forEach(id => document.getElementById(id).disabled = !enable);
   } else {
@@ -176,125 +185,325 @@ if(nomStocke){
   }
 }
 
-// Activation des boutons véhicules et stockage du nom
+// --- input nom ---
 inputNom.addEventListener('input', () => {
   const val = inputNom.value.trim().toUpperCase();
   inputNom.value = val;
+
   const enable = val.length >= 3;
   vehicules.forEach(id => document.getElementById(id).disabled = !enable);
 
-  if(enable){
+  if (enable) {
     localStorage.setItem('nomVerificateur24h', JSON.stringify({
       nom: val,
-      timestamp: new Date().getTime()
+      timestamp: Date.now()
     }));
   }
 });
 
-// --- Sélection véhicule ---
-function selectVehicule(v){
+// --- sélection véhicule ---
+function selectVehicule(v) {
   const nom = inputNom.value.trim().toUpperCase();
-  if(nom.length<3){ alert("Merci de renseigner votre nom !"); return; }
+
+  if (nom.length < 3) {
+    alert("Merci de renseigner votre nom !");
+    return;
+  }
+
   localStorage.setItem('nomVerificateur', nom);
   localStorage.setItem('vehiculeSelectionne', v);
-  const pages = { VSSUAP:'VSAV.html', FPTGP:'FPT.html', CCFM:'CCF.html', VSRM:'VSR.html', VTU:'VTU.html'};
+
+  const pages = {
+    VSSUAP: 'VSAV.html',
+    FPTGP: 'FPT.html',
+    CCFM: 'CCF.html',
+    VSRM: 'VSR.html',
+    VTU: 'VTU.html'
+  };
+
   location.href = pages[v];
 }
 
-// --- Modal admin et export PDF ---
-function exportAndResetDB(){
+// --- EXPORT PDF + RESET ---
+function exportAndResetDB() {
+
   // 🔐 MODAL LOGIN
   const modal = document.createElement('div');
-  modal.className='modal-bg';
-  modal.innerHTML=`
+  modal.className = 'modal-bg';
+
+  modal.innerHTML = `
     <div class="modal-content">
       <h2>Connexion Admin</h2>
       <input id="loginUser" placeholder="Nom d'utilisateur">
       <input id="loginPass" type="password" placeholder="Mot de passe">
       <button id="loginBtn">Connexion</button>
-    </div>`;
+    </div>
+  `;
+
   document.body.appendChild(modal);
 
   document.getElementById('loginBtn').onclick = async () => {
+
     const user = document.getElementById('loginUser').value;
     const pass = document.getElementById('loginPass').value;
 
-    if(user !== 'ChefdeCentre' || pass !== 'PompierTav@95150'){
+    if (user !== 'ChefdeCentre' || pass !== 'PompierTav@95150') {
       alert('Accès refusé');
       return;
     }
 
     document.body.removeChild(modal);
 
-    try{
-      // 🔥 RÉCUP DATA TRIÉE PAR DATE
-      const snapshot = await db.collection("verifications").orderBy("date","asc").get();
-      if(snapshot.empty){ alert("Pas de données à exporter !"); return; }
+    try {
 
-      // 🔥 GROUPEMENT PAR JOUR
+      // 🔥 DATA
+      const snapshot = await db.collection("verifications")
+        .orderBy("date", "asc")
+        .get();
+
+      if (snapshot.empty) {
+        alert("Pas de données à exporter !");
+        return;
+      }
+
+      // 🔥 GROUP BY DAY
       const grouped = {};
-      snapshot.forEach(docSnap=>{
+
+      snapshot.forEach(docSnap => {
         const d = docSnap.data();
         const dateObj = d.date?.toDate();
-        if(!dateObj) return;
+        if (!dateObj) return;
 
-        const dayKey = dateObj.toISOString().slice(0,10); // YYYY-MM-DD
-        const manquants = Object.entries(d.data || {}).filter(([k,v])=>!v).map(([k])=>k);
+        const dayKey = dateObj.toISOString().slice(0, 10);
+
+        const manquants = Object.entries(d.data || {})
+          .filter(([k, v]) => !v)
+          .map(([k]) => k);
+
         const row = [
           dateObj.toLocaleTimeString(),
           d.nomDoc || "",
           d.verificateur || "",
           manquants.length ? manquants.join(" / ") : "RAS"
         ];
-        if(!grouped[dayKey]) grouped[dayKey]=[];
+
+        if (!grouped[dayKey]) grouped[dayKey] = [];
         grouped[dayKey].push(row);
       });
 
-      // 📄 CRÉATION PDF
-      const docPDF = new jspdf.jsPDF();
-      docPDF.setFontSize(16);
-      docPDF.text("Rapport Vérifications CIS Taverny", 14, 20);
-      let currentY = 30;
+    // =========================
+// 📄 PDF PRO - KPI + LOGO + CLEAN TEXT
+// =========================
 
-      Object.keys(grouped).forEach(day=>{
-        const dateFR = new Date(day).toLocaleDateString();
-        if(currentY > 250){ docPDF.addPage(); currentY = 20; }
+const docPDF = new jspdf.jsPDF({
+  unit: "mm",
+  format: "a4"
+});
 
-        docPDF.setFontSize(13);
-        docPDF.text(`Date : ${dateFR}`, 14, currentY);
+const primaryColor = [183, 28, 28];
+const dark = [40, 40, 40];
+const gray = [90, 90, 90];
 
-        docPDF.autoTable({
-          startY: currentY+5,
-          head:[["Heure","Véhicule","Vérificateur","Matériel manquant"]],
-          body: grouped[day],
-          theme:'grid',
-          headStyles:{fillColor:[211,47,47]},
-          alternateRowStyles:{fillColor:[255,243,224]},
+const now = new Date();
+
+// =========================
+// 📅 DATES PROPRES (SAFE)
+// =========================
+
+const pad = (n) => String(n).padStart(2, "0");
+
+const fileDate =
+  now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-" + pad(now.getDate());
+
+const labelDate =
+  pad(now.getDate()) + "/" + pad(now.getMonth() + 1) + "/" + now.getFullYear() +
+  " " + pad(now.getHours()) + ":" + pad(now.getMinutes());
+
+// =========================
+// 📊 KPI CALCULS
+// =========================
+
+let totalChecks = 0;
+let totalAnomalies = 0;
+
+Object.values(grouped).forEach(day => {
+  day.forEach(row => {
+    totalChecks++;
+    if (row[3] && row[3] !== "RAS") totalAnomalies++;
+  });
+});
+
+const conformity =
+  totalChecks > 0
+    ? Math.round(((totalChecks - totalAnomalies) / totalChecks) * 100)
+    : 0;
+
+// =========================
+// 🏷️ PAGE 1 - RAPPORT GLOBAL (REMPLIE)
+// =========================
+
+// HEADER BAR
+docPDF.setFillColor(...primaryColor);
+docPDF.rect(0, 0, 210, 25, "F");
+
+docPDF.setTextColor(255, 255, 255);
+docPDF.setFont("helvetica", "bold");
+docPDF.setFontSize(16);
+docPDF.text("CIS TAVERNY - RAPPORT DE VERIFICATIONS", 14, 15);
+
+// LOGO (si dispo)
+try {
+  docPDF.addImage("images/logo.png", "PNG", 170, 3, 20, 20);
+} catch (e) {}
+
+// INFO DATE
+docPDF.setFontSize(10);
+docPDF.text("Date export: " + labelDate, 14, 32);
+
+// =========================
+// 📦 BLOC KPI (PAGE 1 BIEN REMPLIE)
+// =========================
+
+docPDF.setFillColor(245, 245, 245);
+docPDF.roundedRect(14, 40, 182, 60, 3, 3, "F");
+
+docPDF.setTextColor(...dark);
+docPDF.setFontSize(13);
+docPDF.text("INDICATEURS OPERATIONNELS", 20, 52);
+
+// LIGNE 1
+docPDF.setFontSize(11);
+docPDF.text("Total des verifications :", 20, 65);
+docPDF.text(String(totalChecks), 110, 65);
+
+// LIGNE 2
+docPDF.text("Anomalies detectees :", 20, 75);
+docPDF.text(String(totalAnomalies), 110, 75);
+
+// LIGNE 3
+docPDF.text("Taux de conformite :", 20, 85);
+docPDF.text(conformity + " %", 110, 85);
+
+// BAR VISUEL SIMPLE
+docPDF.setFillColor(220, 220, 220);
+docPDF.rect(20, 92, 160, 6, "F");
+
+docPDF.setFillColor(76, 175, 80);
+docPDF.rect(20, 92, Math.min(160, (conformity / 100) * 160), 6, "F");
+
+// LABEL BAS
+docPDF.setFontSize(9);
+docPDF.setTextColor(...gray);
+docPDF.text("Niveau de conformite global", 20, 104);
+
+// =========================
+// ➡️ PAGE 2 - DETAIL
+// =========================
+
+docPDF.addPage();
+
+let currentY = 15;
+
+// =========================
+// 📊 DETAIL PAR JOUR
+// =========================
+
+Object.keys(grouped).forEach(day => {
+
+  const parts = day.split("-");
+  const dateFR =
+    parts[2] + "/" + parts[1] + "/" + parts[0];
+
+  if (currentY > 250) {
+    docPDF.addPage();
+    currentY = 15;
+  }
+
+  // TITRE JOUR
+  docPDF.setFillColor(255, 235, 235);
+  docPDF.rect(14, currentY - 6, 182, 8, "F");
+
+  docPDF.setTextColor(...primaryColor);
+  docPDF.setFontSize(11);
+  docPDF.text("Date : " + dateFR, 16, currentY);
+
+  currentY += 6;
+
+  docPDF.autoTable({
+    startY: currentY,
+    head: [["Heure", "Vehicule", "Verificateur", "Materiel manquant"]],
+    body: grouped[day],
+
+    theme: "grid",
+
+    styles: {
+      fontSize: 8,
+      cellPadding: 2,
+      textColor: dark
+    },
+
+    headStyles: {
+      fillColor: primaryColor,
+      textColor: 255
+    },
+
+    alternateRowStyles: {
+      fillColor: [245, 245, 245]
+    },
+
+    margin: { left: 14, right: 14 }
+  });
+
+  currentY = docPDF.lastAutoTable.finalY + 8;
+});
+
+// =========================
+// 📄 FOOTER
+// =========================
+
+const pageCount = docPDF.internal.getNumberOfPages();
+
+for (let i = 1; i <= pageCount; i++) {
+  docPDF.setPage(i);
+
+  docPDF.setFontSize(9);
+  docPDF.setTextColor(120);
+
+  docPDF.text("CIS Taverny - Verification numerique", 14, 290);
+  docPDF.text("Page " + i + " / " + pageCount, 180, 290);
+}
+
+// =========================
+// 💾 NOM DE FICHIER PRO
+// =========================
+
+const fileName =
+  "CIS_TAV_VERIF_" +
+  fileDate +
+  "_RAPPORT_OPERATIONNEL";
+
+docPDF.save(fileName + ".pdf");
+
+      // RESET DB
+      if (confirm("Voulez-vous maintenant réinitialiser la base de données ?")) {
+
+        const batch = db.batch();
+
+        snapshot.forEach(docSnap => {
+          batch.delete(docSnap.ref);
         });
 
-        currentY = docPDF.lastAutoTable.finalY + 10;
-      });
-
-      // 💾 SAUVEGARDE
-      const fileDate = new Date().toISOString().slice(0,10);
-      docPDF.save(`EXTRACT-VERIFICATION_${fileDate}.pdf`);
-      alert("Export PDF terminé ✅");
-
-      // 🔥 RESET DB
-      if(confirm("Voulez-vous maintenant réinitialiser la base de données ?")){
-        const batch = db.batch();
-        snapshot.forEach(docSnap=>{ batch.delete(docSnap.ref); });
         await batch.commit();
+
         alert("Base de données réinitialisée ✅");
       }
 
-    }catch(e){
+    } catch (e) {
       console.error(e);
-      alert("Erreur : "+e.message);
+      alert("Erreur : " + e.message);
     }
   };
 }
-
 </script>
 
 </body>
