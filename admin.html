@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Admin Pro</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+
+<style>
+body{
+font-family:Arial;
+background:#f5f5f5;
+margin:0;
+}
+
+header{
+background:#d32f2f;
+color:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.container{
+padding:15px;
+max-width:1000px;
+margin:auto;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:14px;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:left;
+}
+
+th{
+background:#1976D2;
+color:white;
+}
+
+button{
+padding:6px 10px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.edit{background:#fbc02d}
+.delete{background:#e53935;color:white}
+.save{background:#43a047;color:white}
+
+select,input{
+padding:6px;
+margin:4px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>ADMIN PRO - Vérifications CIS Taverny</h2>
+<button onclick="logout()">Déconnexion</button>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h3>Filtrer</h3>
+
+<select id="filter" onchange="loadData()">
+<option value="">Tous véhicules</option>
+<option value="VSSUAP">VSSUAP</option>
+<option value="FPTGP">FPTGP</option>
+<option value="CCFM">CCFM</option>
+<option value="VSRM">VSRM</option>
+<option value="VTU">VTU</option>
+</select>
+</div>
+
+<div class="card">
+<h3>Statistiques rapides</h3>
+<div id="stats"></div>
+</div>
+
+<div class="card">
+<h3>Vérifications</h3>
+<table>
+<thead>
+<tr>
+<th>Véhicule</th>
+<th>Item</th>
+<th>État</th>
+<th>Date</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="data"></tbody>
+</table>
+</div>
+
+<button onclick="logout()">Déconnexion</button>
+
+</div>
+
+<script>
+firebase.initializeApp({
+apiKey:"XXX",
+authDomain:"XXX",
+projectId:"veriftav"
+});
+
+const db = firebase.firestore();
+
+/* sécurité */
+if(localStorage.getItem("admin") !== "true"){
+location.href="login.html";
+}
+
+function logout(){
+localStorage.removeItem("admin");
+window.location.href="index.html";
+}
+
+/* chargement */
+async function loadData(){
+
+const filter = document.getElementById("filter").value;
+let query = db.collection("verifications");
+
+if(filter){
+query = query.where("vehicule","==",filter);
+}
+
+const snap = await query.get();
+
+let html="";
+let ok=0, ko=0;
+
+snap.forEach(doc=>{
+const d = doc.data();
+
+if(d.etat) ok++; else ko++;
+
+html += `
+<tr>
+<td>${d.vehicule}</td>
+<td contenteditable="true" onblur="update('${doc.id}',this,'item')">${d.item}</td>
+<td>
+<select onchange="update('${doc.id}',this,'etat')">
+<option value="true" ${d.etat?"selected":""}>OK</option>
+<option value="false" ${!d.etat?"selected":""}>KO</option>
+</select>
+</td>
+<td>${d.date?.toDate().toLocaleString()}</td>
+<td>
+<button class="delete" onclick="del('${doc.id}')">X</button>
+</td>
+</tr>
+`;
+});
+
+document.getElementById("data").innerHTML=html;
+document.getElementById("stats").innerHTML=
+`✔ OK: ${ok} | ⚠ KO: ${ko}`;
+}
+
+/* update */
+async function update(id,el,field){
+let value = el.value ?? el.innerText;
+
+if(field==="etat") value = value==="true";
+
+await db.collection("verifications").doc(id).update({
+[field]:value
+});
+}
+
+/* delete */
+async function del(id){
+if(confirm("Supprimer ?")){
+await db.collection("verifications").doc(id).delete();
+loadData();
+}
+}
+
+loadData();
+</script>
+
+</body>
+</html>
