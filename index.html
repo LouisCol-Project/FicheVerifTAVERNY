@@ -4,9 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Accueil – CIS Taverny</title>
-<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#c62828">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="application-name" content="CIS Taverny">
+
+<link rel="apple-touch-icon" href="images/logo.png">
+
+<link rel="shortcut icon" href="images/logo.png">
 
 <!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -71,6 +81,12 @@ header #date { font-size:0.9rem; opacity:0.9; }
 .modal-content input[type=password] { letter-spacing:2px; }
 .modal-content button { background:#1976D2; color:white; border:none; padding:10px 16px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:0.9rem; margin-top:10px; transition:0.3s;}
 .modal-content button:hover { background:#1565C0; transform:scale(1.05);}
+
+/* MODE INSTALLÉ (PWA) */
+body.standalone {
+  user-select: none;
+  -webkit-user-select: none;
+}
 
 </style>
 
@@ -514,6 +530,41 @@ if ("serviceWorker" in navigator) {
     .catch(err => console.log("Erreur SW", err));
 }
 
+</script>
+
+<script>
+// ============================
+// 📲 INSTALL PWA PROMPT
+// ============================
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  // option : auto prompt bouton (si tu veux)
+  console.log("PWA installable !");
+});
+
+// option bouton install si tu veux le créer plus tard
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choice) => {
+      if (choice.outcome === "accepted") {
+        console.log("App installée");
+      }
+      deferredPrompt = null;
+    });
+  }
+}
+
+// ============================
+// 🔒 FORCE MODE APP (évite rechargement desktop bizarre)
+// ============================
+if (window.matchMedia("(display-mode: standalone)").matches) {
+  document.body.classList.add("standalone");
+}
 </script>
 
 </body>

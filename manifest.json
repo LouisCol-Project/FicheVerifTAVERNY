@@ -1,10 +1,11 @@
 {
   "name": "CIS Taverny - Vérifications",
-  "short_name": "CIS Tav",
+  "short_name": "CIS Taverny",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#c62828",
+  "background_color": "#ffffff",
   "theme_color": "#c62828",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "images/logo.png",
@@ -16,5 +17,6 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "version": "1.0.0"
 }
