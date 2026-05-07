@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Accueil – CIS Taverny</title>
 <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#c62828">
 
 <!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -506,6 +508,12 @@ docPDF.save(fileName + ".pdf");
     }
   };
 }
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("Service Worker actif"))
+    .catch(err => console.log("Erreur SW", err));
+}
+
 </script>
 
 </body>
