@@ -88,6 +88,148 @@ body.standalone {
   -webkit-user-select: none;
 }
 
+/* =========================
+   LOGO FOND AMÉLIORÉ
+========================= */
+
+body::before{
+
+  content:"";
+
+  position:fixed;
+
+  top:50%;
+  left:50%;
+
+  width:420px;
+  height:420px;
+
+  transform:translate(-50%, -50%);
+
+  background:url('images/logo.png') center center no-repeat;
+
+  background-size:contain;
+
+  opacity:0.12;
+
+  pointer-events:none;
+
+  z-index:0;
+
+  filter:
+    drop-shadow(0 0 20px rgba(0,0,0,0.15));
+
+}
+
+main,
+header,
+footer{
+  position:relative;
+  z-index:1;
+}
+
+/* =========================
+   ADMIN PANEL
+========================= */
+
+.adminBtn{
+padding:14px;
+border:none;
+border-radius:10px;
+background:linear-gradient(90deg,#1976D2,#1565C0);
+color:white;
+font-weight:bold;
+cursor:pointer;
+font-size:0.95rem;
+transition:0.3s;
+}
+
+.adminBtn:hover{
+transform:translateY(-2px);
+}
+
+.logoutBtn{
+background:linear-gradient(90deg,#c62828,#b71c1c);
+}
+
+/* =========================
+   LOGIN ADMIN MODERNE
+========================= */
+
+.admin-login{
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.97),
+      rgba(255,255,255,0.93)
+    );
+
+  backdrop-filter:blur(8px);
+
+  border:2px solid rgba(198,40,40,0.15);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,0.08);
+
+}
+
+.admin-login h2{
+
+  font-size:1.2rem;
+
+  margin-bottom:1rem;
+
+}
+
+.admin-login input{
+
+  width:100%;
+
+  padding:14px;
+
+  border-radius:12px;
+
+  border:1px solid #ddd;
+
+  margin-top:10px;
+
+  font-size:0.95rem;
+
+  transition:0.3s;
+
+  background:white;
+
+}
+
+.admin-login input:focus{
+
+  outline:none;
+
+  border-color:#1976D2;
+
+  box-shadow:
+    0 0 0 4px rgba(25,118,210,0.12);
+
+}
+
+#adminLoginBtn{
+
+  margin-top:15px;
+
+  transition:0.3s;
+
+  box-shadow:
+    0 4px 12px rgba(25,118,210,0.25);
+
+}
+
+#adminLoginBtn:hover{
+
+  transform:translateY(-2px);
+
+}
+
 </style>
 
 </head>
@@ -109,6 +251,24 @@ document.getElementById('date').textContent = new Date().toLocaleDateString('fr-
 
 <!-- Nom vérificateur -->
 <input type="text" id="verificateur" placeholder="Entrez votre nom">
+
+<!-- Bouton installation application -->
+<button id="installBtn" style="
+display:none;
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#43a047,#2e7d32);
+color:white;
+font-weight:bold;
+font-size:1rem;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+margin-bottom:1rem;
+">
+📲 Télécharger l'application
+</button>
 
 <!-- Dashboard véhicules -->
 <div class="vehicules">
@@ -136,8 +296,65 @@ document.getElementById('date').textContent = new Date().toLocaleDateString('fr-
 </fieldset>
 </div>
 
-<!-- Bouton Admin Export -->
-<button id="btnAdmin" onclick="exportAndResetDB()">📊 Export & Réinitialisation BDD (Chef de centre)</button>
+<!-- =========================
+     BOUTON ADMIN
+========================= -->
+
+<button
+id="btnAdmin"
+onclick="openAdminPanel()"
+style="display:none;"
+>
+⚙️ Administration CIS Taverny
+</button>
+
+<!-- =========================
+     CONNEXION ADMIN
+========================= -->
+
+<div class="consignes admin-login">
+
+<h2>Connexion Administration 🔐</h2>
+
+<input
+type="text"
+id="adminUser"
+placeholder="Nom utilisateur"
+>
+
+<input
+type="password"
+id="adminPass"
+placeholder="Mot de passe"
+>
+
+<button
+id="adminLoginBtn"
+style="
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#1976D2;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+"
+>
+Connexion
+</button>
+
+<p
+id="adminStatus"
+style="
+margin-top:10px;
+font-weight:bold;
+text-align:center;
+"
+></p>
+
+</div>
 
 <!-- Infos App -->
 <div class="info-app">
@@ -151,6 +368,74 @@ document.getElementById('date').textContent = new Date().toLocaleDateString('fr-
 </tbody>
 </table>
 </div>
+
+<!-- =========================
+     PANEL ADMIN
+========================= -->
+
+<div
+id="adminPanel"
+style="
+display:none;
+background:white;
+padding:1rem;
+border-radius:14px;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
+"
+>
+
+<h2 style="
+text-align:center;
+color:#c62828;
+margin-bottom:1rem;
+">
+⚙️ Administration CIS Taverny
+</h2>
+
+<div style="
+display:grid;
+gap:12px;
+">
+
+<button onclick="exportAndResetDB()" class="adminBtn">
+📊 Export PDF + Réinitialisation
+</button>
+
+<button onclick="createNewUser()" class="adminBtn">
+👤 Ajouter utilisateur
+</button>
+
+<button onclick="deleteUser()" class="adminBtn">
+🗑️ Supprimer utilisateur
+</button>
+
+<button onclick="listUsers()" class="adminBtn">
+📋 Liste utilisateurs
+</button>
+
+<button onclick="logoutAdmin()" class="adminBtn logoutBtn">
+🚪 Déconnexion
+</button>
+
+</div>
+
+<div
+id="adminConsole"
+style="
+margin-top:1rem;
+padding:1rem;
+background:#f5f5f5;
+border-radius:10px;
+font-size:0.9rem;
+max-height:250px;
+overflow:auto;
+"
+>
+Console administration...
+</div>
+
+</div>
+
 </main>
 <footer style="text-align:center; padding:0.8rem; font-size:0.9rem; background:#d32f2f; color:white;">CIS Taverny – Vérifications opérationnelles</footer>
 
@@ -536,36 +821,312 @@ if ("serviceWorker" in navigator) {
 // ============================
 // 📲 INSTALL PWA PROMPT
 // ============================
+
 let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
 
 window.addEventListener("beforeinstallprompt", (e) => {
+
   e.preventDefault();
+
   deferredPrompt = e;
 
-  // option : auto prompt bouton (si tu veux)
-  console.log("PWA installable !");
+  installBtn.style.display = "block";
+
 });
 
-// option bouton install si tu veux le créer plus tard
-function installApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choice) => {
-      if (choice.outcome === "accepted") {
-        console.log("App installée");
-      }
-      deferredPrompt = null;
-    });
+installBtn.addEventListener("click", async () => {
+
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt();
+
+  const { outcome } = await deferredPrompt.userChoice;
+
+  if (outcome === "accepted") {
+    console.log("Application installée");
   }
-}
+
+  deferredPrompt = null;
+
+  installBtn.style.display = "none";
+
+});
 
 // ============================
-// 🔒 FORCE MODE APP (évite rechargement desktop bizarre)
+// 🔒 MODE APPLICATION
 // ============================
+
 if (window.matchMedia("(display-mode: standalone)").matches) {
   document.body.classList.add("standalone");
 }
 </script>
+<script>
 
+// =========================
+// 🔐 LOGIN ADMIN FIRESTORE
+// =========================
+
+const adminBtn =
+document.getElementById("adminLoginBtn");
+
+adminBtn.addEventListener("click", async () => {
+
+  const username =
+    document.getElementById("adminUser").value.trim();
+
+  const password =
+    document.getElementById("adminPass").value.trim();
+
+  const status =
+    document.getElementById("adminStatus");
+
+  if (!username || !password) {
+
+    status.style.color = "red";
+    status.innerText =
+      "Veuillez remplir les champs";
+
+    return;
+  }
+
+  try {
+
+    const docRef =
+      db.collection("users").doc(username);
+
+    const docSnap =
+      await docRef.get();
+
+    if (!docSnap.exists) {
+
+      status.style.color = "red";
+      status.innerText =
+        "Utilisateur introuvable";
+
+      return;
+    }
+
+    const data = docSnap.data();
+
+    if (data.password !== password) {
+
+      status.style.color = "red";
+      status.innerText =
+        "Mot de passe incorrect";
+
+      return;
+    }
+
+    // LOGIN OK
+    status.style.color = "green";
+    status.innerText =
+      "Connexion réussie ✅";
+
+    localStorage.setItem(
+      "adminConnected",
+      "true"
+    );
+
+    localStorage.setItem(
+      "adminUser",
+      username
+    );
+
+    document.getElementById("btnAdmin")
+      .style.display = "block";
+
+    openAdminPanel();
+
+  } catch (e) {
+
+    console.error(e);
+
+    status.style.color = "red";
+    status.innerText =
+      "Erreur serveur";
+
+  }
+
+});
+
+// =========================
+// 🔓 AUTO LOGIN
+// =========================
+
+if (
+  localStorage.getItem("adminConnected")
+  === "true"
+){
+
+  document.getElementById("btnAdmin")
+    .style.display = "block";
+
+}
+
+// =========================
+// ⚙️ OPEN PANEL
+// =========================
+
+function openAdminPanel(){
+
+  const panel =
+    document.getElementById("adminPanel");
+
+  panel.style.display =
+    panel.style.display === "none"
+    ? "block"
+    : "none";
+
+}
+
+// =========================
+// 👤 CREATE USER
+// =========================
+
+async function createNewUser(){
+
+  const username =
+    prompt("Nom utilisateur");
+
+  if(!username) return;
+
+  const password =
+    prompt("Mot de passe");
+
+  if(!password) return;
+
+
+  try{
+
+    await db.collection("users")
+.doc(username)
+.set({
+
+  password: password,
+  createdAt: new Date()
+
+});
+
+    adminLog(
+      "Utilisateur ajouté : "
+      + username
+    );
+
+  }catch(e){
+
+    adminLog("Erreur : " + e.message);
+
+  }
+
+}
+
+// =========================
+// 🗑️ DELETE USER
+// =========================
+
+async function deleteUser(){
+
+  const username =
+    prompt("Utilisateur à supprimer");
+
+  if(!username) return;
+
+  try{
+
+    await db.collection("users")
+    .doc(username)
+    .delete();
+
+    adminLog(
+      "Utilisateur supprimé : "
+      + username
+    );
+
+  }catch(e){
+
+    adminLog("Erreur : " + e.message);
+
+  }
+
+}
+
+// =========================
+// 📋 LIST USERS
+// =========================
+
+async function listUsers(){
+
+  try{
+
+    const snap =
+      await db.collection("users").get();
+
+    let html =
+      "<b>Liste utilisateurs :</b><br><br>";
+
+    snap.forEach(doc => {
+
+      const d = doc.data();
+
+      html +=
+  "👤 "
+  + doc.id
+  + "<br>";
+
+    });
+
+    document.getElementById(
+      "adminConsole"
+    ).innerHTML = html;
+
+  }catch(e){
+
+    adminLog("Erreur : " + e.message);
+
+  }
+
+}
+
+// =========================
+// 🚪 LOGOUT
+// =========================
+
+function logoutAdmin(){
+
+  localStorage.removeItem(
+    "adminConnected"
+  );
+
+  localStorage.removeItem(
+    "adminUser"
+  );
+
+  document.getElementById(
+    "adminPanel"
+  ).style.display = "none";
+
+  document.getElementById(
+    "btnAdmin"
+  ).style.display = "none";
+
+  alert("Déconnecté");
+
+}
+
+// =========================
+// 🖥️ CONSOLE ADMIN
+// =========================
+
+function adminLog(msg){
+
+  document.getElementById(
+    "adminConsole"
+  ).innerHTML =
+    msg;
+
+}
+
+</script>
 </body>
 </html>

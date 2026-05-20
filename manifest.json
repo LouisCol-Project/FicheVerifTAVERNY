@@ -1,9 +1,10 @@
 {
-  "name": "CIS Taverny - Vérifications",
-  "short_name": "CIS Taverny",
+  "name": "CIS TAVERNY : Vérifications",
+  "short_name": "CIS TAVERNY",
+  "description": "Application de vérifications opérationnelles du CIS Taverny",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#fff3e0",
   "theme_color": "#c62828",
   "orientation": "portrait",
   "icons": [
@@ -17,6 +18,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "version": "1.0.0"
+  ]
 }
