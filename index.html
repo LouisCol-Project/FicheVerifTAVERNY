@@ -33,246 +33,35 @@
 <!-- Font Awesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-<style>
-* { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif; }
-body { background:#fff3e0; color:#333; display:flex; flex-direction:column; min-height:100vh; }
-main { flex:1; max-width:600px; width:95%; margin:auto; padding:1rem 0; display:grid; gap:1rem; }
-
-/* HEADER - GARDÉ */
-header { display:flex; align-items:center; justify-content:space-between; padding:1rem 1rem; background:#d32f2f; color:white; border-radius:0 0 15px 15px; box-shadow:0 4px 12px rgba(0,0,0,0.3);}
-header img { height:50px; border-radius:8px; border:2px solid #fff;}
-header h1 { flex:1; text-align:center; font-size:1.4rem; font-weight:700; letter-spacing:0.5px; }
-header #date { font-size:0.9rem; opacity:0.9; }
-
-/* MESSAGE IMPORTANT LUNDI */
-#lundi-msg { background:#ffd54f; color:#b71c1c; font-weight:bold; text-align:center; padding:0.8rem; border-radius:12px; box-shadow:0 0 15px #ff6f00; font-size:1rem; display:none; }
-
-/* INPUT NOM */
-#verificateur { width:100%; padding:0.6rem; border-radius:10px; border:1px solid #ccc; margin-bottom:0.8rem; font-weight:bold; text-transform:uppercase; font-size:0.95rem; }
-
-/* CARTES VEHICULES */
-.vehicules { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:0.8rem; }
-.vehicule { padding:1rem; border-radius:12px; color:white; font-weight:bold; text-align:center; font-size:0.95rem; cursor:pointer; transition: transform 0.2s, filter 0.2s; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 4px 8px rgba(0,0,0,0.2);}
-.vehicule i { font-size:1.5rem; margin-bottom:0.3rem; }
-.vehicule:hover { transform:translateY(-3px); filter:brightness(1.1); }
-.vsav{background:#e53935;} 
-.fpt{background:#fb8c00;} 
-.ccf{background:#43a047;} 
-.vsr{background:#8e24aa;} 
-.vtu{background:#fdd835; color:#333;} 
-.stat{background:#6d4c41;} 
-
-/* BOUTON ADMIN */
-#btnAdmin { display:block; margin:1rem auto; padding:12px 20px; border:none; border-radius:10px; background: linear-gradient(90deg, #1976D2, #1565C0); color:white; font-weight:bold; cursor:pointer; font-size:1rem; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:0.3s; }
-#btnAdmin:hover { transform:translateY(-2px); }
-
-/* CONSIGNES */
-.consignes { background:white; padding:1rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
-.consignes h2 { text-align:center; color:#d32f2f; margin-bottom:0.5rem; font-size:1.1rem; }
-.consignes fieldset { border:2px solid #d32f2f; border-radius:10px; padding:0.8rem; background:#fff8e1; }
-.consignes legend { font-weight:bold; color:#b71c1c; padding:0 6px; font-size:1rem; }
-.consignes p { line-height:1.4; font-weight:bold; font-size:0.9rem; }
-
-/* INFO APP */
-.info-app { background:white; padding:1rem; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); font-size:0.9rem; }
-.info-app table { width:100%; border-collapse:collapse; font-size:0.85rem; }
-.info-app th, .info-app td { padding:8px; border:1px solid #b39ddb; text-align:left; }
-.info-app th { background:#d1c4e9; }
-
-/* MODAL ADMIN */
-.modal-bg { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:9999; animation: fadeIn 0.3s;}
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-.modal-content { background:#fff; padding:20px; border-radius:14px; width:320px; max-width:90%; text-align:center; box-shadow:0 6px 20px rgba(0,0,0,0.3); animation: slideDown 0.3s;}
-@keyframes slideDown { from {transform: translateY(-30px); opacity:0;} to {transform: translateY(0); opacity:1;} }
-.modal-content h2 { margin-bottom:15px; font-size:1.3rem; color:#d32f2f; }
-.modal-content input { width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #ccc; font-size:0.9rem; }
-.modal-content input[type=password] { letter-spacing:2px; }
-.modal-content button { background:#1976D2; color:white; border:none; padding:10px 16px; border-radius:6px; font-weight:bold; cursor:pointer; font-size:0.9rem; margin-top:10px; transition:0.3s;}
-.modal-content button:hover { background:#1565C0; transform:scale(1.05);}
-
-/* MODE INSTALLÉ (PWA) */
-body.standalone {
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-/* =========================
-   LOGO FOND AMÉLIORÉ
-========================= */
-
-body::before{
-
-  content:"";
-
-  position:fixed;
-
-  top:50%;
-  left:50%;
-
-  width:420px;
-  height:420px;
-
-  transform:translate(-50%, -50%);
-
-  background:url('images/logo.png') center center no-repeat;
-
-  background-size:contain;
-
-  opacity:0.12;
-
-  pointer-events:none;
-
-  z-index:0;
-
-  filter:
-    drop-shadow(0 0 20px rgba(0,0,0,0.15));
-
-}
-
-main,
-header,
-footer{
-  position:relative;
-  z-index:1;
-}
-
-/* =========================
-   ADMIN PANEL
-========================= */
-
-.adminBtn{
-padding:14px;
-border:none;
-border-radius:10px;
-background:linear-gradient(90deg,#1976D2,#1565C0);
-color:white;
-font-weight:bold;
-cursor:pointer;
-font-size:0.95rem;
-transition:0.3s;
-}
-
-.adminBtn:hover{
-transform:translateY(-2px);
-}
-
-.logoutBtn{
-background:linear-gradient(90deg,#c62828,#b71c1c);
-}
-
-/* =========================
-   LOGIN ADMIN MODERNE
-========================= */
-
-.admin-login{
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,0.97),
-      rgba(255,255,255,0.93)
-    );
-
-  backdrop-filter:blur(8px);
-
-  border:2px solid rgba(198,40,40,0.15);
-
-  box-shadow:
-    0 8px 25px rgba(0,0,0,0.08);
-
-}
-
-.admin-login h2{
-
-  font-size:1.2rem;
-
-  margin-bottom:1rem;
-
-}
-
-.admin-login input{
-
-  width:100%;
-
-  padding:14px;
-
-  border-radius:12px;
-
-  border:1px solid #ddd;
-
-  margin-top:10px;
-
-  font-size:0.95rem;
-
-  transition:0.3s;
-
-  background:white;
-
-}
-
-.admin-login input:focus{
-
-  outline:none;
-
-  border-color:#1976D2;
-
-  box-shadow:
-    0 0 0 4px rgba(25,118,210,0.12);
-
-}
-
-#adminLoginBtn{
-
-  margin-top:15px;
-
-  transition:0.3s;
-
-  box-shadow:
-    0 4px 12px rgba(25,118,210,0.25);
-
-}
-
-#adminLoginBtn:hover{
-
-  transform:translateY(-2px);
-
-}
-
-.iosInstall{
-
-  display:none;
-
-  padding:16px;
-
-  border-radius:18px;
-
-  background:
-    rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(10px);
-
-  color:white;
-
-  text-align:center;
-
-  font-weight:600;
-
-  margin-bottom:1rem;
-
-  border:
-    1px solid rgba(255,255,255,0.08);
-
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 <body>
-
+<div class="app-bg"></div>
 <header>
-  <img src="images/logo.png" alt="Logo CIS Taverny">
+
+  <img
+    src="images/logo.png"
+    alt="Logo CIS Taverny"
+    onclick="location.href='index.html'"
+    class="logoHeader"
+  >
+
   <h1>Vérifications journalières</h1>
-  <div id="date"></div>
+
+  <div class="headerRight">
+
+    <button
+      id="helpBtn"
+      onclick="openConsignes()"
+    >
+      ?
+    </button>
+
+    <div id="date"></div>
+
+  </div>
+
 </header>
 
 <script>
@@ -329,20 +118,7 @@ font-weight:bold;
   <div class="vehicule stat" onclick="location.href='Historique.html'"><i class="fas fa-history"></i>HISTORIQUE</div>
 </div>
 
-<!-- Consignes -->
-<div class="consignes">
-<h2>Consignes importantes ⚠️</h2>
-<fieldset>
-<p>
-- Cochez le matériel présent.<br>
-- Appuyer qu'une seul fois sur le bouton envoyer <br>
-- Pour le conducteur VSSUAP ainsi que le secouriste VSSUAP il faut cocher les case de vérifications dans les fenetres de vérification du sac d'oxygénothérapie et premier secours.<br>
-- Faites remonter toutes les anomalies rencontrées.<br>
-- Consultez l'historique des vérifications via le bouton « Historique ».<br>
-- Le bouton «📊 Export & Réinitialisation BDD» est réservé au chef de centre.
-</p>
-</fieldset>
-</div>
+
 
 <!-- =========================
      BOUTON ADMIN
@@ -410,7 +186,7 @@ text-align:center;
 <table>
 <thead><tr><th>Section</th><th>Détails</th></tr></thead>
 <tbody>
-<tr><td>Version</td><td>2.3 – Mars 2026</td></tr>
+<tr><td>Version</td><td>2.4 – MAI 2026</td></tr>
 <tr><td>Usage</td><td>Vérification quotidienne des véhicules et postes</td></tr>
 <tr><td>Contact</td><td>CIS Taverny – SGT COLIN Louis et Bureau OPS</td></tr>
 </tbody>
@@ -1191,6 +967,66 @@ if(isIOS && !isStandalone){
 
 }
 
+function openConsignes(){
+
+  document.getElementById(
+    "consignesModal"
+  ).style.display = "flex";
+
+}
+
+function closeConsignes(){
+
+  document.getElementById(
+    "consignesModal"
+  ).style.display = "none";
+
+}
+
 </script>
+<!-- =========================
+     POPUP CONSIGNES
+========================= -->
+
+<div
+id="consignesModal"
+class="modalConsignes"
+>
+
+  <div class="modalConsignesContent">
+
+    <button
+      class="closeConsignes"
+      onclick="closeConsignes()"
+    >
+      ✕
+    </button>
+
+    <h2>
+      ⚠️ Consignes importantes
+    </h2>
+
+    <div class="consignesText">
+
+      • Cochez le matériel présent.<br><br>
+
+      • Appuyez une seule fois sur le bouton envoyer.<br><br>
+
+      • Pour le conducteur et secouriste VSSUAP,
+      cochez les vérifications des sacs
+      d’oxygénothérapie et premier secours.<br><br>
+
+      • Faites remonter toutes les anomalies rencontrées.<br><br>
+
+      • Consultez l’historique via le bouton HISTORIQUE.<br><br>
+
+      • Le bouton export BDD est réservé
+      au chef de centre.
+
+    </div>
+
+  </div>
+
+</div>
 </body>
 </html>

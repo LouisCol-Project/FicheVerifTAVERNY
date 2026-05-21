@@ -1,0 +1,725 @@
+/* =========================================================
+   RESET GLOBAL
+========================================================= */
+
+html,
+body{
+  width:100%;
+  overflow-x:hidden;
+  scroll-behavior:smooth;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+  max-width:100%;
+}
+
+body{
+  background:transparent;
+  color:#1f2937;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+
+/* =========================================================
+   IMAGE DE FOND FULLSCREEN
+========================================================= */
+
+.app-bg{
+  position:fixed;
+  inset:0;
+
+  background:
+    url('images/TAV.jpg')
+    center center / cover
+    no-repeat;
+
+  z-index:0;
+  pointer-events:none;
+}
+
+/* voile léger */
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+
+  background:rgba(255,255,255,.08);
+
+  z-index:0;
+  pointer-events:none;
+}
+
+/* =========================================================
+   SAFE Z INDEX
+========================================================= */
+
+main,
+header,
+footer{
+  position:relative;
+  z-index:1;
+}
+
+/* =========================================================
+   HEADER SIMPLE SANS BARRE
+========================================================= */
+
+header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+
+  padding:1rem 1rem 0;
+
+  position:relative;
+
+  background:transparent;
+
+  border:none;
+  box-shadow:none;
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logoHeader{
+  height:95px;
+
+  cursor:pointer;
+
+  object-fit:contain;
+
+  transition:.25s;
+
+  filter:
+    drop-shadow(
+      0 6px 16px rgba(0,0,0,.25)
+    );
+}
+
+.logoHeader:hover{
+  transform:scale(1.04);
+}
+
+/* =========================================================
+   TITRE
+========================================================= */
+
+header h1{
+  flex:1;
+
+  text-align:center;
+
+  color:#111827;
+
+  font-size:1.35rem;
+  font-weight:800;
+
+  margin-top:24px;
+
+  text-shadow:
+    0 2px 10px rgba(255,255,255,.55);
+}
+
+/* =========================================================
+   RIGHT HEADER
+========================================================= */
+
+.headerRight{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin-top:18px;
+}
+
+/* =========================================================
+   DATE
+========================================================= */
+
+#date{
+  color:#111827;
+
+  font-size:.9rem;
+  font-weight:700;
+
+  text-shadow:
+    0 2px 10px rgba(255,255,255,.6);
+}
+
+/* =========================================================
+   HELP BTN
+========================================================= */
+
+#helpBtn{
+  width:42px;
+  height:42px;
+
+  border:none;
+  border-radius:50%;
+
+  background:
+    rgba(255,255,255,.88);
+
+  color:#111827;
+
+  font-size:1.1rem;
+  font-weight:800;
+
+  cursor:pointer;
+
+  backdrop-filter:blur(10px);
+
+  box-shadow:
+    0 6px 16px rgba(0,0,0,.15);
+
+  transition:.25s;
+}
+
+#helpBtn:hover{
+  transform:scale(1.08);
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main{
+  flex:1;
+
+  width:95%;
+  max-width:650px;
+
+  margin:auto;
+
+  padding:1rem 0 2rem;
+
+  display:grid;
+  gap:1rem;
+}
+
+/* =========================================================
+   MESSAGE LUNDI
+========================================================= */
+
+#lundi-msg{
+  display:none;
+
+  padding:1rem;
+
+  border-radius:16px;
+
+  background:
+    rgba(255,193,7,.88);
+
+  color:#7f1d1d;
+
+  text-align:center;
+
+  font-size:1rem;
+  font-weight:800;
+
+  backdrop-filter:blur(10px);
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.15);
+}
+
+/* =========================================================
+   INPUT NOM
+========================================================= */
+
+#verificateur{
+  width:100%;
+
+  padding:16px 18px;
+
+  border-radius:18px;
+
+  border:
+    1px solid rgba(255,255,255,.25);
+
+  background:
+    rgba(255,255,255,.78);
+
+  backdrop-filter:blur(12px);
+
+  font-size:1rem;
+  font-weight:800;
+
+  text-transform:uppercase;
+
+  color:#111827;
+
+  outline:none;
+
+  transition:.25s;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.10);
+}
+
+#verificateur:focus{
+  border-color:#2563eb;
+
+  box-shadow:
+    0 0 0 4px rgba(37,99,235,.15);
+}
+
+/* =========================================================
+   VEHICULES
+========================================================= */
+
+.vehicules{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(140px,1fr)
+    );
+
+  gap:1rem;
+}
+
+.vehicule{
+  display:flex;
+  flex-direction:column;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:1.3rem 1rem;
+
+  border-radius:22px;
+
+  color:white;
+
+  text-align:center;
+
+  font-size:.95rem;
+  font-weight:800;
+
+  cursor:pointer;
+
+  backdrop-filter:blur(10px);
+
+  box-shadow:
+    0 14px 35px rgba(0,0,0,.20);
+
+  transition:
+    transform .25s,
+    box-shadow .25s;
+}
+
+.vehicule:hover{
+  transform:
+    translateY(-6px)
+    scale(1.02);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.25);
+}
+
+.vehicule i{
+  font-size:1.9rem;
+  margin-bottom:.5rem;
+}
+
+/* =========================================================
+   COULEURS VEHICULES
+========================================================= */
+
+.vsav{
+  background:
+    rgba(220,38,38,.82);
+}
+
+.fpt{
+  background:
+    rgba(249,115,22,.82);
+}
+
+.ccf{
+  background:
+    rgba(34,197,94,.82);
+}
+
+.vsr{
+  background:
+    rgba(147,51,234,.82);
+}
+
+.vtu{
+  background:
+    rgba(250,204,21,.88);
+
+  color:#1f2937;
+}
+
+.stat{
+  background:
+    rgba(30,41,59,.82);
+}
+
+/* =========================================================
+   BOUTONS
+========================================================= */
+
+button{
+  border:none;
+
+  border-radius:14px;
+
+  padding:12px 16px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.25s;
+}
+
+#btnAdmin,
+.adminBtn,
+#adminLoginBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    );
+
+  color:white;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.18);
+}
+
+#btnAdmin:hover,
+.adminBtn:hover,
+#adminLoginBtn:hover{
+  transform:
+    translateY(-2px);
+}
+
+.logoutBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #ef4444,
+      #b91c1c
+    );
+}
+
+/* =========================================================
+   INSTALL BTN
+========================================================= */
+
+#installBtn{
+  width:100%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #16a34a,
+      #15803d
+    );
+
+  color:white;
+}
+
+/* =========================================================
+   IOS INSTALL
+========================================================= */
+
+#iosInstall{
+  background:
+    rgba(15,23,42,.68);
+
+  backdrop-filter:blur(12px);
+
+  color:white;
+
+  padding:16px;
+
+  border-radius:18px;
+
+  text-align:center;
+
+  font-weight:700;
+}
+
+/* =========================================================
+   ADMIN LOGIN
+========================================================= */
+
+.admin-login{
+  background:
+    rgba(255,255,255,.78);
+
+  backdrop-filter:blur(12px);
+
+  border-radius:22px;
+
+  padding:1.2rem;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.18);
+}
+
+.admin-login h2{
+  text-align:center;
+  margin-bottom:1rem;
+  color:#b91c1c;
+}
+
+.admin-login input{
+  width:100%;
+
+  padding:12px;
+
+  margin:8px 0;
+
+  border-radius:12px;
+
+  border:
+    1px solid rgba(0,0,0,.1);
+
+  outline:none;
+}
+
+/* =========================================================
+   INFO APP
+========================================================= */
+
+.info-app{
+  background:
+    rgba(255,255,255,.78);
+
+  backdrop-filter:blur(12px);
+
+  padding:1.2rem;
+
+  border-radius:22px;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.12);
+}
+
+.info-app h2{
+  text-align:center;
+  margin-bottom:1rem;
+  color:#111827;
+}
+
+.info-app table{
+  width:100%;
+
+  border-collapse:separate;
+  border-spacing:0 10px;
+
+  font-size:.88rem;
+}
+
+.info-app th{
+  background:
+    rgba(15,23,42,.92);
+
+  color:white;
+
+  padding:12px;
+
+  border-radius:10px;
+
+  text-align:left;
+}
+
+.info-app td{
+  background:
+    rgba(255,255,255,.92);
+
+  padding:12px;
+
+  border-radius:10px;
+
+  color:#111827;
+}
+
+/* =========================================================
+   PANEL ADMIN
+========================================================= */
+
+#adminPanel{
+  background:
+    rgba(255,255,255,.78);
+
+  backdrop-filter:blur(12px);
+
+  border-radius:22px;
+
+  padding:1.2rem;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.15);
+}
+
+/* =========================================================
+   CONSOLE ADMIN
+========================================================= */
+
+#adminConsole{
+  background:
+    rgba(255,255,255,.72);
+
+  border-radius:14px;
+
+  padding:1rem;
+
+  backdrop-filter:blur(8px);
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal-bg,
+.modalConsignes{
+  position:fixed;
+  inset:0;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  background:
+    rgba(15,23,42,.58);
+
+  backdrop-filter:blur(12px);
+
+  z-index:99999;
+}
+
+.modal-content,
+.modalConsignesContent{
+  width:min(92%,420px);
+
+  padding:24px;
+
+  border-radius:24px;
+
+  background:
+    rgba(255,255,255,.88);
+
+  backdrop-filter:blur(16px);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.28);
+
+  animation:popupAnim .25s ease;
+}
+
+@keyframes popupAnim{
+
+  from{
+    opacity:0;
+    transform:
+      scale(.92)
+      translateY(10px);
+  }
+
+  to{
+    opacity:1;
+    transform:
+      scale(1)
+      translateY(0);
+  }
+}
+
+.modal-content h2,
+.modalConsignesContent h2{
+  text-align:center;
+  color:#b91c1c;
+  margin-bottom:1rem;
+}
+
+.modal-content input{
+  width:100%;
+
+  padding:12px;
+
+  margin:8px 0;
+
+  border-radius:12px;
+
+  border:
+    1px solid rgba(0,0,0,.1);
+
+  outline:none;
+}
+
+/* =========================================================
+   CLOSE BTN
+========================================================= */
+
+.closeConsignes{
+  position:absolute;
+
+  top:12px;
+  right:12px;
+
+  width:40px;
+  height:40px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#dc2626;
+
+  color:white;
+
+  font-size:1rem;
+  font-weight:800;
+
+  cursor:pointer;
+}
+
+/* =========================================================
+   CONSIGNES TEXT
+========================================================= */
+
+.consignesText{
+  line-height:1.8;
+  color:#1f2937;
+  font-weight:600;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+  text-align:center;
+
+  padding:1rem;
+
+  background:
+    rgba(15,23,42,.35);
+
+  backdrop-filter:blur(12px);
+
+  color:white;
+
+  font-size:.85rem;
+
+  border-top:
+    1px solid rgba(255,255,255,.08);
+}

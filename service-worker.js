@@ -1,4 +1,4 @@
-const CACHE_NAME = "cis-taverny-pro-v5";
+const CACHE_NAME = "cis-taverny-pro-v6";
 
 // =========================
 // FICHIERS OFFLINE
