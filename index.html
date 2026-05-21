@@ -5,37 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Accueil – CIS Taverny</title>
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
+<!-- =========================
+     PWA FIX (IMPORTANT)
+========================= -->
+<link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#c62828">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 
 <meta name="mobile-web-app-capable" content="yes">
-<!-- iOS PWA -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="CIS Taverny">
 
-<!-- Désactive détection auto -->
+<link rel="apple-touch-icon" href="./images/logo.png">
+<link rel="shortcut icon" href="./images/logo.png">
+
 <meta name="format-detection" content="telephone=no">
 
-<!-- Icônes Apple -->
-<link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
+<!-- Cache OFF -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 
-<!-- Splash screen couleur -->
-<meta name="theme-color" content="#c62828">
-
-<link rel="shortcut icon" href="images/logo.png">
-
-<!-- jsPDF -->
+<!-- Librairies -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
-<!-- Font Awesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
 <link rel="stylesheet" href="style.css">
 
 </head>
@@ -271,16 +266,27 @@ Console administration...
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
 
 <script>
-// --- Mise à jour de la date ---
-document.getElementById('date').textContent =
-  new Date().toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
+document.addEventListener("DOMContentLoaded", () => {
 
-// --- Firebase config ---
+/* =========================
+   DATE
+========================= */
+const dateEl = document.getElementById("date");
+
+function setDate() {
+  if (!dateEl) return;
+  dateEl.textContent = new Date().toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+setDate();
+
+/* =========================
+   FIREBASE INIT
+========================= */
 const firebaseConfig = {
   apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
@@ -291,50 +297,81 @@ const firebaseConfig = {
   measurementId: "G-KVSC8V8M1B"
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 const db = firebase.firestore();
 
-// --- Gestion du nom ---
-const inputNom = document.getElementById('verificateur');
-const vehicules = ['btn-vsav','btn-fpt','btn-ccf','btn-vsr','btn-vtu'];
+/* =========================
+   ELEMENTS
+========================= */
+const inputNom = document.getElementById("verificateur");
 
-// Lundi message
+const vehicules = [
+  "btn-vsav",
+  "btn-fpt",
+  "btn-ccf",
+  "btn-vsr",
+  "btn-vtu"
+];
+
+/* =========================
+   LUNDI MESSAGE
+========================= */
 if (new Date().getDay() === 1) {
-  document.getElementById('lundi-msg').style.display = 'block';
+  const el = document.getElementById("lundi-msg");
+  if (el) el.style.display = "block";
 }
 
-// --- stockage 24h ---
-const nomStocke = JSON.parse(localStorage.getItem('nomVerificateur24h'));
+/* =========================
+   STOCKAGE NOM 24H
+========================= */
+const saved = JSON.parse(localStorage.getItem("nomVerificateur24h"));
 
-if (nomStocke) {
+if (saved) {
   const now = Date.now();
-  if (now - nomStocke.timestamp < 24 * 60 * 60 * 1000) {
-    inputNom.value = nomStocke.nom;
-    const enable = nomStocke.nom.length >= 3;
-    vehicules.forEach(id => document.getElementById(id).disabled = !enable);
+
+  if (now - saved.timestamp < 24 * 60 * 60 * 1000) {
+    inputNom.value = saved.nom;
+
+    const enable = saved.nom.length >= 3;
+    vehicules.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle("disabled", !enable);
+    });
   } else {
-    localStorage.removeItem('nomVerificateur24h');
+    localStorage.removeItem("nomVerificateur24h");
   }
 }
 
-// --- input nom ---
-inputNom.addEventListener('input', () => {
+/* =========================
+   INPUT NOM
+========================= */
+inputNom?.addEventListener("input", () => {
+
   const val = inputNom.value.trim().toUpperCase();
   inputNom.value = val;
 
   const enable = val.length >= 3;
-  vehicules.forEach(id => document.getElementById(id).disabled = !enable);
+
+  vehicules.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle("disabled", !enable);
+  });
 
   if (enable) {
-    localStorage.setItem('nomVerificateur24h', JSON.stringify({
+    localStorage.setItem("nomVerificateur24h", JSON.stringify({
       nom: val,
       timestamp: Date.now()
     }));
   }
 });
 
-// --- sélection véhicule ---
-function selectVehicule(v) {
+/* =========================
+   VEHICULE SELECT
+========================= */
+window.selectVehicule = function(v) {
+
   const nom = inputNom.value.trim().toUpperCase();
 
   if (nom.length < 3) {
@@ -342,650 +379,231 @@ function selectVehicule(v) {
     return;
   }
 
-  localStorage.setItem('nomVerificateur', nom);
-  localStorage.setItem('vehiculeSelectionne', v);
+  localStorage.setItem("nomVerificateur", nom);
+  localStorage.setItem("vehiculeSelectionne", v);
 
   const pages = {
-    VSSUAP: 'VSAV.html',
-    FPTGP: 'FPT.html',
-    CCFM: 'CCF.html',
-    VSRM: 'VSR.html',
-    VTU: 'VTU.html'
+    VSSUAP: "VSAV.html",
+    FPTGP: "FPT.html",
+    CCFM: "CCF.html",
+    VSRM: "VSR.html",
+    VTU: "VTU.html"
   };
 
   location.href = pages[v];
-}
-
-// --- EXPORT PDF + RESET ---
-function exportAndResetDB() {
-
-  // 🔐 MODAL LOGIN
-  const modal = document.createElement('div');
-  modal.className = 'modal-bg';
-
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h2>Connexion Admin</h2>
-      <input id="loginUser" placeholder="Nom d'utilisateur">
-      <input id="loginPass" type="password" placeholder="Mot de passe">
-      <button id="loginBtn">Connexion</button>
-    </div>
-  `;
-
-  document.body.appendChild(modal);
-
-  document.getElementById('loginBtn').onclick = async () => {
-
-    const user = document.getElementById('loginUser').value;
-    const pass = document.getElementById('loginPass').value;
-
-    if (user !== 'ChefdeCentre' || pass !== 'PompierTav@95150') {
-      alert('Accès refusé');
-      return;
-    }
-
-    document.body.removeChild(modal);
-
-    try {
-
-      // 🔥 DATA
-      const snapshot = await db.collection("verifications")
-        .orderBy("date", "asc")
-        .get();
-
-      if (snapshot.empty) {
-        alert("Pas de données à exporter !");
-        return;
-      }
-
-      // 🔥 GROUP BY DAY
-      const grouped = {};
-
-      snapshot.forEach(docSnap => {
-        const d = docSnap.data();
-        const dateObj = d.date?.toDate();
-        if (!dateObj) return;
-
-        const dayKey = dateObj.toISOString().slice(0, 10);
-
-        const manquants = Object.entries(d.data || {})
-          .filter(([k, v]) => !v)
-          .map(([k]) => k);
-
-        const row = [
-          dateObj.toLocaleTimeString(),
-          d.nomDoc || "",
-          d.verificateur || "",
-          manquants.length ? manquants.join(" / ") : "RAS"
-        ];
-
-        if (!grouped[dayKey]) grouped[dayKey] = [];
-        grouped[dayKey].push(row);
-      });
-
-    // =========================
-// 📄 PDF PRO - KPI + LOGO + CLEAN TEXT
-// =========================
-
-const docPDF = new jspdf.jsPDF({
-  unit: "mm",
-  format: "a4"
-});
-
-const primaryColor = [183, 28, 28];
-const dark = [40, 40, 40];
-const gray = [90, 90, 90];
-
-const now = new Date();
-
-// =========================
-// 📅 DATES PROPRES (SAFE)
-// =========================
-
-const pad = (n) => String(n).padStart(2, "0");
-
-const fileDate =
-  now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-" + pad(now.getDate());
-
-const labelDate =
-  pad(now.getDate()) + "/" + pad(now.getMonth() + 1) + "/" + now.getFullYear() +
-  " " + pad(now.getHours()) + ":" + pad(now.getMinutes());
-
-// =========================
-// 📊 KPI CALCULS
-// =========================
-
-let totalChecks = 0;
-let totalAnomalies = 0;
-
-Object.values(grouped).forEach(day => {
-  day.forEach(row => {
-    totalChecks++;
-    if (row[3] && row[3] !== "RAS") totalAnomalies++;
-  });
-});
-
-const conformity =
-  totalChecks > 0
-    ? Math.round(((totalChecks - totalAnomalies) / totalChecks) * 100)
-    : 0;
-
-// =========================
-// 🏷️ PAGE 1 - RAPPORT GLOBAL (REMPLIE)
-// =========================
-
-// HEADER BAR
-docPDF.setFillColor(...primaryColor);
-docPDF.rect(0, 0, 210, 25, "F");
-
-docPDF.setTextColor(255, 255, 255);
-docPDF.setFont("helvetica", "bold");
-docPDF.setFontSize(16);
-docPDF.text("CIS TAVERNY - RAPPORT DE VERIFICATIONS", 14, 15);
-
-// LOGO (si dispo)
-try {
-  docPDF.addImage("images/logo.png", "PNG", 170, 3, 20, 20);
-} catch (e) {}
-
-// INFO DATE
-docPDF.setFontSize(10);
-docPDF.text("Date export: " + labelDate, 14, 32);
-
-// =========================
-// 📦 BLOC KPI (PAGE 1 BIEN REMPLIE)
-// =========================
-
-docPDF.setFillColor(245, 245, 245);
-docPDF.roundedRect(14, 40, 182, 60, 3, 3, "F");
-
-docPDF.setTextColor(...dark);
-docPDF.setFontSize(13);
-docPDF.text("INDICATEURS OPERATIONNELS", 20, 52);
-
-// LIGNE 1
-docPDF.setFontSize(11);
-docPDF.text("Total des verifications :", 20, 65);
-docPDF.text(String(totalChecks), 110, 65);
-
-// LIGNE 2
-docPDF.text("Anomalies detectees :", 20, 75);
-docPDF.text(String(totalAnomalies), 110, 75);
-
-// LIGNE 3
-docPDF.text("Taux de conformite :", 20, 85);
-docPDF.text(conformity + " %", 110, 85);
-
-// BAR VISUEL SIMPLE
-docPDF.setFillColor(220, 220, 220);
-docPDF.rect(20, 92, 160, 6, "F");
-
-docPDF.setFillColor(76, 175, 80);
-docPDF.rect(20, 92, Math.min(160, (conformity / 100) * 160), 6, "F");
-
-// LABEL BAS
-docPDF.setFontSize(9);
-docPDF.setTextColor(...gray);
-docPDF.text("Niveau de conformite global", 20, 104);
-
-// =========================
-// ➡️ PAGE 2 - DETAIL
-// =========================
-
-docPDF.addPage();
-
-let currentY = 15;
-
-// =========================
-// 📊 DETAIL PAR JOUR
-// =========================
-
-Object.keys(grouped).forEach(day => {
-
-  const parts = day.split("-");
-  const dateFR =
-    parts[2] + "/" + parts[1] + "/" + parts[0];
-
-  if (currentY > 250) {
-    docPDF.addPage();
-    currentY = 15;
-  }
-
-  // TITRE JOUR
-  docPDF.setFillColor(255, 235, 235);
-  docPDF.rect(14, currentY - 6, 182, 8, "F");
-
-  docPDF.setTextColor(...primaryColor);
-  docPDF.setFontSize(11);
-  docPDF.text("Date : " + dateFR, 16, currentY);
-
-  currentY += 6;
-
-  docPDF.autoTable({
-    startY: currentY,
-    head: [["Heure", "Vehicule", "Verificateur", "Materiel manquant"]],
-    body: grouped[day],
-
-    theme: "grid",
-
-    styles: {
-      fontSize: 8,
-      cellPadding: 2,
-      textColor: dark
-    },
-
-    headStyles: {
-      fillColor: primaryColor,
-      textColor: 255
-    },
-
-    alternateRowStyles: {
-      fillColor: [245, 245, 245]
-    },
-
-    margin: { left: 14, right: 14 }
-  });
-
-  currentY = docPDF.lastAutoTable.finalY + 8;
-});
-
-// =========================
-// 📄 FOOTER
-// =========================
-
-const pageCount = docPDF.internal.getNumberOfPages();
-
-for (let i = 1; i <= pageCount; i++) {
-  docPDF.setPage(i);
-
-  docPDF.setFontSize(9);
-  docPDF.setTextColor(120);
-
-  docPDF.text("CIS Taverny - Verification numerique", 14, 290);
-  docPDF.text("Page " + i + " / " + pageCount, 180, 290);
-}
-
-// =========================
-// 💾 NOM DE FICHIER PRO
-// =========================
-
-const fileName =
-  "CIS_TAV_VERIF_" +
-  fileDate +
-  "_RAPPORT_OPERATIONNEL";
-
-docPDF.save(fileName + ".pdf");
-
-      // RESET DB
-      if (confirm("Voulez-vous maintenant réinitialiser la base de données ?")) {
-
-        const batch = db.batch();
-
-        snapshot.forEach(docSnap => {
-          batch.delete(docSnap.ref);
-        });
-
-        await batch.commit();
-
-        alert("Base de données réinitialisée ✅");
-      }
-
-    } catch (e) {
-      console.error(e);
-      alert("Erreur : " + e.message);
-    }
-  };
-}
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js")
-    .then(() => console.log("Service Worker actif"))
-    .catch(err => console.log("Erreur SW", err));
-}
-
-</script>
-
-<script>
-// ============================
-// 📲 INSTALL PWA PROMPT
-// ============================
-
-let deferredPrompt;
+};
+
+/* =========================
+   PWA INSTALL
+========================= */
+let deferredPrompt = null;
 const installBtn = document.getElementById("installBtn");
 
 window.addEventListener("beforeinstallprompt", (e) => {
-
   e.preventDefault();
-
   deferredPrompt = e;
 
-  installBtn.style.display = "block";
-
+  if (installBtn) installBtn.style.display = "block";
 });
 
-installBtn.addEventListener("click", async () => {
-
+installBtn?.addEventListener("click", async () => {
   if (!deferredPrompt) return;
 
   deferredPrompt.prompt();
-
-  const { outcome } = await deferredPrompt.userChoice;
-
-  if (outcome === "accepted") {
-    console.log("Application installée");
-  }
+  await deferredPrompt.userChoice;
 
   deferredPrompt = null;
-
   installBtn.style.display = "none";
-
 });
 
-// ============================
-// 🔒 MODE APPLICATION
-// ============================
-
-if (window.matchMedia("(display-mode: standalone)").matches) {
-  document.body.classList.add("standalone");
+/* =========================
+   SERVICE WORKER (GITHUB PAGES FIX)
+========================= */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./service-worker.js", {
+    scope: "./"
+  })
+  .then(() => console.log("SW OK"))
+  .catch(err => console.log("SW ERROR", err));
 }
-</script>
-<script>
 
-// =========================
-// 🔐 LOGIN ADMIN FIRESTORE
-// =========================
+/* =========================
+   ADMIN PANEL
+========================= */
+window.openAdminPanel = function () {
+  const panel = document.getElementById("adminPanel");
+  if (!panel) return;
 
-const adminBtn =
-document.getElementById("adminLoginBtn");
+  panel.style.display =
+    panel.style.display === "none" ? "block" : "none";
+};
 
-adminBtn.addEventListener("click", async () => {
+/* =========================
+   LOGIN ADMIN FIRESTORE
+========================= */
+const adminBtn = document.getElementById("adminLoginBtn");
 
-  const username =
-    document.getElementById("adminUser").value.trim();
+adminBtn?.addEventListener("click", async () => {
 
-  const password =
-    document.getElementById("adminPass").value.trim();
-
-  const status =
-    document.getElementById("adminStatus");
+  const username = document.getElementById("adminUser").value.trim();
+  const password = document.getElementById("adminPass").value.trim();
+  const status = document.getElementById("adminStatus");
 
   if (!username || !password) {
-
     status.style.color = "red";
-    status.innerText =
-      "Veuillez remplir les champs";
-
+    status.innerText = "Veuillez remplir les champs";
     return;
   }
 
   try {
-
-    const docRef =
-      db.collection("users").doc(username);
-
-    const docSnap =
-      await docRef.get();
+    const docRef = db.collection("users").doc(username);
+    const docSnap = await docRef.get();
 
     if (!docSnap.exists) {
-
       status.style.color = "red";
-      status.innerText =
-        "Utilisateur introuvable";
-
+      status.innerText = "Utilisateur introuvable";
       return;
     }
 
     const data = docSnap.data();
 
     if (data.password !== password) {
-
       status.style.color = "red";
-      status.innerText =
-        "Mot de passe incorrect";
-
+      status.innerText = "Mot de passe incorrect";
       return;
     }
 
-    // LOGIN OK
     status.style.color = "green";
-    status.innerText =
-      "Connexion réussie ✅";
+    status.innerText = "Connexion réussie ✅";
 
-    localStorage.setItem(
-      "adminConnected",
-      "true"
-    );
+    localStorage.setItem("adminConnected", "true");
+    localStorage.setItem("adminUser", username);
 
-    localStorage.setItem(
-      "adminUser",
-      username
-    );
-
-    document.getElementById("btnAdmin")
-      .style.display = "block";
-
+    document.getElementById("btnAdmin").style.display = "block";
     openAdminPanel();
 
   } catch (e) {
-
-    console.error(e);
-
     status.style.color = "red";
-    status.innerText =
-      "Erreur serveur";
-
+    status.innerText = "Erreur serveur";
   }
-
 });
 
-// =========================
-// 🔓 AUTO LOGIN
-// =========================
-
-if (
-  localStorage.getItem("adminConnected")
-  === "true"
-){
-
-  document.getElementById("btnAdmin")
-    .style.display = "block";
-
+/* =========================
+   AUTO LOGIN ADMIN
+========================= */
+if (localStorage.getItem("adminConnected") === "true") {
+  const btn = document.getElementById("btnAdmin");
+  if (btn) btn.style.display = "block";
 }
 
-// =========================
-// ⚙️ OPEN PANEL
-// =========================
+/* =========================
+   CREATE USER
+========================= */
+window.createNewUser = async function () {
 
-function openAdminPanel(){
+  const username = prompt("Nom utilisateur");
+  if (!username) return;
 
-  const panel =
-    document.getElementById("adminPanel");
+  const password = prompt("Mot de passe");
+  if (!password) return;
 
-  panel.style.display =
-    panel.style.display === "none"
-    ? "block"
-    : "none";
-
-}
-
-// =========================
-// 👤 CREATE USER
-// =========================
-
-async function createNewUser(){
-
-  const username =
-    prompt("Nom utilisateur");
-
-  if(!username) return;
-
-  const password =
-    prompt("Mot de passe");
-
-  if(!password) return;
-
-
-  try{
-
-    await db.collection("users")
-.doc(username)
-.set({
-
-  password: password,
-  createdAt: new Date()
-
-});
-
-    adminLog(
-      "Utilisateur ajouté : "
-      + username
-    );
-
-  }catch(e){
-
-    adminLog("Erreur : " + e.message);
-
-  }
-
-}
-
-// =========================
-// 🗑️ DELETE USER
-// =========================
-
-async function deleteUser(){
-
-  const username =
-    prompt("Utilisateur à supprimer");
-
-  if(!username) return;
-
-  try{
-
-    await db.collection("users")
-    .doc(username)
-    .delete();
-
-    adminLog(
-      "Utilisateur supprimé : "
-      + username
-    );
-
-  }catch(e){
-
-    adminLog("Erreur : " + e.message);
-
-  }
-
-}
-
-// =========================
-// 📋 LIST USERS
-// =========================
-
-async function listUsers(){
-
-  try{
-
-    const snap =
-      await db.collection("users").get();
-
-    let html =
-      "<b>Liste utilisateurs :</b><br><br>";
-
-    snap.forEach(doc => {
-
-      const d = doc.data();
-
-      html +=
-  "👤 "
-  + doc.id
-  + "<br>";
-
+  try {
+    await db.collection("users").doc(username).set({
+      password,
+      createdAt: new Date()
     });
 
-    document.getElementById(
-      "adminConsole"
-    ).innerHTML = html;
+    adminLog("Utilisateur ajouté : " + username);
 
-  }catch(e){
-
+  } catch (e) {
     adminLog("Erreur : " + e.message);
-
   }
+};
 
-}
+/* =========================
+   DELETE USER
+========================= */
+window.deleteUser = async function () {
 
-// =========================
-// 🚪 LOGOUT
-// =========================
+  const username = prompt("Utilisateur à supprimer");
+  if (!username) return;
 
-function logoutAdmin(){
+  try {
+    await db.collection("users").doc(username).delete();
+    adminLog("Utilisateur supprimé : " + username);
+  } catch (e) {
+    adminLog("Erreur : " + e.message);
+  }
+};
 
-  localStorage.removeItem(
-    "adminConnected"
-  );
+/* =========================
+   LIST USERS
+========================= */
+window.listUsers = async function () {
 
-  localStorage.removeItem(
-    "adminUser"
-  );
+  try {
+    const snap = await db.collection("users").get();
 
-  document.getElementById(
-    "adminPanel"
-  ).style.display = "none";
+    let html = "<b>Liste utilisateurs :</b><br><br>";
 
-  document.getElementById(
-    "btnAdmin"
-  ).style.display = "none";
+    snap.forEach(doc => {
+      html += "👤 " + doc.id + "<br>";
+    });
+
+    document.getElementById("adminConsole").innerHTML = html;
+
+  } catch (e) {
+    adminLog("Erreur : " + e.message);
+  }
+};
+
+/* =========================
+   LOGOUT ADMIN
+========================= */
+window.logoutAdmin = function () {
+
+  localStorage.removeItem("adminConnected");
+  localStorage.removeItem("adminUser");
+
+  document.getElementById("adminPanel").style.display = "none";
+  document.getElementById("btnAdmin").style.display = "none";
 
   alert("Déconnecté");
+};
 
+/* =========================
+   ADMIN LOG
+========================= */
+function adminLog(msg) {
+  const c = document.getElementById("adminConsole");
+  if (c) c.innerHTML = msg;
 }
 
-// =========================
-// 🖥️ CONSOLE ADMIN
-// =========================
+/* =========================
+   IOS INSTALL MESSAGE
+========================= */
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone = window.navigator.standalone;
 
-function adminLog(msg){
-
-  document.getElementById(
-    "adminConsole"
-  ).innerHTML =
-    msg;
-
+if (isIOS && !isStandalone) {
+  const ios = document.getElementById("iosInstall");
+  if (ios) ios.style.display = "block";
 }
 
-const isIOS =
-  /iphone|ipad|ipod/i.test(
-    navigator.userAgent
-  );
+/* =========================
+   CONSIGNES MODAL
+========================= */
+window.openConsignes = function () {
+  const m = document.getElementById("consignesModal");
+  if (m) m.style.display = "flex";
+};
 
-const isStandalone =
-  window.navigator.standalone;
+window.closeConsignes = function () {
+  const m = document.getElementById("consignesModal");
+  if (m) m.style.display = "none";
+};
 
-if(isIOS && !isStandalone){
-
-  document.getElementById(
-    "iosInstall"
-  ).style.display = "block";
-
-}
-
-function openConsignes(){
-
-  document.getElementById(
-    "consignesModal"
-  ).style.display = "flex";
-
-}
-
-function closeConsignes(){
-
-  document.getElementById(
-    "consignesModal"
-  ).style.display = "none";
-
-}
-
+});
 </script>
 <!-- =========================
      POPUP CONSIGNES
