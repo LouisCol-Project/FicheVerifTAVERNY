@@ -3,8 +3,8 @@
   "short_name": "CIS Taverny - Vérifications",
   "description": "Application opérationnelle des vérifications du CIS Taverny",
 
-  "start_url": "/",
-  "scope": "/",
+ "start_url": "/index.html",
+"scope": "/"
 
   "display": "standalone",
   "display_override": [

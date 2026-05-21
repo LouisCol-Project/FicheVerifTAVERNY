@@ -1,24 +1,22 @@
-const CACHE_NAME = "cis-taverny-pro-v8";
-
-// =========================
-// FICHIERS OFFLINE
-// =========================
+const CACHE_NAME = "cis-taverny-pro-v10";
 
 const CORE_ASSETS = [
 
-  "/",
-  "/index.html",
-  "/manifest.json",
-  "/images/logo.png",
+  "./",
+  "./index.html",
+  "./style.css",
+  "./manifest.json",
 
-  // CSS / pages importantes
-  "/VSAV.html",
-  "/FPT.html",
-  "/CCF.html",
-  "/VSR.html",
-  "/VTU.html",
-  "/Historique.html",
-  "/Stats.html"
+  "./images/logo.png",
+  "./images/TAV.png",
+
+  "./VSAV.html",
+  "./FPT.html",
+  "./CCF.html",
+  "./VSR.html",
+  "./VTU.html",
+  "./Historique.html",
+  "./Stats.html"
 
 ];
 
@@ -49,31 +47,20 @@ self.addEventListener("install", (event) => {
 // =========================
 
 self.addEventListener("activate", (event) => {
-
   event.waitUntil(
-
-    caches.keys().then((keys) => {
-
-      return Promise.all(
-
+    caches.keys().then((keys) =>
+      Promise.all(
         keys.map((key) => {
-
           if (key !== CACHE_NAME) {
-
             return caches.delete(key);
-
           }
-
         })
-
-      );
-
-    })
-
+      )
+    )
   );
 
+  // 🔥 FORCE UPDATE IMMEDIATE
   return self.clients.claim();
-
 });
 
 // =========================

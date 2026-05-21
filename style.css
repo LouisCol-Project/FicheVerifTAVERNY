@@ -12,7 +12,7 @@ body{
 
   font-family:'Segoe UI',sans-serif;
 
-  color:white;
+  color:#111;
 
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
@@ -29,11 +29,11 @@ body{
 body{
   position:relative;
   min-height:100vh;
-  background:#000;
+  background:#f4f6f8;
 }
 
 /* =========================================================
-   IMAGE DE FOND
+   IMAGE DE FOND (CONSERVÉE)
 ========================================================= */
 
 .app-bg{
@@ -42,8 +42,8 @@ body{
 
   background-image:
     linear-gradient(
-      rgba(0,0,0,.30),
-      rgba(0,0,0,.45)
+      rgba(255,255,255,.35),
+      rgba(255,255,255,.55)
     ),
     url("images/TAV.png");
 
@@ -54,7 +54,6 @@ body{
   z-index:-10;
 
   will-change:transform;
-
   transform:translateZ(0);
 }
 
@@ -95,8 +94,7 @@ header{
 
   cursor:pointer;
 
-  filter:
-    drop-shadow(0 5px 18px rgba(0,0,0,.7));
+  filter:drop-shadow(0 5px 18px rgba(0,0,0,.2));
 }
 
 /* =========================================================
@@ -113,12 +111,9 @@ header h1{
   font-size:2rem;
   font-weight:900;
 
-  color:white;
+  color:#111;
 
   line-height:1.1;
-
-  text-shadow:
-    0 4px 15px rgba(0,0,0,.8);
 }
 
 /* =========================================================
@@ -132,15 +127,13 @@ header h1{
 }
 
 /* =========================================================
-   DATE
+   DATE (REMIS VISIBLE)
 ========================================================= */
 
 #date{
   font-size:.95rem;
   font-weight:700;
-
-  text-shadow:
-    0 2px 8px rgba(0,0,0,.9);
+  color:#111;
 }
 
 /* =========================================================
@@ -158,12 +151,9 @@ header h1{
   align-items:center;
   justify-content:center;
 
-  background:
-    rgba(255,255,255,.18);
+  background:rgba(0,0,0,.08);
 
-  backdrop-filter:blur(12px);
-
-  color:white;
+  color:#111;
 
   font-size:1.25rem;
   font-weight:900;
@@ -172,8 +162,7 @@ header h1{
 
   flex-shrink:0;
 
-  box-shadow:
-    0 5px 18px rgba(0,0,0,.35);
+  box-shadow:0 5px 18px rgba(0,0,0,.15);
 
   transition:.2s;
 }
@@ -215,16 +204,9 @@ main{
   font-size:1rem;
   font-weight:800;
 
-  background:
-    rgba(255,193,7,.16);
+  background:rgba(255,193,7,.25);
 
-  backdrop-filter:blur(12px);
-
-  border:
-    1px solid rgba(255,255,255,.18);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.25);
+  border:1px solid rgba(0,0,0,.08);
 }
 
 /* =========================================================
@@ -239,24 +221,20 @@ main{
   border:none;
   border-radius:22px;
 
-  background:
-    rgba(255,255,255,.14);
+  background:rgba(255,255,255,.85);
 
-  backdrop-filter:blur(12px);
-
-  color:white;
+  color:#111;
 
   font-size:1rem;
   font-weight:700;
 
   outline:none;
 
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.22);
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
 
 #verificateur::placeholder{
-  color:rgba(255,255,255,.72);
+  color:rgba(0,0,0,.45);
 }
 
 /* =========================================================
@@ -274,12 +252,7 @@ main{
 
   border-radius:22px !important;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(67,160,71,.95),
-      rgba(46,125,50,.95)
-    ) !important;
+  background:linear-gradient(135deg,#43a047,#2e7d32) !important;
 
   color:white !important;
 
@@ -288,10 +261,7 @@ main{
 
   cursor:pointer;
 
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.3);
-
-  backdrop-filter:blur(10px);
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
 }
 
 /* =========================================================
@@ -299,104 +269,122 @@ main{
 ========================================================= */
 
 #iosInstall{
-  background:
-    rgba(0,0,0,.45) !important;
+  background:rgba(255,255,255,.9) !important;
 
-  backdrop-filter:blur(12px);
-
-  border:
-    1px solid rgba(255,255,255,.12);
+  border:1px solid rgba(0,0,0,.08);
 
   border-radius:22px !important;
 
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.25);
+  box-shadow:0 10px 25px rgba(0,0,0,.12);
 }
 
 /* =========================================================
-   VEHICULES
+   VEHICULES - GRID PROPRE + CENTRÉ
 ========================================================= */
 
 .vehicules{
   display:grid;
 
-  grid-template-columns:
-    repeat(auto-fit,minmax(160px,1fr));
-
-  gap:18px;
-}
-
-.vehicule{
-  min-height:145px;
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  /* 3 colonnes = 2 lignes propres */
+  grid-template-columns:repeat(3, 1fr);
 
   gap:12px;
 
-  padding:20px;
+  /* centre les items si dernière ligne incomplète */
+  justify-items:center;
+}
 
-  border-radius:28px;
+/* =========================================================
+   CARTE VEHICULE
+========================================================= */
 
-  font-size:1rem;
-  font-weight:800;
+.vehicule{
+  width:100%;          /* important pour centrage propre */
+  max-width:160px;     /* boutons plus petits */
 
-  text-align:center;
+  min-height:90px;
 
-  color:white;
+  padding:10px;
+
+  border-radius:18px;
+
+  font-size:.82rem;
+  font-weight:900;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;   /* centre horizontal */
+  justify-content:center;/* centre vertical */
+  text-align:center;     /* centre texte */
+
+  gap:6px;
 
   cursor:pointer;
 
-  backdrop-filter:blur(12px);
+  color:#111;
 
-  border:
-    1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.95);
 
-  box-shadow:
-    0 12px 30px rgba(0,0,0,.28);
+  border:1px solid rgba(0,0,0,.12);
 
-  transition:.22s;
+  box-shadow:0 8px 18px rgba(0,0,0,.10);
+
+  transition:.2s ease;
 }
 
+/* hover léger */
 .vehicule:hover{
-  transform:
-    translateY(-4px)
-    scale(1.02);
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 14px 28px rgba(0,0,0,.14);
 }
 
+/* icône plus petite */
 .vehicule i{
-  font-size:2rem;
+  font-size:1.4rem;
 }
 
-/* couleurs */
+/* =========================================================
+   BOUTON SEUL (dernier item centré)
+========================================================= */
+
+.vehicules .vehicule:last-child:nth-child(3n+1){
+  grid-column:2; /* centre le bouton seul */
+}
+
+/* =========================================================
+   COULEURS PLUS VIVES (plus lisibles)
+========================================================= */
 
 .vsav{
-  background:rgba(229,57,53,.72);
+  background:linear-gradient(135deg,#ffebee,#ffcdd2);
+  border-color:rgba(229,57,53,.25);
 }
 
 .fpt{
-  background:rgba(251,140,0,.72);
+  background:linear-gradient(135deg,#fff3e0,#ffe0b2);
+  border-color:rgba(251,140,0,.25);
 }
 
 .ccf{
-  background:rgba(67,160,71,.72);
+  background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
+  border-color:rgba(67,160,71,.25);
 }
 
 .vsr{
-  background:rgba(142,36,170,.72);
+  background:linear-gradient(135deg,#f3e5f5,#e1bee7);
+  border-color:rgba(142,36,170,.25);
 }
 
 .vtu{
-  background:rgba(253,216,53,.72);
-  color:#222;
+  background:linear-gradient(135deg,#fffde7,#fff59d);
+  border-color:rgba(253,216,53,.35);
+  color:#111;
 }
 
 .stat{
-  background:rgba(60,60,60,.72);
+  background:linear-gradient(135deg,#f5f5f5,#e0e0e0);
+  border-color:rgba(0,0,0,.1);
 }
-
 /* =========================================================
    BLOCS GLASS
 ========================================================= */
@@ -408,16 +396,11 @@ main{
 
   border-radius:28px;
 
-  background:
-    rgba(255,255,255,.12);
+  background:rgba(255,255,255,.85);
 
-  backdrop-filter:blur(14px);
+  border:1px solid rgba(0,0,0,.08);
 
-  border:
-    1px solid rgba(255,255,255,.12);
-
-  box-shadow:
-    0 12px 35px rgba(0,0,0,.28);
+  box-shadow:0 12px 35px rgba(0,0,0,.12);
 }
 
 /* =========================================================
@@ -433,24 +416,28 @@ main{
 .info-app td{
   padding:14px;
 
-  border-bottom:
-    1px solid rgba(255,255,255,.12);
+  border-bottom:1px solid rgba(0,0,0,.08);
 
   text-align:left;
 }
 
+
 /* =========================================================
-   BUTTONS
+   BOUTONS - VERSION QUI RESSORT
 ========================================================= */
 
 button{
   border:none;
   cursor:pointer;
-  font-weight:700;
+  font-weight:800;
+  transition:.2s;
 }
 
+/* Boutons principaux (admin / actions) */
 .adminBtn,
-#btnAdmin{
+#btnAdmin,
+#adminLoginBtn,
+#installBtn{
   width:100%;
 
   padding:16px;
@@ -459,22 +446,45 @@ button{
 
   color:white;
 
-  background:
-    rgba(25,118,210,.72);
+  background:linear-gradient(135deg,#1e88e5,#0d47a1);
 
-  backdrop-filter:blur(12px);
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.18),
+    0 4px 10px rgba(30,136,229,.25);
 
-  transition:.2s;
+  transform:translateY(0);
 }
 
 .adminBtn:hover,
-#btnAdmin:hover{
-  transform:translateY(-2px);
+#btnAdmin:hover,
+#adminLoginBtn:hover,
+#installBtn:hover{
+  transform:translateY(-3px);
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.22),
+    0 6px 14px rgba(30,136,229,.35);
 }
 
+/* Bouton danger (logout) */
 .logoutBtn{
-  background:
-    rgba(198,40,40,.72);
+  background:linear-gradient(135deg,#e53935,#b71c1c);
+  box-shadow:0 10px 25px rgba(229,57,53,.25);
+}
+
+/* HELP BUTTON (petit mais visible) */
+#helpBtn{
+  background:linear-gradient(135deg,#ffffff,#eaeaea);
+  color:#111;
+
+  box-shadow:
+    0 8px 18px rgba(0,0,0,.15);
+
+  border:1px solid rgba(0,0,0,.08);
+}
+
+#helpBtn:hover{
+  transform:scale(1.08);
+  box-shadow:0 12px 22px rgba(0,0,0,.2);
 }
 
 /* =========================================================
@@ -488,12 +498,9 @@ footer{
 
   text-align:center;
 
-  background:
-    rgba(0,0,0,.35);
+  background:rgba(255,255,255,.8);
 
-  backdrop-filter:blur(12px);
-
-  color:white;
+  color:#111;
 }
 
 /* =========================================================
@@ -511,8 +518,7 @@ footer{
 
   padding:20px;
 
-  background:
-    rgba(0,0,0,.65);
+  background:rgba(0,0,0,.4);
 
   z-index:9999;
 }
@@ -524,12 +530,11 @@ footer{
 
   border-radius:30px;
 
-  background:
-    rgba(15,15,15,.94);
-
-  backdrop-filter:blur(18px);
+  background:rgba(255,255,255,.95);
 
   position:relative;
+
+  color:#111;
 }
 
 .closeConsignes{
@@ -556,81 +561,135 @@ footer{
 @media (max-width:768px){
 
   header{
-    flex-direction:column;
-    align-items:flex-start;
-
-    gap:14px;
-
-    padding:
-      calc(env(safe-area-inset-top) + 12px)
-      16px
-      12px
-      16px;
-  }
-
-  .logoHeader{
-    width:78px;
-    height:78px;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:10px;
   }
 
   header h1{
-    width:100%;
+    flex:1 1 100%;
+    font-size:1.2rem;
+  }
 
-    text-align:left;
-
-    font-size:1.45rem;
-    line-height:1.2;
+  .logoHeader{
+    width:62px;
+    height:62px;
   }
 
   .headerRight{
-    width:100%;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    flex:1;
+    justify-content:flex-end;
   }
 
-  #helpBtn{
-    width:46px;
-    height:46px;
-    font-size:1.1rem;
-  }
-
+  /* ✅ DATE REMISE */
   #date{
-    font-size:.82rem;
+    display:block;
   }
 
   main{
     width:92%;
+    gap:18px;
   }
 
   .vehicules{
     grid-template-columns:1fr 1fr;
-    gap:14px;
+    gap:12px;
   }
 
   .vehicule{
-    min-height:120px;
-
-    padding:16px;
-
-    border-radius:22px;
-
-    font-size:.9rem;
+    min-height:110px;
+    padding:14px;
+    border-radius:20px;
+    font-size:.82rem;
   }
 
   .vehicule i{
-    font-size:1.7rem;
+    font-size:1.5rem;
   }
 
   .info-app,
   .admin-login,
   #adminPanel{
-    padding:18px;
-    border-radius:22px;
+    padding:16px;
+    border-radius:20px;
   }
 
   footer{
-    font-size:.85rem;
+    font-size:.82rem;
   }
+}
+
+/* =========================================================
+   LOGIN ADMIN
+========================================================= */
+
+.admin-login{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.admin-login h2{
+  margin:0 0 6px 0;
+  text-align:center;
+  font-size:1.3rem;
+  font-weight:800;
+}
+
+.admin-login input{
+  width:100%;
+
+  padding:16px;
+
+  border:none;
+  border-radius:18px;
+
+  background:rgba(255,255,255,.85);
+
+  color:#111;
+
+  font-size:1rem;
+
+  outline:none;
+
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);
+}
+
+.admin-login input::placeholder{
+  color:rgba(0,0,0,.45);
+}
+
+#adminLoginBtn{
+  width:100%;
+
+  padding:16px !important;
+
+  border:none;
+  border-radius:18px !important;
+
+  background:linear-gradient(135deg,#1976D2,#0D47A1) !important;
+
+  color:white;
+
+  font-size:1rem;
+  font-weight:800;
+
+  margin-top:4px;
+
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+  transition:.2s;
+}
+
+#adminLoginBtn:hover{
+  transform:translateY(-2px);
+}
+
+#adminStatus{
+  min-height:22px;
+
+  text-align:center;
+
+  font-weight:700;
 }
