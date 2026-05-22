@@ -1,132 +1,139 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CCF – CIS Taverny</title>
-<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-<style>
-* { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif; }
-body { background:#FAF3E0; color:#333; min-height:100vh; display:flex; flex-direction:column; }
+  <meta charset="UTF-8">
 
-/* ===== HEADER ===== */
-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0.8rem 1rem;
-  background:#d32f2f;
-  color:white;
-  border-radius:0 0 12px 12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.25);
-}
-header img { height:40px; border-radius:6px; border:2px solid #fff; }
-header h1 { flex:1; text-align:center; font-size:1rem; font-weight:700; margin:0 0.5rem; }
-header #date { font-size:0.8rem; opacity:0.85; }
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-/* ===== MAIN ===== */
-main { flex:1; max-width:700px; width:95%; margin:auto; padding:2rem 0; display:grid; gap:1.5rem; }
+  <title>CCFM – CIS Taverny</title>
 
-/* ===== CARD COMPACTE ===== */
-.card {
-  background: #FFF3E0;
-  border-radius: 16px;
-  padding: 1rem;
-  border: 1px solid #FFD180;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  max-width: 350px;
-  margin: auto;
-}
+  <link
+    rel="shortcut icon"
+    href="images/logo.png"
+    type="image/x-icon"
+  >
 
-.card h2 {
-  text-align: center;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #BF360C;
-  text-transform: uppercase;
-}
+  <!-- FONT AWESOME -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  >
 
-.card .buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 
-/* ===== BOUTONS POSTES ===== */
-.buttons {
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;
-}
-
-button {
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
-  padding:1rem; border:none; border-radius:14px; font-weight:bold; font-size:1rem;
-  cursor:pointer; color:white; text-transform:uppercase; box-shadow:0 4px 8px rgba(0,0,0,0.2);
-  transition:transform 0.2s, filter 0.2s;
-}
-
-button:hover { transform:translateY(-3px); filter:brightness(1.1); }
-
-button i { font-size:1.8rem; }
-
-/* Couleurs postes CCF */
-.CA   { background:#FF0000; }   /* Chef d'agrès */
-.CO   { background:#66FFFF; color:#333; } /* Conducteur */
-.CBAT { background:#9933FF; }   /* Chef */
-.EBAT { background:#FFC000; color:#333; } /* Equipier */
-
-/* ===== FOOTER ===== */
-footer { text-align:center; padding:1rem; font-size:0.85rem; color:#5D4037; border-top:1px solid #E0E0E0; }
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:480px){
-  header h1 { font-size:1.2rem; }
-  button { font-size:0.9rem; padding:0.8rem; }
-  .card { padding:1.5rem; }
-}
-</style>
 </head>
 
 <body>
 
-<header>
-  <img src="images/logo.png" alt="Logo CIS Taverny">
-  <h1>Vérifications CCFM</h1>
-  <div id="header-date"></div>
-</header>
+  <!-- BACKGROUND -->
+  <div class="app-bg"></div>
 
-<main>
-  <div class="card">
-    <h2>Choisissez un poste</h2>
-    <div class="buttons">
-      <button class="CA" onclick="location.href='CACCF.html'">
-        <i class="fa-solid fa-walkie-talkie"></i> Chef d'agrès
-      </button>
-      <button class="CO" onclick="location.href='COCCF.html'">
-        <i class="fas fa-car-side"></i> Conducteur
-      </button>
-      <button class="CBAT" onclick="location.href='CECCF.html'">
-        <i class="fas fa-fire-extinguisher"></i> Chef
-      </button>
-      <button class="EBAT" onclick="location.href='EQCCF.html'">
-        <i class="fas fa-fire-extinguisher"></i> Equipier
-      </button>
+  <!-- HEADER -->
+  <header>
+
+    <!-- LOGO -->
+    <img
+      src="images/logo.png"
+      alt="Logo CIS Taverny"
+      class="logoHeader"
+    >
+
+    <!-- TITRE -->
+    <h1>Vérifications CCFM</h1>
+
+    <!-- DATE -->
+    <div class="headerRight">
+      <div id="date"></div>
     </div>
-  </div>
-</main>
 
-<footer>
-  CIS Taverny – Vérifications opérationnelles
-</footer>
+  </header>
 
-<script>
-// Date dynamique
-document.getElementById('header-date').textContent = new Date().toLocaleDateString('fr-FR', {
-  weekday:'long', day:'numeric', month:'long', year:'numeric'
-});
-</script>
+  <!-- MAIN -->
+  <main>
+
+    <div class="card">
+
+      <h2 class="section-title">
+        Choisissez un poste
+      </h2>
+
+      <!-- VEHICULES -->
+      <div class="vehicules">
+
+        <!-- CHEF D'AGRES -->
+        <button
+          class="vehicule CACCF"
+          onclick="location.href='CACCF.html'"
+        >
+          <i class="fa-solid fa-walkie-talkie"></i>
+
+          <span>Chef d'agrès</span>
+        </button>
+
+        <!-- CONDUCTEUR -->
+        <button
+          class="vehicule COCCF"
+          onclick="location.href='COCCF.html'"
+        >
+          <i class="fas fa-car-side"></i>
+
+          <span>Conducteur</span>
+        </button>
+
+        <!-- CHEF -->
+        <button
+          class="vehicule CBATCCF"
+          onclick="location.href='CECCF.html'"
+        >
+          <i class="fas fa-fire-extinguisher"></i>
+
+          <span>Chef</span>
+        </button>
+
+        <!-- EQUIPIER -->
+        <button
+          class="vehicule EBATCCF"
+          onclick="location.href='EQCCF.html'"
+        >
+          <i class="fas fa-fire-extinguisher"></i>
+
+          <span>Equipier</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    CIS Taverny – Vérifications opérationnelles
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+
+    // DATE DYNAMIQUE
+
+    document.getElementById("date").textContent =
+      new Date().toLocaleDateString(
+        "fr-FR",
+        {
+          weekday:"long",
+          day:"numeric",
+          month:"long",
+          year:"numeric"
+        }
+      );
+
+  </script>
 
 </body>
 </html>

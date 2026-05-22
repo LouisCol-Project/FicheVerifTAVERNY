@@ -1,25 +1,70 @@
 /* =========================================================
+   DESIGN SYSTEM
+========================================================= */
+
+:root{
+
+  /* COLORS */
+  --color-primary:#1976D2;
+  --color-primary-dark:#0D47A1;
+
+  --color-success:#43a047;
+  --color-success-dark:#2e7d32;
+
+  --color-danger:#e53935;
+  --color-danger-dark:#b71c1c;
+
+  --color-warning:#ffc107;
+
+  --color-text:#111;
+  --color-bg:#f4f6f8;
+
+  --glass-bg:rgba(255,255,255,.85);
+  --glass-strong:rgba(255,255,255,.95);
+
+  --border-light:rgba(0,0,0,.08);
+
+  /* RADIUS */
+  --radius-xl:30px;
+  --radius-lg:22px;
+  --radius-md:18px;
+  --radius-sm:14px;
+
+  /* SHADOWS */
+  --shadow-sm:0 5px 18px rgba(0,0,0,.12);
+
+  --shadow-md:
+    0 10px 25px rgba(0,0,0,.15);
+
+  --shadow-lg:
+    0 12px 35px rgba(0,0,0,.12);
+
+  /* TRANSITION */
+  --transition:.2s ease;
+}
+
+/* =========================================================
    RESET GLOBAL
 ========================================================= */
 
-html,
-body{
+*{
   margin:0;
   padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body{
   width:100%;
   min-height:100%;
   overflow-x:hidden;
 
   font-family:'Segoe UI',sans-serif;
 
-  color:#111;
+  color:var(--color-text);
 
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
-}
-
-*{
-  box-sizing:border-box;
 }
 
 /* =========================================================
@@ -29,11 +74,12 @@ body{
 body{
   position:relative;
   min-height:100vh;
-  background:#f4f6f8;
+
+  background:var(--color-bg);
 }
 
 /* =========================================================
-   IMAGE DE FOND (CONSERVÉE)
+   BACKGROUND
 ========================================================= */
 
 .app-bg{
@@ -45,7 +91,7 @@ body{
       rgba(255,255,255,.35),
       rgba(255,255,255,.55)
     ),
-    url("images/TAV.png");
+    url("../images/TAV.png");
 
   background-position:center;
   background-repeat:no-repeat;
@@ -80,6 +126,17 @@ header{
   z-index:50;
 }
 
+header h1{
+  flex:1;
+
+  text-align:center;
+
+  font-size:2rem;
+  font-weight:900;
+
+  line-height:1.1;
+}
+
 /* =========================================================
    LOGO
 ========================================================= */
@@ -98,26 +155,7 @@ header{
 }
 
 /* =========================================================
-   TITRE
-========================================================= */
-
-header h1{
-  flex:1;
-
-  margin:0;
-
-  text-align:center;
-
-  font-size:2rem;
-  font-weight:900;
-
-  color:#111;
-
-  line-height:1.1;
-}
-
-/* =========================================================
-   RIGHT
+   HEADER RIGHT
 ========================================================= */
 
 .headerRight{
@@ -127,48 +165,12 @@ header h1{
 }
 
 /* =========================================================
-   DATE (REMIS VISIBLE)
+   DATE
 ========================================================= */
 
 #date{
   font-size:.95rem;
   font-weight:700;
-  color:#111;
-}
-
-/* =========================================================
-   HELP BTN
-========================================================= */
-
-#helpBtn{
-  width:50px;
-  height:50px;
-
-  border:none;
-  border-radius:50%;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:rgba(0,0,0,.08);
-
-  color:#111;
-
-  font-size:1.25rem;
-  font-weight:900;
-
-  cursor:pointer;
-
-  flex-shrink:0;
-
-  box-shadow:0 5px 18px rgba(0,0,0,.15);
-
-  transition:.2s;
-}
-
-#helpBtn:hover{
-  transform:scale(1.08);
 }
 
 /* =========================================================
@@ -189,7 +191,28 @@ main{
 }
 
 /* =========================================================
-   LUNDI
+   GLASS CARD
+========================================================= */
+
+.card,
+.info-app,
+.admin-login,
+#adminPanel{
+  padding:24px;
+
+  border-radius:var(--radius-xl);
+
+  background:var(--glass-bg);
+
+  border:1px solid var(--border-light);
+
+  box-shadow:var(--shadow-lg);
+
+  backdrop-filter:blur(12px);
+}
+
+/* =========================================================
+   LUNDI MESSAGE
 ========================================================= */
 
 #lundi-msg{
@@ -197,7 +220,7 @@ main{
 
   padding:18px;
 
-  border-radius:22px;
+  border-radius:var(--radius-lg);
 
   text-align:center;
 
@@ -210,230 +233,57 @@ main{
 }
 
 /* =========================================================
-   INPUT
+   INPUTS
 ========================================================= */
 
+input,
+textarea,
+select,
 #verificateur{
   width:100%;
 
   padding:18px 20px;
 
   border:none;
-  border-radius:22px;
 
-  background:rgba(255,255,255,.85);
+  border-radius:var(--radius-lg);
 
-  color:#111;
+  background:var(--glass-bg);
+
+  color:var(--color-text);
 
   font-size:1rem;
   font-weight:700;
 
   outline:none;
 
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  box-shadow:var(--shadow-md);
 }
 
+input::placeholder,
+textarea::placeholder,
 #verificateur::placeholder{
   color:rgba(0,0,0,.45);
 }
 
 /* =========================================================
-   PWA BTN
-========================================================= */
-
-#installBtn{
-  display:none;
-
-  width:100% !important;
-
-  padding:18px !important;
-
-  border:none;
-
-  border-radius:22px !important;
-
-  background:linear-gradient(135deg,#43a047,#2e7d32) !important;
-
-  color:white !important;
-
-  font-size:1rem !important;
-  font-weight:800 !important;
-
-  cursor:pointer;
-
-  box-shadow:0 10px 25px rgba(0,0,0,.2);
-}
-
-/* =========================================================
-   IOS INSTALL
-========================================================= */
-
-#iosInstall{
-  background:rgba(255,255,255,.9) !important;
-
-  border:1px solid rgba(0,0,0,.08);
-
-  border-radius:22px !important;
-
-  box-shadow:0 10px 25px rgba(0,0,0,.12);
-}
-
-/* =========================================================
-   VEHICULES - GRID PROPRE + CENTRÉ
-========================================================= */
-
-.vehicules{
-  display:grid;
-
-  /* 3 colonnes = 2 lignes propres */
-  grid-template-columns:repeat(3, 1fr);
-
-  gap:12px;
-
-  /* centre les items si dernière ligne incomplète */
-  justify-items:center;
-}
-
-/* =========================================================
-   CARTE VEHICULE
-========================================================= */
-
-.vehicule{
-  width:100%;          /* important pour centrage propre */
-  max-width:160px;     /* boutons plus petits */
-
-  min-height:90px;
-
-  padding:10px;
-
-  border-radius:18px;
-
-  font-size:.82rem;
-  font-weight:900;
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;   /* centre horizontal */
-  justify-content:center;/* centre vertical */
-  text-align:center;     /* centre texte */
-
-  gap:6px;
-
-  cursor:pointer;
-
-  color:#111;
-
-  background:rgba(255,255,255,.95);
-
-  border:1px solid rgba(0,0,0,.12);
-
-  box-shadow:0 8px 18px rgba(0,0,0,.10);
-
-  transition:.2s ease;
-}
-
-/* hover léger */
-.vehicule:hover{
-  transform:translateY(-3px) scale(1.03);
-  box-shadow:0 14px 28px rgba(0,0,0,.14);
-}
-
-/* icône plus petite */
-.vehicule i{
-  font-size:1.4rem;
-}
-
-/* =========================================================
-   BOUTON SEUL (dernier item centré)
-========================================================= */
-
-.vehicules .vehicule:last-child:nth-child(3n+1){
-  grid-column:2; /* centre le bouton seul */
-}
-
-/* =========================================================
-   COULEURS PLUS VIVES (plus lisibles)
-========================================================= */
-
-.vsav{
-  background:linear-gradient(135deg,#ffebee,#ffcdd2);
-  border-color:rgba(229,57,53,.25);
-}
-
-.fpt{
-  background:linear-gradient(135deg,#fff3e0,#ffe0b2);
-  border-color:rgba(251,140,0,.25);
-}
-
-.ccf{
-  background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
-  border-color:rgba(67,160,71,.25);
-}
-
-.vsr{
-  background:linear-gradient(135deg,#f3e5f5,#e1bee7);
-  border-color:rgba(142,36,170,.25);
-}
-
-.vtu{
-  background:linear-gradient(135deg,#fffde7,#fff59d);
-  border-color:rgba(253,216,53,.35);
-  color:#111;
-}
-
-.stat{
-  background:linear-gradient(135deg,#f5f5f5,#e0e0e0);
-  border-color:rgba(0,0,0,.1);
-}
-/* =========================================================
-   BLOCS GLASS
-========================================================= */
-
-.info-app,
-.admin-login,
-#adminPanel{
-  padding:24px;
-
-  border-radius:28px;
-
-  background:rgba(255,255,255,.85);
-
-  border:1px solid rgba(0,0,0,.08);
-
-  box-shadow:0 12px 35px rgba(0,0,0,.12);
-}
-
-/* =========================================================
-   TABLE
-========================================================= */
-
-.info-app table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-.info-app th,
-.info-app td{
-  padding:14px;
-
-  border-bottom:1px solid rgba(0,0,0,.08);
-
-  text-align:left;
-}
-
-
-/* =========================================================
-   BOUTONS - VERSION QUI RESSORT
+   BUTTONS
 ========================================================= */
 
 button{
   border:none;
   cursor:pointer;
+
+  transition:var(--transition);
+
   font-weight:800;
-  transition:.2s;
 }
 
-/* Boutons principaux (admin / actions) */
+/* =========================================================
+   BTN BASE
+========================================================= */
+
+.btn,
 .adminBtn,
 #btnAdmin,
 #adminLoginBtn,
@@ -442,65 +292,292 @@ button{
 
   padding:16px;
 
-  border-radius:18px;
+  border-radius:var(--radius-md);
 
   color:white;
 
-  background:linear-gradient(135deg,#1e88e5,#0d47a1);
+  font-size:1rem;
+  font-weight:800;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-primary-dark)
+    );
 
   box-shadow:
     0 10px 25px rgba(0,0,0,.18),
     0 4px 10px rgba(30,136,229,.25);
-
-  transform:translateY(0);
 }
 
+.btn:hover,
 .adminBtn:hover,
 #btnAdmin:hover,
 #adminLoginBtn:hover,
 #installBtn:hover{
   transform:translateY(-3px);
+
   box-shadow:
     0 14px 30px rgba(0,0,0,.22),
     0 6px 14px rgba(30,136,229,.35);
 }
 
-/* Bouton danger (logout) */
-.logoutBtn{
-  background:linear-gradient(135deg,#e53935,#b71c1c);
-  box-shadow:0 10px 25px rgba(229,57,53,.25);
+/* =========================================================
+   SUCCESS BUTTON
+========================================================= */
+
+.btn-success,
+#installBtn{
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-success),
+      var(--color-success-dark)
+    );
 }
 
-/* HELP BUTTON (petit mais visible) */
-#helpBtn{
-  background:linear-gradient(135deg,#ffffff,#eaeaea);
-  color:#111;
+/* =========================================================
+   DANGER BUTTON
+========================================================= */
+
+.btn-danger,
+.logoutBtn{
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-danger),
+      var(--color-danger-dark)
+    );
 
   box-shadow:
-    0 8px 18px rgba(0,0,0,.15);
+    0 10px 25px rgba(229,57,53,.25);
+}
+
+/* =========================================================
+   HELP BUTTON
+========================================================= */
+
+#helpBtn{
+  width:50px;
+  height:50px;
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  flex-shrink:0;
+
+  font-size:1.25rem;
+  font-weight:900;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #eaeaea
+    );
+
+  color:#111;
 
   border:1px solid rgba(0,0,0,.08);
+
+  box-shadow:0 8px 18px rgba(0,0,0,.15);
 }
 
 #helpBtn:hover{
   transform:scale(1.08);
+
   box-shadow:0 12px 22px rgba(0,0,0,.2);
 }
 
 /* =========================================================
-   FOOTER
+   VEHICULES GRID
 ========================================================= */
 
-footer{
-  margin-top:30px;
+.vehicules{
+  display:grid;
 
-  padding:20px;
+  grid-template-columns:repeat(3,1fr);
+
+  gap:12px;
+
+  justify-items:center;
+}
+
+/* =========================================================
+   VEHICULE CARD
+========================================================= */
+
+.vehicule{
+  width:100%;
+  max-width:160px;
+
+  min-height:90px;
+
+  padding:10px;
+
+  border-radius:18px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  gap:6px;
 
   text-align:center;
 
-  background:rgba(255,255,255,.8);
+  cursor:pointer;
 
   color:#111;
+
+  font-size:.82rem;
+  font-weight:900;
+
+  background:var(--glass-strong);
+
+  border:1px solid rgba(0,0,0,.12);
+
+  box-shadow:0 8px 18px rgba(0,0,0,.10);
+
+  transition:var(--transition);
+}
+
+.vehicule:hover{
+  transform:
+    translateY(-3px)
+    scale(1.03);
+
+  box-shadow:
+    0 14px 28px rgba(0,0,0,.14);
+}
+
+.vehicule i{
+  font-size:1.4rem;
+}
+
+/* =========================================================
+   CENTER LAST ITEM
+========================================================= */
+
+.vehicules .vehicule:last-child:nth-child(3n+1){
+  grid-column:2;
+}
+
+/* =========================================================
+   VEHICULE COLORS
+========================================================= */
+
+.vsav{
+  background:
+    linear-gradient(
+      135deg,
+      #ffebee,
+      #ffcdd2
+    );
+
+  border-color:rgba(229,57,53,.25);
+}
+
+.fpt{
+  background:
+    linear-gradient(
+      135deg,
+      #fff3e0,
+      #ffe0b2
+    );
+
+  border-color:rgba(251,140,0,.25);
+}
+
+.ccf{
+  background:
+    linear-gradient(
+      135deg,
+      #e8f5e9,
+      #c8e6c9
+    );
+
+  border-color:rgba(67,160,71,.25);
+}
+
+.vsr{
+  background:
+    linear-gradient(
+      135deg,
+      #f3e5f5,
+      #e1bee7
+    );
+
+  border-color:rgba(142,36,170,.25);
+}
+
+.vtu{
+  background:
+    linear-gradient(
+      135deg,
+      #fffde7,
+      #fff59d
+    );
+
+  border-color:rgba(253,216,53,.35);
+}
+
+.stat{
+  background:
+    linear-gradient(
+      135deg,
+      #f5f5f5,
+      #e0e0e0
+    );
+
+  border-color:rgba(0,0,0,.1);
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  padding:14px;
+
+  text-align:left;
+
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+/* =========================================================
+   ADMIN LOGIN
+========================================================= */
+
+.admin-login{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.admin-login h2{
+  text-align:center;
+
+  font-size:1.3rem;
+  font-weight:800;
+}
+
+#adminStatus{
+  min-height:22px;
+
+  text-align:center;
+
+  font-weight:700;
 }
 
 /* =========================================================
@@ -528,7 +605,7 @@ footer{
 
   padding:30px;
 
-  border-radius:30px;
+  border-radius:var(--radius-xl);
 
   background:rgba(255,255,255,.95);
 
@@ -539,6 +616,7 @@ footer{
 
 .closeConsignes{
   position:absolute;
+
   top:15px;
   right:15px;
 
@@ -555,42 +633,173 @@ footer{
 }
 
 /* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+  padding:20px;
+
+  text-align:center;
+
+  background:rgba(255,255,255,.8);
+
+  color:#111;
+}
+
+/* =========================================================
+   ENGINS
+========================================================= */
+
+/* FPT */
+
+.CAFPT{
+  background:#FF0000;
+}
+
+.COFPT{
+  background:#66FFFF;
+  color:#333;
+}
+
+.CBATFPT{
+  background:#9933FF;
+}
+
+.EBATFPT{
+  background:#FFC000;
+  color:#333;
+}
+
+.CBALFPT{
+  background:#FCD5B4;
+}
+
+.EBALFPT{
+  background:#FFFF00;
+}
+
+/* CCF */
+
+.CACCF{
+  background:#FF0000;
+}
+
+.COCCF{
+  background:#66FFFF;
+  color:#333;
+}
+
+.CBATCCF{
+  background:#9933FF;
+}
+
+.EBATCCF{
+  background:#FFC000;
+  color:#333;
+}
+
+/* VTU */
+
+.CAVTU{
+  background:#9933FF;
+}
+
+.COVTU{
+  background:#FFC000;
+  color:#333;
+}
+
+/* VSR */
+
+.CAVSR{
+  background:#B1A0C7;
+}
+
+.COVSR{
+  background:#66FFFF;
+  color:#333;
+}
+
+.EQVSR{
+  background:#FFC000;
+  color:#333;
+}
+
+/* VSSUAP */
+
+.CAVSSUAP{
+  background:#00B050;
+}
+
+.COVSSUAP{
+  background:#FCD5B4;
+}
+
+.EQVSSUAP{
+  background:#FFFF00;
+}
+
+/* =========================================================
    MOBILE
 ========================================================= */
 
 @media (max-width:768px){
 
+  /* =========================================================
+     HEADER (FIX IMPORTANT)
+  ========================================================= */
+
   header{
     flex-direction:row;
-    flex-wrap:wrap;
+    flex-wrap:nowrap; /* 🔥 empêche les retours ligne */
+    align-items:center;
     justify-content:space-between;
     gap:10px;
   }
 
   header h1{
-    flex:1 1 100%;
-    font-size:1.2rem;
+    flex:1;
+    font-size:1.1rem;
+    text-align:center;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
 
   .logoHeader{
-    width:62px;
-    height:62px;
+    width:50px;
+    height:50px;
+    flex-shrink:0;
   }
 
   .headerRight{
-    flex:1;
+    display:flex;
+    align-items:center;
     justify-content:flex-end;
+    flex-shrink:0;
+    gap:8px;
   }
 
-  /* ✅ DATE REMISE */
   #date{
     display:block;
+    font-size:.75rem;
+    white-space:nowrap;
   }
+
+  /* =========================================================
+     MAIN
+  ========================================================= */
 
   main{
     width:92%;
     gap:18px;
   }
+
+  /* =========================================================
+     VEHICULES GRID
+  ========================================================= */
 
   .vehicules{
     grid-template-columns:1fr 1fr;
@@ -608,6 +817,11 @@ footer{
     font-size:1.5rem;
   }
 
+  /* =========================================================
+     CARDS / BLOCS
+  ========================================================= */
+
+  .card,
   .info-app,
   .admin-login,
   #adminPanel{
@@ -615,81 +829,51 @@ footer{
     border-radius:20px;
   }
 
+  /* =========================================================
+     FOOTER
+  ========================================================= */
+
   footer{
     font-size:.82rem;
   }
 }
 
 /* =========================================================
-   LOGIN ADMIN
+   SECTION TITLE
 ========================================================= */
 
-.admin-login{
+.section-title{
+  margin-bottom:24px;
+
+  font-size:2rem;
+  font-weight:900;
+
+  text-align:center;
+}
+
+/* =========================================================
+   PAGE FULL HEIGHT
+========================================================= */
+
+body{
   display:flex;
   flex-direction:column;
-  gap:14px;
+
+  min-height:100vh;
 }
 
-.admin-login h2{
-  margin:0 0 6px 0;
-  text-align:center;
-  font-size:1.3rem;
-  font-weight:800;
+/* =========================================================
+   MAIN PREND L'ESPACE
+========================================================= */
+
+main{
+  flex:1;
 }
 
-.admin-login input{
-  width:100%;
+/* =========================================================
+   FOOTER TOUJOURS EN BAS
+========================================================= */
 
-  padding:16px;
-
-  border:none;
-  border-radius:18px;
-
-  background:rgba(255,255,255,.85);
-
-  color:#111;
-
-  font-size:1rem;
-
-  outline:none;
-
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);
-}
-
-.admin-login input::placeholder{
-  color:rgba(0,0,0,.45);
-}
-
-#adminLoginBtn{
-  width:100%;
-
-  padding:16px !important;
-
-  border:none;
-  border-radius:18px !important;
-
-  background:linear-gradient(135deg,#1976D2,#0D47A1) !important;
-
-  color:white;
-
-  font-size:1rem;
-  font-weight:800;
-
-  margin-top:4px;
-
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
-
-  transition:.2s;
-}
-
-#adminLoginBtn:hover{
-  transform:translateY(-2px);
-}
-
-#adminStatus{
-  min-height:22px;
-
-  text-align:center;
-
-  font-weight:700;
+footer{
+  margin-top:auto;
 }
