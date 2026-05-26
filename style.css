@@ -19,32 +19,32 @@
   --color-text:#111;
   --color-bg:#f4f6f8;
 
-  --glass-bg:rgba(255,255,255,.85);
-  --glass-strong:rgba(255,255,255,.95);
+  --glass-bg:rgba(255,255,255,.82);
+  --glass-strong:rgba(255,255,255,.94);
 
   --border-light:rgba(0,0,0,.08);
 
   /* RADIUS */
-  --radius-xl:30px;
+  --radius-xl:28px;
   --radius-lg:22px;
   --radius-md:18px;
   --radius-sm:14px;
 
   /* SHADOWS */
-  --shadow-sm:0 5px 18px rgba(0,0,0,.12);
+  --shadow-sm:0 5px 18px rgba(0,0,0,.10);
 
   --shadow-md:
-    0 10px 25px rgba(0,0,0,.15);
+    0 10px 25px rgba(0,0,0,.12);
 
   --shadow-lg:
-    0 12px 35px rgba(0,0,0,.12);
+    0 12px 35px rgba(0,0,0,.14);
 
   /* TRANSITION */
   --transition:.2s ease;
 }
 
 /* =========================================================
-   RESET GLOBAL
+   RESET
 ========================================================= */
 
 *{
@@ -55,8 +55,10 @@
 
 html,
 body{
+
   width:100%;
   min-height:100%;
+
   overflow-x:hidden;
 
   font-family:'Segoe UI',sans-serif;
@@ -72,7 +74,12 @@ body{
 ========================================================= */
 
 body{
+
   position:relative;
+
+  display:flex;
+  flex-direction:column;
+
   min-height:100vh;
 
   background:var(--color-bg);
@@ -83,24 +90,24 @@ body{
 ========================================================= */
 
 .app-bg{
+
   position:fixed;
   inset:0;
 
   background-image:
     linear-gradient(
-      rgba(255,255,255,.35),
-      rgba(255,255,255,.55)
+      rgba(255,255,255,.45),
+      rgba(255,255,255,.70)
     ),
-    url("../images/TAV.png");
+    url("images/TAV.png");
 
   background-position:center;
   background-repeat:no-repeat;
   background-size:cover;
 
-  z-index:-10;
+  filter:saturate(1.1);
 
-  will-change:transform;
-  transform:translateZ(0);
+  z-index:-10;
 }
 
 /* =========================================================
@@ -108,33 +115,55 @@ body{
 ========================================================= */
 
 header{
+
+  position:sticky;
+  top:0;
+  z-index:1000;
+
   width:100%;
 
   display:flex;
   align-items:center;
   justify-content:space-between;
 
-  gap:20px;
+  gap:10px;
 
   padding:
-    calc(env(safe-area-inset-top) + 14px)
-    22px
-    20px
-    22px;
+    calc(env(safe-area-inset-top) + 10px)
+    14px
+    12px;
 
-  position:relative;
-  z-index:50;
+  background:rgba(255,255,255,.72);
+
+  backdrop-filter:blur(14px);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.35);
+
+  box-shadow:
+    0 4px 18px rgba(0,0,0,.08);
 }
 
+/* =========================================================
+   TITLE
+========================================================= */
+
 header h1{
+
   flex:1;
 
   text-align:center;
 
-  font-size:2rem;
+  font-size:1rem;
   font-weight:900;
 
-  line-height:1.1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  color:#111;
+
+  letter-spacing:.3px;
 }
 
 /* =========================================================
@@ -142,16 +171,24 @@ header h1{
 ========================================================= */
 
 .logoHeader{
-  width:100px;
-  height:100px;
+
+  width:52px;
+  height:52px;
 
   object-fit:contain;
+
+  border-radius:50%;
+
+  padding:3px;
+
+  background:white;
 
   flex-shrink:0;
 
   cursor:pointer;
 
-  filter:drop-shadow(0 5px 18px rgba(0,0,0,.2));
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.15);
 }
 
 /* =========================================================
@@ -159,9 +196,13 @@ header h1{
 ========================================================= */
 
 .headerRight{
+
   display:flex;
   align-items:center;
-  gap:12px;
+
+  gap:8px;
+
+  flex-shrink:0;
 }
 
 /* =========================================================
@@ -169,8 +210,13 @@ header h1{
 ========================================================= */
 
 #date{
-  font-size:.95rem;
+
+  font-size:.70rem;
   font-weight:700;
+
+  color:#444;
+
+  white-space:nowrap;
 }
 
 /* =========================================================
@@ -178,16 +224,22 @@ header h1{
 ========================================================= */
 
 main{
+
   width:min(94%,760px);
 
   margin:auto;
 
+  flex:1;
+
   display:flex;
   flex-direction:column;
 
-  gap:24px;
+  gap:22px;
 
-  padding-bottom:50px;
+  padding:
+    20px
+    0
+    40px;
 }
 
 /* =========================================================
@@ -198,7 +250,8 @@ main{
 .info-app,
 .admin-login,
 #adminPanel{
-  padding:24px;
+
+  padding:22px;
 
   border-radius:var(--radius-xl);
 
@@ -216,6 +269,7 @@ main{
 ========================================================= */
 
 #lundi-msg{
+
   display:none;
 
   padding:18px;
@@ -240,6 +294,7 @@ input,
 textarea,
 select,
 #verificateur{
+
   width:100%;
 
   padding:18px 20px;
@@ -263,6 +318,7 @@ select,
 input::placeholder,
 textarea::placeholder,
 #verificateur::placeholder{
+
   color:rgba(0,0,0,.45);
 }
 
@@ -271,12 +327,16 @@ textarea::placeholder,
 ========================================================= */
 
 button{
+
   border:none;
+
   cursor:pointer;
 
   transition:var(--transition);
 
   font-weight:800;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* =========================================================
@@ -288,6 +348,7 @@ button{
 #btnAdmin,
 #adminLoginBtn,
 #installBtn{
+
   width:100%;
 
   padding:16px;
@@ -316,6 +377,7 @@ button{
 #btnAdmin:hover,
 #adminLoginBtn:hover,
 #installBtn:hover{
+
   transform:translateY(-3px);
 
   box-shadow:
@@ -329,6 +391,7 @@ button{
 
 .btn-success,
 #installBtn{
+
   background:
     linear-gradient(
       135deg,
@@ -343,15 +406,13 @@ button{
 
 .btn-danger,
 .logoutBtn{
+
   background:
     linear-gradient(
       135deg,
       var(--color-danger),
       var(--color-danger-dark)
     );
-
-  box-shadow:
-    0 10px 25px rgba(229,57,53,.25);
 }
 
 /* =========================================================
@@ -359,8 +420,9 @@ button{
 ========================================================= */
 
 #helpBtn{
-  width:50px;
-  height:50px;
+
+  width:38px;
+  height:38px;
 
   border-radius:50%;
 
@@ -368,29 +430,24 @@ button{
   align-items:center;
   justify-content:center;
 
-  flex-shrink:0;
-
-  font-size:1.25rem;
-  font-weight:900;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ffffff,
-      #eaeaea
-    );
+  background:white;
 
   color:#111;
 
-  border:1px solid rgba(0,0,0,.08);
+  border:none;
 
-  box-shadow:0 8px 18px rgba(0,0,0,.15);
+  font-size:1rem;
+  font-weight:900;
+
+  box-shadow:
+    0 4px 10px rgba(0,0,0,.12);
+
+  transition:.2s;
 }
 
 #helpBtn:hover{
-  transform:scale(1.08);
 
-  box-shadow:0 12px 22px rgba(0,0,0,.2);
+  transform:scale(1.05);
 }
 
 /* =========================================================
@@ -398,13 +455,12 @@ button{
 ========================================================= */
 
 .vehicules{
+
   display:grid;
 
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(2,1fr);
 
-  gap:12px;
-
-  justify-items:center;
+  gap:14px;
 }
 
 /* =========================================================
@@ -412,21 +468,19 @@ button{
 ========================================================= */
 
 .vehicule{
-  width:100%;
-  max-width:160px;
 
-  min-height:90px;
+  min-height:115px;
 
-  padding:10px;
+  padding:16px;
 
-  border-radius:18px;
+  border-radius:22px;
 
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
 
-  gap:6px;
+  gap:8px;
 
   text-align:center;
 
@@ -434,37 +488,45 @@ button{
 
   color:#111;
 
-  font-size:.82rem;
+  font-size:.85rem;
   font-weight:900;
 
   background:var(--glass-strong);
 
   border:1px solid rgba(0,0,0,.12);
 
-  box-shadow:0 8px 18px rgba(0,0,0,.10);
+  box-shadow:
+    0 8px 18px rgba(0,0,0,.10);
 
   transition:var(--transition);
+
+  -webkit-tap-highlight-color: transparent;
 }
 
 .vehicule:hover{
+
   transform:
     translateY(-3px)
-    scale(1.03);
+    scale(1.02);
 
   box-shadow:
     0 14px 28px rgba(0,0,0,.14);
 }
 
 .vehicule i{
-  font-size:1.4rem;
+
+  font-size:1.6rem;
 }
 
 /* =========================================================
    CENTER LAST ITEM
 ========================================================= */
 
-.vehicules .vehicule:last-child:nth-child(3n+1){
-  grid-column:2;
+.vehicules .vehicule:last-child:nth-child(odd){
+
+  grid-column:1 / span 2;
+  width:50%;
+  justify-self:center;
 }
 
 /* =========================================================
@@ -473,68 +535,32 @@ button{
 
 .vsav{
   background:
-    linear-gradient(
-      135deg,
-      #ffebee,
-      #ffcdd2
-    );
-
-  border-color:rgba(229,57,53,.25);
+    linear-gradient(135deg,#ffebee,#ffcdd2);
 }
 
 .fpt{
   background:
-    linear-gradient(
-      135deg,
-      #fff3e0,
-      #ffe0b2
-    );
-
-  border-color:rgba(251,140,0,.25);
+    linear-gradient(135deg,#fff3e0,#ffe0b2);
 }
 
 .ccf{
   background:
-    linear-gradient(
-      135deg,
-      #e8f5e9,
-      #c8e6c9
-    );
-
-  border-color:rgba(67,160,71,.25);
+    linear-gradient(135deg,#e8f5e9,#c8e6c9);
 }
 
 .vsr{
   background:
-    linear-gradient(
-      135deg,
-      #f3e5f5,
-      #e1bee7
-    );
-
-  border-color:rgba(142,36,170,.25);
+    linear-gradient(135deg,#f3e5f5,#e1bee7);
 }
 
 .vtu{
   background:
-    linear-gradient(
-      135deg,
-      #fffde7,
-      #fff59d
-    );
-
-  border-color:rgba(253,216,53,.35);
+    linear-gradient(135deg,#fffde7,#fff59d);
 }
 
 .stat{
   background:
-    linear-gradient(
-      135deg,
-      #f5f5f5,
-      #e0e0e0
-    );
-
-  border-color:rgba(0,0,0,.1);
+    linear-gradient(135deg,#f5f5f5,#e0e0e0);
 }
 
 /* =========================================================
@@ -542,12 +568,15 @@ button{
 ========================================================= */
 
 table{
+
   width:100%;
+
   border-collapse:collapse;
 }
 
 th,
 td{
+
   padding:14px;
 
   text-align:left;
@@ -560,12 +589,15 @@ td{
 ========================================================= */
 
 .admin-login{
+
   display:flex;
   flex-direction:column;
+
   gap:14px;
 }
 
 .admin-login h2{
+
   text-align:center;
 
   font-size:1.3rem;
@@ -573,6 +605,7 @@ td{
 }
 
 #adminStatus{
+
   min-height:22px;
 
   text-align:center;
@@ -585,6 +618,7 @@ td{
 ========================================================= */
 
 .modalConsignes{
+
   position:fixed;
   inset:0;
 
@@ -595,33 +629,38 @@ td{
 
   padding:20px;
 
-  background:rgba(0,0,0,.4);
+  background:rgba(0,0,0,.45);
 
   z-index:9999;
 }
 
 .modalConsignesContent{
+
   width:min(95%,520px);
 
   padding:30px;
 
   border-radius:var(--radius-xl);
 
-  background:rgba(255,255,255,.95);
+  background:rgba(255,255,255,.96);
 
   position:relative;
 
   color:#111;
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.25);
 }
 
 .closeConsignes{
+
   position:absolute;
 
   top:15px;
   right:15px;
 
-  width:45px;
-  height:45px;
+  width:42px;
+  height:42px;
 
   border-radius:50%;
 
@@ -638,106 +677,19 @@ td{
 
 footer{
 
-  padding:20px;
+  margin-top:auto;
+
+  padding:16px;
 
   text-align:center;
 
-  background:rgba(255,255,255,.8);
+  background:rgba(198,40,40,.92);
 
-  color:#111;
-}
+  color:white;
 
-/* =========================================================
-   ENGINS
-========================================================= */
+  font-size:.9rem;
 
-/* FPT */
-
-.CAFPT{
-  background:#FF0000;
-}
-
-.COFPT{
-  background:#66FFFF;
-  color:#333;
-}
-
-.CBATFPT{
-  background:#9933FF;
-}
-
-.EBATFPT{
-  background:#FFC000;
-  color:#333;
-}
-
-.CBALFPT{
-  background:#FCD5B4;
-}
-
-.EBALFPT{
-  background:#FFFF00;
-}
-
-/* CCF */
-
-.CACCF{
-  background:#FF0000;
-}
-
-.COCCF{
-  background:#66FFFF;
-  color:#333;
-}
-
-.CBATCCF{
-  background:#9933FF;
-}
-
-.EBATCCF{
-  background:#FFC000;
-  color:#333;
-}
-
-/* VTU */
-
-.CAVTU{
-  background:#9933FF;
-}
-
-.COVTU{
-  background:#FFC000;
-  color:#333;
-}
-
-/* VSR */
-
-.CAVSR{
-  background:#B1A0C7;
-}
-
-.COVSR{
-  background:#66FFFF;
-  color:#333;
-}
-
-.EQVSR{
-  background:#FFC000;
-  color:#333;
-}
-
-/* VSSUAP */
-
-.CAVSSUAP{
-  background:#00B050;
-}
-
-.COVSSUAP{
-  background:#FCD5B4;
-}
-
-.EQVSSUAP{
-  background:#FFFF00;
+  backdrop-filter:blur(10px);
 }
 
 /* =========================================================
@@ -746,134 +698,85 @@ footer{
 
 @media (max-width:768px){
 
-  /* =========================================================
-     HEADER (FIX IMPORTANT)
-  ========================================================= */
+  main{
 
-  header{
-    flex-direction:row;
-    flex-wrap:nowrap; /* 🔥 empêche les retours ligne */
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-  }
-
-  header h1{
-    flex:1;
-    font-size:1.1rem;
-    text-align:center;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-
-  .logoHeader{
-    width:50px;
-    height:50px;
-    flex-shrink:0;
-  }
-
-  .headerRight{
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    flex-shrink:0;
-    gap:8px;
+    width:92%;
   }
 
   #date{
-    display:block;
-    font-size:.75rem;
-    white-space:nowrap;
+
+    display:none;
   }
 
-  /* =========================================================
-     MAIN
-  ========================================================= */
+  header h1{
 
-  main{
-    width:92%;
-    gap:18px;
-  }
-
-  /* =========================================================
-     VEHICULES GRID
-  ========================================================= */
-
-  .vehicules{
-    grid-template-columns:1fr 1fr;
-    gap:12px;
+    font-size:.95rem;
   }
 
   .vehicule{
-    min-height:110px;
-    padding:14px;
-    border-radius:20px;
-    font-size:.82rem;
+
+    min-height:105px;
+
+    font-size:.8rem;
   }
 
   .vehicule i{
-    font-size:1.5rem;
-  }
 
-  /* =========================================================
-     CARDS / BLOCS
-  ========================================================= */
+    font-size:1.4rem;
+  }
 
   .card,
   .info-app,
   .admin-login,
   #adminPanel{
+
     padding:16px;
+
     border-radius:20px;
   }
 
-  /* =========================================================
-     FOOTER
-  ========================================================= */
+  table{
 
-  footer{
-    font-size:.82rem;
+    font-size:.85rem;
+  }
+
+  th,
+  td{
+
+    padding:10px;
   }
 }
 
 /* =========================================================
-   SECTION TITLE
+   DESKTOP
 ========================================================= */
 
-.section-title{
-  margin-bottom:24px;
+@media (min-width:769px){
 
-  font-size:2rem;
-  font-weight:900;
+  .vehicules{
 
-  text-align:center;
-}
+    grid-template-columns:repeat(3,1fr);
+  }
 
-/* =========================================================
-   PAGE FULL HEIGHT
-========================================================= */
+  .vehicules .vehicule:last-child:nth-child(odd){
 
-body{
-  display:flex;
-  flex-direction:column;
+    grid-column:auto;
+    width:100%;
+  }
 
-  min-height:100vh;
-}
+  header h1{
 
-/* =========================================================
-   MAIN PREND L'ESPACE
-========================================================= */
+    font-size:1.4rem;
+  }
 
-main{
-  flex:1;
-}
+  .logoHeader{
 
-/* =========================================================
-   FOOTER TOUJOURS EN BAS
-========================================================= */
+    width:65px;
+    height:65px;
+  }
 
-footer{
-  margin-top:auto;
+  #date{
+
+    font-size:.9rem;
+  }
 }
