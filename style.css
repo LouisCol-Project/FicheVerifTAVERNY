@@ -1,49 +1,4 @@
 /* =========================================================
-   DESIGN SYSTEM
-========================================================= */
-
-:root{
-
-  /* COLORS */
-  --color-primary:#1976D2;
-  --color-primary-dark:#0D47A1;
-
-  --color-success:#43a047;
-  --color-success-dark:#2e7d32;
-
-  --color-danger:#e53935;
-  --color-danger-dark:#b71c1c;
-
-  --color-warning:#ffc107;
-
-  --color-text:#111;
-  --color-bg:#f4f6f8;
-
-  --glass-bg:rgba(255,255,255,.82);
-  --glass-strong:rgba(255,255,255,.94);
-
-  --border-light:rgba(0,0,0,.08);
-
-  /* RADIUS */
-  --radius-xl:28px;
-  --radius-lg:22px;
-  --radius-md:18px;
-  --radius-sm:14px;
-
-  /* SHADOWS */
-  --shadow-sm:0 5px 18px rgba(0,0,0,.10);
-
-  --shadow-md:
-    0 10px 25px rgba(0,0,0,.12);
-
-  --shadow-lg:
-    0 12px 35px rgba(0,0,0,.14);
-
-  /* TRANSITION */
-  --transition:.2s ease;
-}
-
-/* =========================================================
    RESET
 ========================================================= */
 
@@ -53,36 +8,28 @@
   box-sizing:border-box;
 }
 
-html,
+html{
+  width:100%;
+  height:100%;
+}
+
 body{
 
   width:100%;
-  min-height:100%;
+  min-height:100vh;
 
   overflow-x:hidden;
 
   font-family:'Segoe UI',sans-serif;
 
-  color:var(--color-text);
+  background:#f4f6f8;
 
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-}
-
-/* =========================================================
-   BODY
-========================================================= */
-
-body{
+  color:#111;
 
   position:relative;
 
   display:flex;
   flex-direction:column;
-
-  min-height:100vh;
-
-  background:var(--color-bg);
 }
 
 /* =========================================================
@@ -92,22 +39,25 @@ body{
 .app-bg{
 
   position:fixed;
-  inset:0;
 
-  background-image:
+  top:0;
+  left:0;
+
+  width:100%;
+  height:100%;
+
+  background:
     linear-gradient(
-      rgba(255,255,255,.45),
-      rgba(255,255,255,.70)
+      rgba(255,255,255,.60),
+      rgba(255,255,255,.75)
     ),
-    url("images/TAV.png");
+    url("./images/TAV.png");
 
   background-position:center;
   background-repeat:no-repeat;
   background-size:cover;
 
-  filter:saturate(1.1);
-
-  z-index:-10;
+  z-index:-1;
 }
 
 /* =========================================================
@@ -115,10 +65,6 @@ body{
 ========================================================= */
 
 header{
-
-  position:sticky;
-  top:0;
-  z-index:1000;
 
   width:100%;
 
@@ -128,20 +74,40 @@ header{
 
   gap:10px;
 
-  padding:
-    calc(env(safe-area-inset-top) + 10px)
-    14px
-    12px;
+  padding:12px 14px;
 
-  background:rgba(255,255,255,.72);
-
-  backdrop-filter:blur(14px);
+  background:white;
 
   border-bottom:
-    1px solid rgba(255,255,255,.35);
+    1px solid rgba(0,0,0,.08);
 
   box-shadow:
-    0 4px 18px rgba(0,0,0,.08);
+    0 2px 10px rgba(0,0,0,.08);
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logoHeader{
+
+  width:48px;
+  height:48px;
+
+  object-fit:contain;
+
+  border-radius:50%;
+
+  background:white;
+
+  padding:3px;
+
+  flex-shrink:0;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,.15);
 }
 
 /* =========================================================
@@ -162,33 +128,6 @@ header h1{
   text-overflow:ellipsis;
 
   color:#111;
-
-  letter-spacing:.3px;
-}
-
-/* =========================================================
-   LOGO
-========================================================= */
-
-.logoHeader{
-
-  width:52px;
-  height:52px;
-
-  object-fit:contain;
-
-  border-radius:50%;
-
-  padding:3px;
-
-  background:white;
-
-  flex-shrink:0;
-
-  cursor:pointer;
-
-  box-shadow:
-    0 4px 12px rgba(0,0,0,.15);
 }
 
 /* =========================================================
@@ -200,9 +139,39 @@ header h1{
   display:flex;
   align-items:center;
 
-  gap:8px;
+  gap:6px;
 
   flex-shrink:0;
+}
+
+/* =========================================================
+   HELP BUTTON
+========================================================= */
+
+#helpBtn{
+
+  width:34px;
+  height:34px;
+
+  border:none;
+
+  border-radius:50%;
+
+  background:#f5f5f5;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:1rem;
+  font-weight:900;
+
+  color:#111;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,.10);
 }
 
 /* =========================================================
@@ -211,10 +180,10 @@ header h1{
 
 #date{
 
-  font-size:.70rem;
+  font-size:.72rem;
   font-weight:700;
 
-  color:#444;
+  color:#555;
 
   white-space:nowrap;
 }
@@ -225,65 +194,18 @@ header h1{
 
 main{
 
-  width:min(94%,760px);
+  width:92%;
 
-  margin:auto;
+  max-width:760px;
 
-  flex:1;
+  margin:20px auto;
 
   display:flex;
   flex-direction:column;
 
-  gap:22px;
+  gap:20px;
 
-  padding:
-    20px
-    0
-    40px;
-}
-
-/* =========================================================
-   GLASS CARD
-========================================================= */
-
-.card,
-.info-app,
-.admin-login,
-#adminPanel{
-
-  padding:22px;
-
-  border-radius:var(--radius-xl);
-
-  background:var(--glass-bg);
-
-  border:1px solid var(--border-light);
-
-  box-shadow:var(--shadow-lg);
-
-  backdrop-filter:blur(12px);
-}
-
-/* =========================================================
-   LUNDI MESSAGE
-========================================================= */
-
-#lundi-msg{
-
-  display:none;
-
-  padding:18px;
-
-  border-radius:var(--radius-lg);
-
-  text-align:center;
-
-  font-size:1rem;
-  font-weight:800;
-
-  background:rgba(255,193,7,.25);
-
-  border:1px solid rgba(0,0,0,.08);
+  flex:1;
 }
 
 /* =========================================================
@@ -292,34 +214,31 @@ main{
 
 input,
 textarea,
-select,
-#verificateur{
+select{
 
   width:100%;
 
-  padding:18px 20px;
+  padding:16px;
 
   border:none;
 
-  border-radius:var(--radius-lg);
+  border-radius:18px;
 
-  background:var(--glass-bg);
-
-  color:var(--color-text);
+  background:white;
 
   font-size:1rem;
   font-weight:700;
 
+  color:#111;
+
   outline:none;
 
-  box-shadow:var(--shadow-md);
+  box-shadow:
+    0 4px 14px rgba(0,0,0,.08);
 }
 
-input::placeholder,
-textarea::placeholder,
-#verificateur::placeholder{
-
-  color:rgba(0,0,0,.45);
+input::placeholder{
+  color:#777;
 }
 
 /* =========================================================
@@ -332,11 +251,15 @@ button{
 
   cursor:pointer;
 
-  transition:var(--transition);
+  transition:.2s;
 
   font-weight:800;
 
   -webkit-tap-highlight-color: transparent;
+}
+
+button:hover{
+  transform:scale(1.02);
 }
 
 /* =========================================================
@@ -351,9 +274,9 @@ button{
 
   width:100%;
 
-  padding:16px;
+  padding:15px;
 
-  border-radius:var(--radius-md);
+  border-radius:18px;
 
   color:white;
 
@@ -363,91 +286,12 @@ button{
   background:
     linear-gradient(
       135deg,
-      var(--color-primary),
-      var(--color-primary-dark)
+      #1976D2,
+      #0D47A1
     );
 
   box-shadow:
-    0 10px 25px rgba(0,0,0,.18),
-    0 4px 10px rgba(30,136,229,.25);
-}
-
-.btn:hover,
-.adminBtn:hover,
-#btnAdmin:hover,
-#adminLoginBtn:hover,
-#installBtn:hover{
-
-  transform:translateY(-3px);
-
-  box-shadow:
-    0 14px 30px rgba(0,0,0,.22),
-    0 6px 14px rgba(30,136,229,.35);
-}
-
-/* =========================================================
-   SUCCESS BUTTON
-========================================================= */
-
-.btn-success,
-#installBtn{
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--color-success),
-      var(--color-success-dark)
-    );
-}
-
-/* =========================================================
-   DANGER BUTTON
-========================================================= */
-
-.btn-danger,
-.logoutBtn{
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--color-danger),
-      var(--color-danger-dark)
-    );
-}
-
-/* =========================================================
-   HELP BUTTON
-========================================================= */
-
-#helpBtn{
-
-  width:38px;
-  height:38px;
-
-  border-radius:50%;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:white;
-
-  color:#111;
-
-  border:none;
-
-  font-size:1rem;
-  font-weight:900;
-
-  box-shadow:
-    0 4px 10px rgba(0,0,0,.12);
-
-  transition:.2s;
-}
-
-#helpBtn:hover{
-
-  transform:scale(1.05);
+    0 8px 18px rgba(0,0,0,.15);
 }
 
 /* =========================================================
@@ -458,7 +302,7 @@ button{
 
   display:grid;
 
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:1fr 1fr;
 
   gap:14px;
 }
@@ -469,7 +313,7 @@ button{
 
 .vehicule{
 
-  min-height:115px;
+  min-height:110px;
 
   padding:16px;
 
@@ -484,21 +328,17 @@ button{
 
   text-align:center;
 
-  cursor:pointer;
-
-  color:#111;
-
   font-size:.85rem;
   font-weight:900;
 
-  background:var(--glass-strong);
+  color:#111;
 
-  border:1px solid rgba(0,0,0,.12);
+  cursor:pointer;
+
+  transition:.2s;
 
   box-shadow:
-    0 8px 18px rgba(0,0,0,.10);
-
-  transition:var(--transition);
+    0 6px 16px rgba(0,0,0,.08);
 
   -webkit-tap-highlight-color: transparent;
 }
@@ -506,27 +346,12 @@ button{
 .vehicule:hover{
 
   transform:
-    translateY(-3px)
-    scale(1.02);
-
-  box-shadow:
-    0 14px 28px rgba(0,0,0,.14);
+    translateY(-2px);
 }
 
 .vehicule i{
 
-  font-size:1.6rem;
-}
-
-/* =========================================================
-   CENTER LAST ITEM
-========================================================= */
-
-.vehicules .vehicule:last-child:nth-child(odd){
-
-  grid-column:1 / span 2;
-  width:50%;
-  justify-self:center;
+  font-size:1.5rem;
 }
 
 /* =========================================================
@@ -534,54 +359,60 @@ button{
 ========================================================= */
 
 .vsav{
-  background:
-    linear-gradient(135deg,#ffebee,#ffcdd2);
+  background:#ffe5e5;
 }
 
 .fpt{
-  background:
-    linear-gradient(135deg,#fff3e0,#ffe0b2);
+  background:#fff4d6;
 }
 
 .ccf{
-  background:
-    linear-gradient(135deg,#e8f5e9,#c8e6c9);
+  background:#e4f7e4;
 }
 
 .vsr{
-  background:
-    linear-gradient(135deg,#f3e5f5,#e1bee7);
+  background:#f3e4fa;
 }
 
 .vtu{
-  background:
-    linear-gradient(135deg,#fffde7,#fff59d);
+  background:#fff9c9;
 }
 
 .stat{
-  background:
-    linear-gradient(135deg,#f5f5f5,#e0e0e0);
+  background:#f1f1f1;
 }
 
 /* =========================================================
-   TABLE
+   LAST CARD CENTER
 ========================================================= */
 
-table{
+.vehicules .vehicule:last-child:nth-child(odd){
 
-  width:100%;
+  grid-column:1 / span 2;
 
-  border-collapse:collapse;
+  width:48%;
+
+  justify-self:center;
 }
 
-th,
-td{
+/* =========================================================
+   CARDS
+========================================================= */
 
-  padding:14px;
+.card,
+.info-app,
+.admin-login,
+#adminPanel{
 
-  text-align:left;
+  background:
+    rgba(255,255,255,.92);
 
-  border-bottom:1px solid rgba(0,0,0,.08);
+  border-radius:24px;
+
+  padding:20px;
+
+  box-shadow:
+    0 8px 22px rgba(0,0,0,.08);
 }
 
 /* =========================================================
@@ -601,16 +432,28 @@ td{
   text-align:center;
 
   font-size:1.3rem;
-  font-weight:800;
 }
 
-#adminStatus{
+/* =========================================================
+   TABLE
+========================================================= */
 
-  min-height:22px;
+table{
 
-  text-align:center;
+  width:100%;
 
-  font-weight:700;
+  border-collapse:collapse;
+}
+
+th,
+td{
+
+  padding:12px;
+
+  text-align:left;
+
+  border-bottom:
+    1px solid rgba(0,0,0,.08);
 }
 
 /* =========================================================
@@ -629,38 +472,40 @@ td{
 
   padding:20px;
 
-  background:rgba(0,0,0,.45);
+  background:
+    rgba(0,0,0,.45);
 
   z-index:9999;
 }
 
 .modalConsignesContent{
 
-  width:min(95%,520px);
+  width:95%;
+  max-width:520px;
 
-  padding:30px;
+  background:white;
 
-  border-radius:var(--radius-xl);
+  padding:28px;
 
-  background:rgba(255,255,255,.96);
+  border-radius:24px;
 
   position:relative;
 
-  color:#111;
-
   box-shadow:
-    0 18px 40px rgba(0,0,0,.25);
+    0 15px 35px rgba(0,0,0,.25);
 }
 
 .closeConsignes{
 
   position:absolute;
 
-  top:15px;
-  right:15px;
+  top:14px;
+  right:14px;
 
-  width:42px;
-  height:42px;
+  width:40px;
+  height:40px;
+
+  border:none;
 
   border-radius:50%;
 
@@ -669,6 +514,31 @@ td{
   color:white;
 
   font-size:1rem;
+
+  cursor:pointer;
+}
+
+/* =========================================================
+   LUNDI MESSAGE
+========================================================= */
+
+#lundi-msg{
+
+  display:none;
+
+  padding:16px;
+
+  border-radius:18px;
+
+  text-align:center;
+
+  font-weight:800;
+
+  background:
+    rgba(255,193,7,.25);
+
+  border:
+    1px solid rgba(0,0,0,.08);
 }
 
 /* =========================================================
@@ -683,13 +553,11 @@ footer{
 
   text-align:center;
 
-  background:rgba(198,40,40,.92);
+  background:#c62828;
 
   color:white;
 
   font-size:.9rem;
-
-  backdrop-filter:blur(10px);
 }
 
 /* =========================================================
@@ -698,31 +566,23 @@ footer{
 
 @media (max-width:768px){
 
-  main{
-
-    width:92%;
-  }
-
   #date{
-
     display:none;
   }
 
   header h1{
-
-    font-size:.95rem;
+    font-size:.92rem;
   }
 
   .vehicule{
 
-    min-height:105px;
+    min-height:100px;
 
-    font-size:.8rem;
+    font-size:.78rem;
   }
 
   .vehicule i{
-
-    font-size:1.4rem;
+    font-size:1.3rem;
   }
 
   .card,
@@ -731,19 +591,10 @@ footer{
   #adminPanel{
 
     padding:16px;
-
-    border-radius:20px;
   }
 
   table{
-
     font-size:.85rem;
-  }
-
-  th,
-  td{
-
-    padding:10px;
   }
 }
 
@@ -755,28 +606,30 @@ footer{
 
   .vehicules{
 
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:
+      repeat(3,1fr);
   }
 
   .vehicules .vehicule:last-child:nth-child(odd){
 
     grid-column:auto;
+
     width:100%;
-  }
-
-  header h1{
-
-    font-size:1.4rem;
   }
 
   .logoHeader{
 
-    width:65px;
-    height:65px;
+    width:60px;
+    height:60px;
+  }
+
+  header h1{
+
+    font-size:1.3rem;
   }
 
   #date{
 
-    font-size:.9rem;
+    display:block;
   }
 }
