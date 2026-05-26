@@ -1,3 +1,4 @@
+```css
 /* =========================================================
    RESET
 ========================================================= */
@@ -358,29 +359,38 @@ button:hover{
    VEHICULE COLORS
 ========================================================= */
 
+```css
 .vsav{
-  background:#ffe5e5;
+  background:#FF4D6D;
+  color:white;
 }
 
 .fpt{
-  background:#fff4d6;
+  background:#FF6B00;
+  color:white;
 }
 
 .ccf{
-  background:#e4f7e4;
-}
-
-.vsr{
-  background:#f3e4fa;
+  background:#2E7D32;
+  color:white;
 }
 
 .vtu{
-  background:#fff9c9;
+  background:#1E88E5;
+  color:white;
+}
+
+.vsr{
+  background:#6A1B9A;
+  color:white;
 }
 
 .stat{
-  background:#f1f1f1;
+  background:#ECEFF1;
+  color:#111;
 }
+```
+
 
 /* =========================================================
    LAST CARD CENTER
@@ -633,3 +643,97 @@ footer{
     display:block;
   }
 }
+
+/* =========================================================
+   ENGINS
+========================================================= */
+
+/* FPT */
+
+.CAFPT{
+  background:#FF0000;
+}
+
+.COFPT{
+  background:#66FFFF;
+  color:#333;
+}
+
+.CBATFPT{
+  background:#9933FF;
+}
+
+.EBATFPT{
+  background:#FFC000;
+  color:#333;
+}
+
+.CBALFPT{
+  background:#FCD5B4;
+}
+
+.EBALFPT{
+  background:#FFFF00;
+}
+
+/* CCF */
+
+.CACCF{
+  background:#FF0000;
+}
+
+.COCCF{
+  background:#66FFFF;
+  color:#333;
+}
+
+.CBATCCF{
+  background:#9933FF;
+}
+
+.EBATCCF{
+  background:#FFC000;
+  color:#333;
+}
+
+/* VTU */
+
+.CAVTU{
+  background:#9933FF;
+}
+
+.COVTU{
+  background:#FFC000;
+  color:#333;
+}
+
+/* VSR */
+
+.CAVSR{
+  background:#B1A0C7;
+}
+
+.COVSR{
+  background:#66FFFF;
+  color:#333;
+}
+
+.EQVSR{
+  background:#FFC000;
+  color:#333;
+}
+
+/* VSSUAP */
+
+.CAVSSUAP{
+  background:#00B050;
+}
+
+.COVSSUAP{
+  background:#FCD5B4;
+}
+
+.EQVSSUAP{
+  background:#FFFF00;
+}
+```
