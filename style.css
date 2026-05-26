@@ -49,8 +49,8 @@ body{
 
   background:
     linear-gradient(
-      rgba(255,255,255,.60),
-      rgba(255,255,255,.75)
+      rgba(255,255,255,.45),
+      rgba(255,255,255,.60)
     ),
     url("./images/TAV.png");
 
@@ -305,7 +305,7 @@ button:hover{
 
   grid-template-columns:1fr 1fr;
 
-  gap:14px;
+  gap:10px;
 }
 
 /* =========================================================
@@ -314,83 +314,82 @@ button:hover{
 
 .vehicule{
 
-  min-height:110px;
+  min-height:78px;
 
-  padding:16px;
+  padding:10px;
 
-  border-radius:22px;
+  border-radius:18px;
 
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
 
-  gap:8px;
+  gap:6px;
 
   text-align:center;
 
-  font-size:.85rem;
+  font-size:.75rem;
   font-weight:900;
 
-  color:#111;
+  color:white;
 
   cursor:pointer;
 
   transition:.2s;
 
   box-shadow:
-    0 6px 16px rgba(0,0,0,.08);
+    0 6px 16px rgba(0,0,0,.10);
 
   -webkit-tap-highlight-color: transparent;
+
+  border:
+    1px solid rgba(255,255,255,.15);
+
+  backdrop-filter:blur(2px);
 }
 
 .vehicule:hover{
-
-  transform:
-    translateY(-2px);
+  transform:translateY(-2px);
 }
 
 .vehicule i{
-
-  font-size:1.5rem;
+  font-size:1.15rem;
 }
 
 /* =========================================================
-   VEHICULE COLORS
+   VEHICULE COLORS (TRANSPARENT POUR VOIR IMAGE)
 ========================================================= */
 
-```css
 .vsav{
-  background:#FF4D6D;
+  background:rgba(255,74,102,.78);
   color:white;
 }
 
 .fpt{
-  background:#FF6B00;
+  background:rgba(255,107,0,.78);
   color:white;
 }
 
 .ccf{
-  background:#2E7D32;
+  background:rgba(46,125,50,.78);
   color:white;
 }
 
 .vtu{
-  background:#1E88E5;
+  background:rgba(30,136,229,.78);
   color:white;
 }
 
 .vsr{
-  background:#6A1B9A;
+  background:rgba(106,27,154,.78);
   color:white;
 }
 
 .stat{
-  background:#ECEFF1;
+  background:rgba(236,239,241,.90);
   color:#111;
 }
-```
-
 
 /* =========================================================
    LAST CARD CENTER
@@ -585,26 +584,27 @@ footer{
   }
 
   .vehicule{
-
-    min-height:100px;
-
-    font-size:.78rem;
+    min-height:72px;
+    font-size:.72rem;
   }
 
   .vehicule i{
-    font-size:1.3rem;
+    font-size:1.05rem;
   }
 
   .card,
   .info-app,
   .admin-login,
   #adminPanel{
-
     padding:16px;
   }
 
   table{
     font-size:.85rem;
+  }
+
+  .app-bg{
+    background-position:left center;
   }
 }
 
@@ -615,31 +615,24 @@ footer{
 @media (min-width:769px){
 
   .vehicules{
-
-    grid-template-columns:
-      repeat(3,1fr);
+    grid-template-columns:repeat(3,1fr);
   }
 
   .vehicules .vehicule:last-child:nth-child(odd){
-
     grid-column:auto;
-
     width:100%;
   }
 
   .logoHeader{
-
     width:60px;
     height:60px;
   }
 
   header h1{
-
     font-size:1.3rem;
   }
 
   #date{
-
     display:block;
   }
 }
@@ -647,8 +640,6 @@ footer{
 /* =========================================================
    ENGINS
 ========================================================= */
-
-/* FPT */
 
 .CAFPT{
   background:#FF0000;
@@ -676,8 +667,6 @@ footer{
   background:#FFFF00;
 }
 
-/* CCF */
-
 .CACCF{
   background:#FF0000;
 }
@@ -696,8 +685,6 @@ footer{
   color:#333;
 }
 
-/* VTU */
-
 .CAVTU{
   background:#9933FF;
 }
@@ -706,8 +693,6 @@ footer{
   background:#FFC000;
   color:#333;
 }
-
-/* VSR */
 
 .CAVSR{
   background:#B1A0C7;
@@ -722,8 +707,6 @@ footer{
   background:#FFC000;
   color:#333;
 }
-
-/* VSSUAP */
 
 .CAVSSUAP{
   background:#00B050;
