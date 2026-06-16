@@ -1,222 +1,82 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VTU – CIS Taverny</title>
-<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-* { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif; }
-body { background:#fff3e0; color:#212121; display:flex; flex-direction:column; min-height:100vh; }
+  <title>VTU – CIS Taverny</title>
 
-/* ===== HEADER ===== */
-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0.8rem 1rem;
-  background:#d32f2f;
-  color:white;
-  border-radius:0 0 12px 12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.25);
-}
-header img { height:40px; border-radius:6px; border:2px solid #fff; }
-header h1 { flex:1; text-align:center; font-size:1rem; font-weight:700; margin:0 0.5rem; }
-header #date { font-size:0.8rem; opacity:0.85; }
-
-/* ===== ALERT MESSAGE ===== */
-#attention-msg {
-  background:#ffb74d;
-  color:#b71c1c;
-  font-weight:bold;
-  text-align:center;
-  padding:0.7rem;
-  border-radius:10px;
-  box-shadow:0 0 12px #ff6f00;
-  font-size:0.9rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:0.2rem;
-  margin:0.5rem 0;
-}
-
-/* ===== FIELDSETS ===== */
-fieldset {
-  border:2px solid #b71c1c;
-  border-radius:10px;
-  padding:0.8rem;
-  background:#fff8e1;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-  margin-bottom:0.8rem;
-}
-legend { font-weight:bold; color:#b71c1c; padding:0 5px; font-size:0.9rem; }
-
-/* ===== IMAGES ===== */
-.image-container {
-  width:100%;
-  margin:0.5rem 0;
-  border-radius:8px;
-  overflow:hidden;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-}
-.image-container img { width:100%; height:auto; display:block; border-radius:8px; }
-
-/* ===== CHECKLIST ===== */
-label {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0.5rem;
-  border-bottom:1px solid #ffe0b2;
-  font-size:0.85rem;
-  cursor:pointer;
-  border-radius:5px;
-  transition:0.2s;
-}
-label:hover { background:#fff176; }
-input[type="checkbox"] { transform:scale(1.3); accent-color:#b71c1c; }
-label.missing { background:#ed1c24; color:white; font-weight:bold; }
-
-/* ===== BOUTONS ===== */
-.buttons {
-  display:flex;
-  justify-content:center;
-  margin:1rem 0 2rem 0;
-}
-button {
-  width:95%;
-  padding:0.8rem;
-  border:none;
-  border-radius:10px;
-  font-size:1rem;
-  font-weight:bold;
-  background:#b71c1c;
-  color:white;
-  cursor:pointer;
-  box-shadow:0 2px 6px rgba(0,0,0,0.25);
-  transition:0.3s;
-}
-button:hover { transform:translateY(-2px); background:#d32f2f; }
-
-/* ===== FOOTER ===== */
-footer {
-  text-align:center;
-  font-size:0.75rem;
-  padding:0.5rem;
-  background:#ffd54f;
-  color:#b71c1c;
-  font-weight:bold;
-  border-top-left-radius:10px;
-  border-top-right-radius:10px;
-}
-
-/* ===== RESPONSIVE MOBILE ===== */
-@media (max-width:480px){
-  header img { height:35px; }
-  header h1 { font-size:0.95rem; }
-  header #date { font-size:0.75rem; }
-  label { font-size:0.8rem; padding:0.4rem; }
-  button { font-size:0.95rem; padding:0.7rem; }
-  fieldset { padding:0.7rem; }
-  legend { font-size:0.85rem; }
-}
-</style>
+  <link rel="shortcut icon" href="images/logo.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <body class="bg-image">
 </head>
 
 <body>
 
-<header>
-  <img src="images/logo.png" alt="Logo CIS Taverny">
-  <h1>Vérifications Chef d'agrès VTU</h1>
-  <div id="date"></div>
-</header>
+  <div class="app-bg"></div>
 
-<main>
+  <header>
+    <img src="images/logo.png" class="logoHeader" onclick="location.href='index.html'">
+    <h1>Vérifications VTU</h1>
+    <div class="headerRight">
+      <div id="date"></div>
+    </div>
+  </header>
 
-<fieldset>
-  <legend>RAPPEL</legend>
-  <p>Recharger la carte VIGIK</p>
-  <p>Vérification état et présence de l’échelle à coulisse sur le toit</p>
-</fieldset>
+  <main>
 
-<fieldset>
-  <legend>AVANT DU VTU</legend>
-  <div class="image-container"><img src="images/avantVTU.jpg" alt="Avant VTU"></div>
-  
-  <label><input type="checkbox" id="1 BER">1 BER</label>
-  <label><input type="checkbox" id="1 Classeur avec :">1 Classeur avec :</label>
-  <label><input type="checkbox" id="Fiches « Avis de passage »"> Fiches « Avis de passage »</label>
-  <label><input type="checkbox" id="Fiches d’identification des animaux"> Fiches d’identification des animaux</label>
-  <label><input type="checkbox" id="Fiches « Caractère Privé »"> Fiches « Caractère Privé »</label>
-  <label><input type="checkbox" id="Fiches « Décharge de responsabilité »"> Fiches « Décharge de responsabilité »</label>
-  <label><input type="checkbox" id="Fiches « Constat de dégât »"> Fiches « Constat de dégât »</label>
-  <label><input type="checkbox" id="Fiche d’aide pour ascenseur"> Fiche d’aide pour ascenseur</label>
-  <label><input type="checkbox" id="1 Jeton de présence">1 Jeton de présence</label>
-  <label><input type="checkbox" id="1 Boite de gants non stérile">1 Boite de gants non stérile</label>
-  <label><input type="checkbox" id="1 Boite de masques chirurgicaux + gel hydroalcoolique">1 Boite de masques chirurgicaux + gel hydroalcoolique</label>
-  <label><input type="checkbox" id="2 Tricoises">2 Tricoises</label>
-  <label><input type="checkbox" id="1 Clé triangle ouverture de secours">1 Clé triangle ouverture de secours</label>
-  <label><input type="checkbox" id="1 Feuilles de rappel des statuts">1 Feuilles de rappel des statuts</label>
-  <label><input type="checkbox" id="1 Rhinoevac">1 Rhinoevac</label>
-  <label><input type="checkbox" id="1 OFD">1 OFD</label>
-  <label><input type="checkbox" id="1 Projecteur ADALIT 5000">1 Projecteur ADALIT 5000</label>
-  <label><input type="checkbox" id="1 Petite Pince">1 Petite Pince</label>
-  <label><input type="checkbox" id="1 Pochette Clé ascenseur">1 Pochette Clé ascenseur</label>
-  <label><input type="checkbox" id="1 Kit premier secours">1 Kit premier secours</label>
-  <label><input type="checkbox" id="1 Radio">1 Radio</label>
-  <label><input type="checkbox" id="2 Paires de lunettes">2 Paires de lunettes</label>
-  <label><input type="checkbox" id="1 Boite d’ampoules">1 Boite d’ampoules</label>
-  <label><input type="checkbox" id="1 Carte VIGIK et son cordon">1 Carte VIGIK et son cordon</label>
-</fieldset>
+    <div id="container"></div>
 
-<fieldset>
-  <legend>ARRIERE</legend>
-  <div class="image-container"><img src="images/ARRIEREVTU.jpg" alt="Arrière VTU"></div>
-  
-  <label><input type="checkbox" id="1 Caisse lot bâchage avec :">1 Caisse lot bâchage avec :</label>
-  <label><input type="checkbox" id="4 Bâches"> 4 Bâches</label>
-  <label><input type="checkbox" id="1 Rouleau de rubalise"> 1 Rouleau de rubalise</label>
-  <label><input type="checkbox" id="1 Boite de clous à tête plate"> 1 Boite de clous à tête plate</label>
-  <label><input type="checkbox" id="1 Projecteur"> 1 Projecteur</label>
-  <label><input type="checkbox" id="1 Ceinture porte-outils"> 1 Ceinture porte-outils</label>
-  <label><input type="checkbox" id="1 Massette"> 1 Massette</label>
-  <label><input type="checkbox" id="2 Marteaux"> 2 Marteaux</label>
-  <label><input type="checkbox" id="1 Mètre à ruban"> 1 Mètre à ruban</label>
-  <label><input type="checkbox" id="1 Tronçonneuse n°2000/09161">1 Tronçonneuse n°2000/09161</label>
-  <label><input type="checkbox" id="1 Scie à bois">1 Scie à bois</label>
-  <label><input type="checkbox" id="2 Bec verseur">2 Bec verseur</label>
-  <label><input type="checkbox" id="Outillages tronçonneuse">Outillages tronçonneuse</label>
-  <label><input type="checkbox" id="1 Caisse lot Tronçonnage avec :">1 Caisse lot Tronçonnage avec :</label>
-  <label><input type="checkbox" id="3 Paires de bouchon d’oreille"> 3 Paires de bouchon d’oreille</label>
-  <label><input type="checkbox" id="4 Paires de gants de protection"> 4 Paires de gants de protection</label>
-  <label><input type="checkbox" id="4 Paires de guêtres"> 4 Paires de guêtres</label>
-  <label><input type="checkbox" id="2 Surpantalons"> 2 Surpantalons</label>
-  <label><input type="checkbox" id="2 Vestes"> 2 Vestes</label>
-  <label><input type="checkbox" id="2 Casques F2 tronçonnage"> 2 Casques F2 tronçonnage</label>
-  <label><input type="checkbox" id="1 Hache"> 1 Hache</label>
-  <label><input type="checkbox" id="1 Caisse avec 2 rallonges électrique">1 Caisse avec 2 rallonges électriques</label>
-  <label><input type="checkbox" id="1 Caisse PEE 30m³">1 Caisse PEE 30m³</label>
-</fieldset>
-
-<div class="buttons">
-  <button onclick="saveAndReturn()">Enregistrer et revenir au menu</button>
+<div class="comment-section">
+  <label for="commentaire"><strong>Commentaire :</strong></label>
+  <textarea
+    id="commentaire"
+    rows="4"
+    placeholder="Saisir un commentaire..."
+  ></textarea>
 </div>
-<footer>
-  CIS Taverny – Vérifications opérationnelles
-</footer>
 
-<script>
-document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-</script>
-<script type="module">
+<button class="btn" onclick="saveAndReturn()">
+  Enregistrer
+</button>
+
+
+
+  </main>
+
+  <!-- DATE -->
+  <script>
+    document.getElementById('date').textContent =
+      new Date().toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+  </script>
+
+  <!-- FIREBASE -->
+  <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+  where,
+  collection,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-// 🔹 Config Firebase
+/* ================= FIREBASE ================= */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es",
+  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
   projectId: "veriftav",
   storageBucket: "veriftav.firebasestorage.app",
@@ -225,59 +85,114 @@ const firebaseConfig = {
   measurementId: "G-KVSC8V8M1B"
 };
 
-// 🔹 Initialisation Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔹 Récupérer toutes les checkboxes
+/* ================= DATA ================= */
+
 function getData() {
   const inputs = document.querySelectorAll("input[type=checkbox]");
   const data = {};
-  inputs.forEach(input => data[input.id] = input.checked);
+  inputs.forEach(i => data[i.id] = i.checked);
   return data;
 }
 
-// 🔹 Surligner les éléments non cochés
-function highlightMissing(data) {
-  // Reset
-  document.querySelectorAll("label").forEach(label => label.style.backgroundColor = "");
-  // Surligner les manquants
+/* ================= SAFE DATE ================= */
+
+function formatDate(raw) {
+  let date;
+
+  if (!raw) date = new Date();
+  else if (raw.toDate) date = raw.toDate();
+  else date = new Date(raw);
+
+  if (isNaN(date.getTime())) date = new Date();
+
+  return date.toLocaleDateString("fr-FR");
+}
+
+/* ================= HIGHLIGHT ================= */
+
+function highlightMissing(data, lastInfo = null) {
+
+  document.querySelectorAll(".check-item").forEach(el => {
+    el.classList.remove("missing");
+
+    const badge = el.querySelector(".missing-badge");
+    const warn = el.querySelector(".missing-text");
+
+    if (badge) badge.style.display = "none";
+    if (warn) warn.style.display = "none";
+  });
+
+  const date = formatDate(lastInfo?.date);
+  const nom = lastInfo?.verificateur || "Inconnu";
+
   for (const [id, checked] of Object.entries(data)) {
+
     if (!checked) {
       const input = document.getElementById(id);
-      if (input) input.parentElement.style.backgroundColor = "#ED1C24";
+      if (!input) continue;
+
+      const wrapper = input.closest(".check-item");
+
+      if (wrapper) {
+        wrapper.classList.add("missing");
+
+        const badge = wrapper.querySelector(".missing-badge");
+        const warn = wrapper.querySelector(".missing-text");
+
+        if (badge) badge.style.display = "flex";
+
+        if (warn) {
+          warn.textContent =
+            `Matériel manquant constaté par ${nom} le ${date}`;
+          warn.style.display = "inline";
+        }
+      }
     }
   }
 }
 
-// 🔹 Sauvegarder une vérification avec ID unique basé sur la date
+/* ================= SAVE ================= */
+
 async function saveCheck() {
-  const data = getData();
-  highlightMissing(data);
+  const checkData = {};
+
+  document
+    .querySelectorAll("input[type=checkbox]")
+    .forEach(input => {
+      checkData[input.id] = input.checked;
+    });
+
+  const commentaire =
+    document.getElementById("commentaire")?.value.trim() || "";
 
   try {
     const timestamp = new Date();
-    const docId = "CA VTU_" + timestamp.getTime(); // ID unique
-    const docRef = doc(db, "verifications", docId);
+    const docId = "CA VTU_" + timestamp.getTime();
 
-    // Récupérer le nom du vérificateur depuis localStorage si existant
-    const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
+    const nomVerificateur =
+      localStorage.getItem("nomVerificateur") || "Inconnu";
 
-    await setDoc(docRef, {
+    await setDoc(doc(db, "verifications", docId), {
       nomDoc: "CA VTU",
       date: timestamp,
       verificateur: nomVerificateur,
-      data
+      commentaire: commentaire,
+      data: checkData
     });
 
-    const allChecked = Object.values(data).every(v => v === true);
+    console.log("Enregistrement OK");
+
   } catch (e) {
-    console.error(e);
-    alert("Erreur enregistrement : " + e.message);
+    console.error("Erreur Firestore :", e);
+    alert("Erreur lors de l'enregistrement");
   }
 }
 
-// 🔹 Charger le dernier état pour surligner les éléments manquants
+/* ================= LAST CHECK ================= */
+
 async function highlightLastMissing() {
   try {
     const q = query(
@@ -288,26 +203,131 @@ async function highlightLastMissing() {
     );
 
     const snapshot = await getDocs(q);
-    if (!snapshot.empty) {
-      const lastDoc = snapshot.docs[0].data();
-      highlightMissing(lastDoc.data); // Surligner sans cocher
-    }
+    if (snapshot.empty) return;
+
+    const docData = snapshot.docs[0].data();
+
+    highlightMissing(docData.data, {
+      date: docData.date,
+      verificateur: docData.verificateur
+    });
+
   } catch (e) {
-    console.error("Erreur chargement dernière vérification :", e);
+    console.error(e);
   }
 }
 
-// 🔹 Fonction combinée pour le bouton : enregistrer et revenir au menu
-window.saveAndReturn = async function() {
-  await saveCheck();           // Sauvegarde la vérification
-  location.href = "index.html"; // Retour au menu principal
+/* ================= STRUCTURE ================= */
+
+function makeId(sectionName, labelText) {
+  return `${sectionName}_${labelText}`
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "_")
+    .replace(/[^\w_]/g, "");
+}
+
+function createSectionImage(sectionName) {
+  const normalize = (name) =>
+    name
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "_")
+      .replace(/[^\w_]/g, "");
+
+  const img = document.createElement("img");
+  img.src = `images/CAVTU/${normalize(sectionName)}.jpg`;
+  img.alt = sectionName;
+  img.onerror = () => img.remove();
+
+  return img;
+}
+
+/* ================= LOAD ================= */
+
+async function loadStructure() {
+  const snap = await getDoc(doc(db, "FICHEVerif", "CAVTU"));
+  if (!snap.exists()) return;
+
+  const data = snap.data();
+  const container = document.getElementById("container");
+  container.innerHTML = "";
+
+  const sections = Object.entries(data)
+    .map(([name, section]) => ({ name, ...section }))
+    .filter(s => s.items)
+    .sort((a, b) => a.order - b.order);
+
+  for (const section of sections) {
+
+    const fieldset = document.createElement("fieldset");
+
+    const legend = document.createElement("legend");
+    legend.textContent = section.name;
+    fieldset.appendChild(legend);
+
+    fieldset.appendChild(createSectionImage(section.name));
+
+    const isRappel =
+      section.order === 1 &&
+      section.name.toUpperCase() === "RAPPEL";
+
+    for (const [labelText, value] of Object.entries(section.items)) {
+
+      if (isRappel) {
+        const p = document.createElement("p");
+        p.textContent = "📌 " + labelText;
+        fieldset.appendChild(p);
+        continue;
+      }
+
+      const label = document.createElement("label");
+      label.classList.add("check-item");
+
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.id = makeId(section.name, labelText);
+      input.checked = value === true;
+
+      const text = document.createElement("span");
+      text.textContent = labelText;
+
+      const badge = document.createElement("div");
+      badge.className = "missing-badge";
+      badge.style.display = "none";
+
+      const warn = document.createElement("span");
+      warn.className = "missing-text";
+      warn.style.display = "none";
+
+      label.appendChild(input);
+      label.appendChild(badge);
+      label.appendChild(text);
+      label.appendChild(warn);
+
+      fieldset.appendChild(label);
+
+    }
+
+    container.appendChild(fieldset);
+  }
+}
+
+/* ================= GLOBAL ================= */
+
+window.saveAndReturn = async function () {
+  await saveCheck();
+  location.href = "index.html";
 };
 
-// 🔹 Exécuter au chargement pour surligner les éléments manquants précédents
-window.addEventListener("DOMContentLoaded", highlightLastMissing);
-</script>
-	
-</main>
+/* ================= INIT ================= */
+
+window.addEventListener("DOMContentLoaded", async () => {
+  await loadStructure();
+  await highlightLastMissing();
+});
+
+  </script>
 
 </body>
 </html>

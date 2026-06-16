@@ -1,6 +1,6 @@
 {
-  "name": "CIS TAVERNY - VERIFICATION",
-  "short_name": "CIS TAVERNY - VERIFICATION",
+  "name": "VERIFICATION TAVERNY",
+  "short_name": "VERIFICATION TAVERNY",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",

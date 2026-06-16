@@ -1,201 +1,82 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VSRM – CIS Taverny</title>
-<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-* { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif; }
-body { background:#fff3e0; color:#212121; display:flex; flex-direction:column; min-height:100vh; }
+  <title>VSRM – CIS Taverny</title>
 
-/* ===== HEADER ===== */
-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0.8rem 1rem;
-  background:#d32f2f;
-  color:white;
-  border-radius:0 0 12px 12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.25);
-}
-header img { height:40px; border-radius:6px; border:2px solid #fff; }
-header h1 { flex:1; text-align:center; font-size:1rem; font-weight:700; margin:0 0.5rem; }
-header #date { font-size:0.8rem; opacity:0.85; }
-
-/* ===== ALERT MESSAGE ===== */
-#attention-msg {
-  background:#ffb74d;
-  color:#b71c1c;
-  font-weight:bold;
-  text-align:center;
-  padding:0.7rem;
-  border-radius:10px;
-  box-shadow:0 0 12px #ff6f00;
-  font-size:0.9rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:0.2rem;
-  margin:0.5rem 0;
-}
-
-/* ===== FIELDSETS ===== */
-fieldset {
-  border:2px solid #b71c1c;
-  border-radius:10px;
-  padding:0.8rem;
-  background:#fff8e1;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-  margin-bottom:0.8rem;
-}
-legend { font-weight:bold; color:#b71c1c; padding:0 5px; font-size:0.9rem; }
-
-/* ===== IMAGES ===== */
-.image-container {
-  width:100%;
-  margin:0.5rem 0;
-  border-radius:8px;
-  overflow:hidden;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-}
-.image-container img { width:100%; height:auto; display:block; border-radius:8px; }
-
-/* ===== CHECKLIST ===== */
-label {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0.5rem;
-  border-bottom:1px solid #ffe0b2;
-  font-size:0.85rem;
-  cursor:pointer;
-  border-radius:5px;
-  transition:0.2s;
-}
-label:hover { background:#fff176; }
-input[type="checkbox"] { transform:scale(1.3); accent-color:#b71c1c; }
-label.missing { background:#ed1c24; color:white; font-weight:bold; }
-
-/* ===== BOUTONS ===== */
-.buttons {
-  display:flex;
-  justify-content:center;
-  margin:1rem 0 2rem 0;
-}
-button {
-  width:95%;
-  padding:0.8rem;
-  border:none;
-  border-radius:10px;
-  font-size:1rem;
-  font-weight:bold;
-  background:#b71c1c;
-  color:white;
-  cursor:pointer;
-  box-shadow:0 2px 6px rgba(0,0,0,0.25);
-  transition:0.3s;
-}
-button:hover { transform:translateY(-2px); background:#d32f2f; }
-
-/* ===== FOOTER ===== */
-footer {
-  text-align:center;
-  font-size:0.75rem;
-  padding:0.5rem;
-  background:#ffd54f;
-  color:#b71c1c;
-  font-weight:bold;
-  border-top-left-radius:10px;
-  border-top-right-radius:10px;
-}
-
-/* ===== RESPONSIVE MOBILE ===== */
-@media (max-width:480px){
-  header img { height:35px; }
-  header h1 { font-size:0.95rem; }
-  header #date { font-size:0.75rem; }
-  label { font-size:0.8rem; padding:0.4rem; }
-  button { font-size:0.95rem; padding:0.7rem; }
-  fieldset { padding:0.7rem; }
-  legend { font-size:0.85rem; }
-}
-</style>
+  <link rel="shortcut icon" href="images/logo.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <body class="bg-image">
 </head>
 
 <body>
 
-<header>
-  <img src="images/logo.png" alt="Logo CIS Taverny">
-  <h1>Vérifications Equipier VSRM</h1>
-  <div id="date"></div>
-</header>
+  <div class="app-bg"></div>
 
-<main>
+  <header>
+    <img src="images/logo.png" class="logoHeader" onclick="location.href='index.html'">
+    <h1>Vérifications VSRM</h1>
+    <div class="headerRight">
+      <div id="date"></div>
+    </div>
+  </header>
 
-<fieldset>
-  <legend>COFFRE AVANT GAUCHE</legend>
-  <div class="image-container"><img src="images/CoffreavdGVSR.jpg" alt="Coffre avant gauche"></div>
-  <label><input type="checkbox" id="1 LSPCC (Vérification le samedi du contenue)">1 LSPCC (Vérification le samedi du contenue)</label>
-<label><input type="checkbox" id="1 Caisse N°1 : 1 Paires de gants isolant électrique / 2 Sangles à cliquet PL / 1 rouleau de rubalise / 2 sangles échelle / 1 serpillière">1 Caisse N°1 : 1 Paires de gants isolant électrique / 2 Sangles à cliquet PL / 1 rouleau de rubalise / 2 sangles échelle / 1 serpillière</label>
-<label><input type="checkbox" id="1 Caisse N°2 : 2 Flexibles rouge et bleu de 10 m / 2 flexibles rouge et bleu de 2m avec robinet /1 Plaque Power Plate / 1 régulateur de pression / 1 Contrôleur double / 1 clé / 1 prise fixation plaque Power Plate / 1 connecteur coussin / 1 Brosse">1 Caisse N°2 : 2 Flexibles rouge et bleu de 10 m / 2 flexibles rouge et bleu de 2m avec robinet /1 Plaque Power Plate / 1 régulateur de pression / 1 Contrôleur double / 1 clé / 1 prise fixation plaque Power Plate / 1 connecteur coussin / 1 Brosse</label>
-<label><input type="checkbox" id="2 Cousins de levage + housses de transport">2 Cousins de levage + housses de transport</label>
-<label><input type="checkbox" id="1 Plaque de protection en kevlar">1 Plaque de protection en kevlar</label>
-<label><input type="checkbox" id="1 Caisse à outils plombée : Clés mixtes (8, 9, 10, 11, 12, 13, 14, 15, 17, 19) / Clés plates (12/13, 14/15, 18/19, 22/24, 24/27) / 1 Cutter et 2 Lames / 1 Clé à molette 8’’ / 1 Pince multiprise petit modèle / 1 pince multiprise grand modèle / 1 Cisaille / 1 Massette / 1 Burin ciseau / 1 Scie à métaux + 1 lame / 1 Pince à bec / 1 Tournevis plats / 2 Tournevis cruciforme / 1 boite à cliquets complète">1 Caisse à outils plombée : Clés mixtes (8, 9, 10, 11, 12, 13, 14, 15, 17, 19) / Clés plates (12/13, 14/15, 18/19, 22/24, 24/27) / 1 Cutter et 2 Lames / 1 Clé à molette 8’’ / 1 Pince multiprise petit modèle / 1 pince multiprise grand modèle / 1 Cisaille / 1 Massette / 1 Burin ciseau / 1 Scie à métaux + 1 lame / 1 Pince à bec / 1 Tournevis plats / 2 Tournevis cruciforme / 1 boite à cliquets complète</label></fieldset>
+  <main>
 
-<fieldset>
-  <legend>COFFRE ARRIERE GAUCHE</legend>
-  <div class="image-container"><img src="images/CoffreardGVSR.jpg" alt="Coffre arrière"></div>
-<label><input type="checkbox" id="1 Caisse : 1 TIRFOR TU16 / 1 Poulie / 1 Levier de manœuvre / 6 Manilles / 1 Câbles de 15m / 3 Élingues textiles 4T">1 Caisse : 1 TIRFOR TU16 / 1 Poulie / 1 Levier de manœuvre / 6 Manilles / 1 Câbles de 15m / 3 Élingues textiles 4T</label>
-<label><input type="checkbox" id="1 Chariot de transport">1 Chariot de transport</label>
-<label><input type="checkbox" id="Caisse n°9 : Cordage">Caisse n°9 : Cordage</label>
-</fieldset>
+    <div id="container"></div>
 
-<fieldset>
-  <legend>COFFRE ARRIERE DROIT</legend>
-  <div class="image-container"><img src="images/coffreardDVSR.jpg" alt="Coffre arrière"></div>
-<label><input type="checkbox" id="6 Cônes de LUBEC">6 Cônes de LUBEC</label>
-<label><input type="checkbox" id="6 Balises lumineuses Bleu">6 Balises lumineuses Bleu</label>
-<label><input type="checkbox" id="1 Sceau d’absorbant">1 Sceau d’absorbant</label>
-<label><input type="checkbox" id="1 Triflash">1 Triflash</label>
-<label><input type="checkbox" id="Caisse n°10 : 2 projecteurs">Caisse n°10 : 2 projecteurs</label></fieldset>
-
-<fieldset>
-  <legend>COFFRE AVANT DROIT</legend>
-  <div class="image-container"><img src="images/CoffreavdVSR.jpg" alt="Coffre avant droit "></div>
-<label><input type="checkbox" id="1 Pioche et son manche">1 Pioche et son manche</label>
-<label><input type="checkbox" id="2 Balais de cantonnier">2 Balais de cantonnier</label>
-<label><input type="checkbox" id="1 Pelle">1 Pelle</label>
-<label><input type="checkbox" id="1 Petite pince">1 Petite pince</label>
-<label><input type="checkbox" id="1 Grande pince">1 Grande pince</label>
-<label><input type="checkbox" id="1 Coupe boulon grand">1 Coupe boulon grand</label>
-<label><input type="checkbox" id="1 Coupe boulon petit">1 Coupe boulon petit</label>
-<label><input type="checkbox" id="1 Scie à métaux">1 Scie à métaux</label>
-<label><input type="checkbox" id="1 Scie à buche">1 Scie à buche</label>
-<label><input type="checkbox" id="1 Hachette">1 Hachette</label>
-<label><input type="checkbox" id="1 Jeu de bastings">1 Jeu de bastings</label>
-<label><input type="checkbox" id="1 Sac PS">1 Sac PS </label></fieldset>
-
-<div class="buttons">
-  <button onclick="saveAndReturn()">Enregistrer et revenir au menu</button>
+<div class="comment-section">
+  <label for="commentaire"><strong>Commentaire :</strong></label>
+  <textarea
+    id="commentaire"
+    rows="4"
+    placeholder="Saisir un commentaire..."
+  ></textarea>
 </div>
 
-<footer>
-  CIS Taverny – Vérifications opérationnelles
-</footer>
+<button class="btn" onclick="saveAndReturn()">
+  Enregistrer
+</button>
 
-<script>
-document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-</script>
 
-<script type="module">
+
+  </main>
+
+  <!-- DATE -->
+  <script>
+    document.getElementById('date').textContent =
+      new Date().toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+  </script>
+
+  <!-- FIREBASE -->
+  <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+  where,
+  collection,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+/* ================= FIREBASE ================= */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es",
+  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
   projectId: "veriftav",
   storageBucket: "veriftav.firebasestorage.app",
@@ -207,47 +88,246 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+/* ================= DATA ================= */
+
 function getData() {
   const inputs = document.querySelectorAll("input[type=checkbox]");
   const data = {};
-  inputs.forEach(input => data[input.id] = input.checked);
+  inputs.forEach(i => data[i.id] = i.checked);
   return data;
 }
 
-function highlightMissing(data) {
-  document.querySelectorAll("label").forEach(label => label.classList.remove("missing"));
+/* ================= SAFE DATE ================= */
+
+function formatDate(raw) {
+  let date;
+
+  if (!raw) date = new Date();
+  else if (raw.toDate) date = raw.toDate();
+  else date = new Date(raw);
+
+  if (isNaN(date.getTime())) date = new Date();
+
+  return date.toLocaleDateString("fr-FR");
+}
+
+/* ================= HIGHLIGHT ================= */
+
+function highlightMissing(data, lastInfo = null) {
+
+  document.querySelectorAll(".check-item").forEach(el => {
+    el.classList.remove("missing");
+
+    const badge = el.querySelector(".missing-badge");
+    const warn = el.querySelector(".missing-text");
+
+    if (badge) badge.style.display = "none";
+    if (warn) warn.style.display = "none";
+  });
+
+  const date = formatDate(lastInfo?.date);
+  const nom = lastInfo?.verificateur || "Inconnu";
+
   for (const [id, checked] of Object.entries(data)) {
+
     if (!checked) {
       const input = document.getElementById(id);
-      if (input) input.parentElement.classList.add("missing");
+      if (!input) continue;
+
+      const wrapper = input.closest(".check-item");
+
+      if (wrapper) {
+        wrapper.classList.add("missing");
+
+        const badge = wrapper.querySelector(".missing-badge");
+        const warn = wrapper.querySelector(".missing-text");
+
+        if (badge) badge.style.display = "flex";
+
+        if (warn) {
+          warn.textContent =
+            `Matériel manquant constaté par ${nom} le ${date}`;
+          warn.style.display = "inline";
+        }
+      }
     }
   }
 }
 
+/* ================= SAVE ================= */
+
 async function saveCheck() {
-  const data = getData();
-  highlightMissing(data);
+  const checkData = {};
+
+  document
+    .querySelectorAll("input[type=checkbox]")
+    .forEach(input => {
+      checkData[input.id] = input.checked;
+    });
+
+  const commentaire =
+    document.getElementById("commentaire")?.value.trim() || "";
+
   try {
     const timestamp = new Date();
-    const docId = "EQUIPIER VSRM_" + timestamp.getTime();
-    const docRef = doc(db, "verifications", docId);
-    const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
-    await setDoc(docRef, { nomDoc: "EQUIPIER VSRM", date: timestamp, verificateur: nomVerificateur, data });
-  } catch (e) { console.error(e); alert("Erreur enregistrement : " + e.message); }
+    const docId = "EQ VSRM_" + timestamp.getTime();
+
+    const nomVerificateur =
+      localStorage.getItem("nomVerificateur") || "Inconnu";
+
+    await setDoc(doc(db, "verifications", docId), {
+      nomDoc: "EQ VSRM",
+      date: timestamp,
+      verificateur: nomVerificateur,
+      commentaire: commentaire,
+      data: checkData
+    });
+
+    console.log("Enregistrement OK");
+
+  } catch (e) {
+    console.error("Erreur Firestore :", e);
+    alert("Erreur lors de l'enregistrement");
+  }
 }
+
+/* ================= LAST CHECK ================= */
 
 async function highlightLastMissing() {
   try {
-    const q = query(collection(db, "verifications"), where("nomDoc","==","EQUIPIER VSRM"), orderBy("date","desc"), limit(1));
+    const q = query(
+      collection(db, "verifications"),
+      where("nomDoc", "==", "EQ VSRM"),
+      orderBy("date", "desc"),
+      limit(1)
+    );
+
     const snapshot = await getDocs(q);
-    if (!snapshot.empty) highlightMissing(snapshot.docs[0].data().data);
-  } catch (e) { console.error(e); }
+    if (snapshot.empty) return;
+
+    const docData = snapshot.docs[0].data();
+
+    highlightMissing(docData.data, {
+      date: docData.date,
+      verificateur: docData.verificateur
+    });
+
+  } catch (e) {
+    console.error(e);
+  }
 }
 
-window.saveAndReturn = async function() { await saveCheck(); location.href = "index.html"; };
-window.addEventListener("DOMContentLoaded", highlightLastMissing);
-</script>
+/* ================= STRUCTURE ================= */
 
-</main>
+function makeId(sectionName, labelText) {
+  return `${sectionName}_${labelText}`
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "_")
+    .replace(/[^\w_]/g, "");
+}
+
+function createSectionImage(sectionName) {
+  const normalize = (name) =>
+    name
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "_")
+      .replace(/[^\w_]/g, "");
+
+  const img = document.createElement("img");
+  img.src = `images/EQVSRM/${normalize(sectionName)}.jpg`;
+  img.alt = sectionName;
+  img.onerror = () => img.remove();
+
+  return img;
+}
+
+/* ================= LOAD ================= */
+
+async function loadStructure() {
+  const snap = await getDoc(doc(db, "FICHEVerif", "EQVSRM"));
+  if (!snap.exists()) return;
+
+  const data = snap.data();
+  const container = document.getElementById("container");
+  container.innerHTML = "";
+
+  const sections = Object.entries(data)
+    .map(([name, section]) => ({ name, ...section }))
+    .filter(s => s.items)
+    .sort((a, b) => a.order - b.order);
+
+  for (const section of sections) {
+
+    const fieldset = document.createElement("fieldset");
+
+    const legend = document.createElement("legend");
+    legend.textContent = section.name;
+    fieldset.appendChild(legend);
+
+    fieldset.appendChild(createSectionImage(section.name));
+
+    const isRappel =
+      section.order === 1 &&
+      section.name.toUpperCase() === "RAPPEL";
+
+    for (const [labelText, value] of Object.entries(section.items)) {
+
+      if (isRappel) {
+        const p = document.createElement("p");
+        p.textContent = "📌 " + labelText;
+        fieldset.appendChild(p);
+        continue;
+      }
+
+      const label = document.createElement("label");
+      label.classList.add("check-item");
+
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.id = makeId(section.name, labelText);
+      input.checked = value === true;
+
+      const text = document.createElement("span");
+      text.textContent = labelText;
+
+      const badge = document.createElement("div");
+      badge.className = "missing-badge";
+      badge.style.display = "none";
+
+      const warn = document.createElement("span");
+      warn.className = "missing-text";
+      warn.style.display = "none";
+
+      label.appendChild(input);
+      label.appendChild(badge);
+      label.appendChild(text);
+      label.appendChild(warn);
+
+      fieldset.appendChild(label);
+
+    }
+
+    container.appendChild(fieldset);
+  }
+}
+
+/* ================= GLOBAL ================= */
+
+window.saveAndReturn = async function () {
+  await saveCheck();
+  location.href = "index.html";
+};
+
+/* ================= INIT ================= */
+
+window.addEventListener("DOMContentLoaded", async () => {
+  await loadStructure();
+  await highlightLastMissing();
+});
+
+  </script>
+
 </body>
 </html>

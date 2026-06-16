@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin CIS Taverny</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-image">
+
+<header>
+  <img src="images/logo.png" onclick="location.href='index.html'" width="110">
+  <h1>Administration des fiches de vérification et gestion des utilisateurs du CIS de Taverny.</h1>
+</header>
+
+<main class="admin-dashboard">
+
+  <aside class="admin-sidebar">
+
+    <div class="admin-profile">
+      <img src="images/logo.png" alt="Logo">
+      <h2>Admin CIS Taverny</h2>
+      <p>Panneau de contrôle</p>
+    </div>
+
+    <button id="btnUsers" class="side-btn active" onclick="showSection('users')">
+      👤 Utilisateurs
+    </button>
+
+    <button id="btnVerif" class="side-btn" onclick="showSection('verif')">
+      🚒 Vérifications
+    </button>
+
+  </aside>
+
+  <section class="admin-content">
+
+    <div id="dashboardHeader" class="dashboard-header">
+      <div>
+        <h1>Tableau de bord</h1>
+        <p>Gestion des accès et des fiches de vérification</p>
+      </div>
+    </div>
+
+    <div id="dashboardStats" class="dashboard-stats">
+      <div class="dash-stat">
+        <span id="totalUsers">0</span>
+        <p>Utilisateurs</p>
+      </div>
+      <div class="dash-stat">
+        <span id="adminUsers">0</span>
+        <p>Admins</p>
+      </div>
+      <div class="dash-stat">
+        <span id="chefUsers">0</span>
+        <p>Chefs</p>
+      </div>
+      <div class="dash-stat">
+        <span id="bmmUsers">0</span>
+        <p>BMM</p>
+      </div>
+    </div>
+
+    <section id="usersSection" class="admin-card">
+      <div class="card-top">
+        <div>
+          <h2>Gestion des utilisateurs</h2>
+          <p>Créer, modifier ou supprimer un accès.</p>
+        </div>
+        <button onclick="toggleCreateUser()">+ Nouvel utilisateur</button>
+      </div>
+
+      <div id="createUserBox" class="create-user-box" style="display:none;">
+        <input id="newUser" placeholder="Identifiant">
+        <input id="newPass" type="password" placeholder="Mot de passe">
+        <select id="newRole">
+          <option value="admin">Administrateur</option>
+          <option value="chef">Chef</option>
+          <option value="bmm">BMM</option>
+        </select>
+        <button onclick="createUser()">Créer</button>
+      </div>
+
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>Utilisateur</th>
+            <th>Rôle</th>
+            <th>Mot de passe</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="verifSection" class="admin-card">
+      <div class="card-top">
+        <div>
+          <h2>Gestion des vérifications</h2>
+          <p>Visualiser ou modifier les fiches matériel.</p>
+        </div>
+      </div>
+
+      <div class="engins-grid">
+        <button onclick="openEngin('VSSUAP')">VSSUAP</button>
+        <button onclick="openEngin('FPTGP')">FPTGP</button>
+        <button onclick="openEngin('VSRM')">VSRM</button>
+        <button onclick="openEngin('CCFM')">CCFM</button>
+        <button onclick="openEngin('VTU')">VTU</button>
+        <button onclick="openEngin('STATIONNAIRE')">STATIONNAIRE</button>
+      </div>
+
+      <div id="enginPanel"></div>
+    </section>
+
+  </section>
+
+</main>
+
+<div id="viewModal" class="modal" style="display:none">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h3>👁 Visualisation fiche</h3>
+      <button onclick="closeView()">✖</button>
+    </div>
+
+    <div id="viewContainer"></div>
+
+  </div>
+</div>
+
+<div id="editModal" class="modal" style="display:none">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h3>✏ Modification fiche</h3>
+      <button onclick="closeEdit()">✖</button>
+    </div>
+
+    <div id="editContainer"></div>
+
+    <button onclick="saveEdit()">💾 Sauvegarder</button>
+
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
+  authDomain: "veriftav.firebaseapp.com",
+  projectId: "veriftav"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+/* ================= NAVIGATION ADMIN ================= */
+
+function showSection(section){
+
+  const users = document.getElementById("usersSection");
+  const verif = document.getElementById("verifSection");
+  const stats = document.getElementById("dashboardStats");
+  const header = document.getElementById("dashboardHeader");
+
+  document.querySelectorAll(".side-btn")
+    .forEach(btn => btn.classList.remove("active"));
+
+  if(section === "users"){
+
+    users.style.display = "block";
+    verif.style.display = "none";
+
+    header.style.display = "block";
+    stats.style.display = "grid";
+
+    document.getElementById("btnUsers").classList.add("active");
+  }
+
+  if(section === "verif"){
+
+    users.style.display = "none";
+    verif.style.display = "block";
+
+    header.style.display = "none";
+    stats.style.display = "none";
+
+    document.getElementById("btnVerif").classList.add("active");
+  }
+}
+
+/* ================= USERS ================= */
+
+function toggleCreateUser(){
+  const box = document.getElementById("createUserBox");
+  box.style.display = box.style.display === "none" ? "grid" : "none";
+}
+
+async function loadUsers(){
+  const snap = await db.collection("users").get();
+  const tbody = document.querySelector("#usersTable tbody");
+
+  tbody.innerHTML = "";
+
+  let total = 0;
+  let admin = 0;
+  let chef = 0;
+  let bmm = 0;
+
+  snap.forEach(doc=>{
+    const u = doc.data();
+    total++;
+
+    if(u.role === "admin") admin++;
+    if(u.role === "chef") chef++;
+    if(u.role === "bmm") bmm++;
+
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>${doc.id}</strong></td>
+        <td>${roleBadge(u.role)}</td>
+        <td>••••••••</td>
+        <td class="actions">
+          <button onclick="openEditUser('${doc.id}', '${u.role}')">Modifier</button>
+          <button onclick="deleteUserById('${doc.id}')">Supprimer</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("totalUsers").textContent = total;
+  document.getElementById("adminUsers").textContent = admin;
+  document.getElementById("chefUsers").textContent = chef;
+  document.getElementById("bmmUsers").textContent = bmm;
+}
+
+function roleBadge(role){
+  return `<span class="role role-${role}">${role}</span>`;
+}
+
+async function createUser(){
+  if(!newUser.value || !newPass.value){
+    alert("Remplir tous les champs");
+    return;
+  }
+
+  await db.collection("users").doc(newUser.value).set({
+    password: newPass.value,
+    role: newRole.value,
+    createdAt: new Date()
+  });
+
+  newUser.value = "";
+  newPass.value = "";
+  document.getElementById("createUserBox").style.display = "none";
+  loadUsers();
+}
+
+function deleteUserById(id){
+  if(!confirm("Supprimer " + id + " ?")) return;
+  db.collection("users").doc(id).delete().then(loadUsers);
+}
+
+async function openEditUser(id, role){
+  const newRoleValue = prompt("Modifier rôle de " + id, role);
+  if(!newRoleValue) return;
+
+  await db.collection("users").doc(id).update({
+    role: newRoleValue
+  });
+
+  loadUsers();
+}
+
+/* ================= FICHEVERIF ================= */
+
+const engins = {
+
+  VSSUAP: [
+    { label: "CA VSSUAP", fiche: "CAVSSUAP" },
+    { label: "CO VSSUAP", fiche: "COVSSUAP" },
+    { label: "EQ VSSUAP", fiche: "EQVSSUAP" }
+  ],
+
+  FPTGP: [
+    { label: "CA FPTGP", fiche: "CAFPTGP" },
+    { label: "CO FPTGP", fiche: "COFPTGP" },
+    { label: "CE BAT FPTGP", fiche: "CEBATFPTGP" },
+    { label: "EQ BAT FPTGP", fiche: "EQBATFPTGP" },
+    { label: "CE BAL FPTGP", fiche: "CEBALFPTGP" },
+    { label: "EQ BAL FPTGP", fiche: "EQBALFPTGP" }
+  ],
+
+  VSRM: [
+    { label: "CA VSRM", fiche: "CAVSRM" },
+    { label: "CO VSRM", fiche: "COVSRM" },
+    { label: "EQ VSRM", fiche: "EQVSRM" }
+  ],
+
+  CCFM: [
+    { label: "CA CCFM", fiche: "CACCFM" },
+    { label: "CO CCFM", fiche: "COCCFM" },
+    { label: "EQ1 CCFM", fiche: "EQ1CCFM" },
+    { label: "EQ2 CCFM", fiche: "EQ2CCFM" }
+  ],
+
+  VTU: [
+    { label: "CA VTU", fiche: "CAVTU" },
+    { label: "CO VTU", fiche: "COVTU" }
+  ],
+
+  STATIONNAIRE: [
+    { label: "STATIONNAIRE", fiche: "STATIONNAIRE" }
+  ]
+
+};
+
+let currentEditFiche = null;
+let currentEditData = null;
+
+/* ================= OPEN ENGIN ================= */
+
+function openEngin(name){
+  const panel = document.getElementById("enginPanel");
+  panel.innerHTML = `<h3>${name}</h3>`;
+
+  if(!engins[name]){
+    panel.innerHTML += "<p>Fiche pas encore disponible.</p>";
+    return;
+  }
+
+  engins[name].forEach(poste=>{
+    const div = document.createElement("div");
+    div.className = "engin-card";
+
+    div.innerHTML = `
+      <p><strong>${poste.label}</strong></p>
+      <div>
+        <button onclick="viewFiche('${poste.fiche}', '${poste.label}')">👁 Visualiser</button>
+        <button onclick="editFiche('${poste.fiche}', '${poste.label}')">✏ Modifier</button>
+      </div>
+    `;
+
+    panel.appendChild(div);
+  });
+}
+
+/* ================= VISUALISATION ================= */
+
+async function viewFiche(ficheId, title){
+  const snap = await db.collection("FICHEVerif").doc(ficheId).get();
+
+  if(!snap.exists){
+    alert("Aucune fiche trouvée : " + ficheId);
+    return;
+  }
+
+  const data = snap.data();
+  const container = document.getElementById("viewContainer");
+
+  container.innerHTML = `
+    <h2>${title}</h2>
+    <p class="admin-muted">Liste du matériel présent dans la fiche de vérification</p>
+  `;
+
+  getOrderedSections(data).forEach(section=>{
+    const fieldset = document.createElement("fieldset");
+
+    fieldset.innerHTML = `
+      <legend>${section.name}</legend>
+    `;
+
+    Object.keys(section.items || {}).forEach(item=>{
+      const row = document.createElement("div");
+      row.className = "admin-list-row";
+      row.textContent = item;
+      fieldset.appendChild(row);
+    });
+
+    container.appendChild(fieldset);
+  });
+
+  document.getElementById("viewModal").style.display = "flex";
+}
+
+function closeView(){
+  document.getElementById("viewModal").style.display = "none";
+}
+
+/* ================= EDITION ================= */
+
+async function editFiche(ficheId, title){
+  const snap = await db.collection("FICHEVerif").doc(ficheId).get();
+
+  if(!snap.exists){
+    alert("Aucune fiche trouvée : " + ficheId);
+    return;
+  }
+
+  currentEditFiche = ficheId;
+  currentEditData = snap.data();
+
+  const container = document.getElementById("editContainer");
+
+  container.innerHTML = `
+    <h2>${title}</h2>
+
+    <div class="admin-edit-toolbar">
+      <button onclick="addSection()">➕ Ajouter une section</button>
+      <button onclick="saveEdit()">💾 Sauvegarder</button>
+    </div>
+
+    <div id="sectionsEditor"></div>
+  `;
+
+  renderStructureEditor();
+
+  document.getElementById("editModal").style.display = "flex";
+}
+
+function closeEdit(){
+  document.getElementById("editModal").style.display = "none";
+}
+
+function renderStructureEditor(){
+  const editor = document.getElementById("sectionsEditor");
+  editor.innerHTML = "";
+
+  getOrderedSections(currentEditData).forEach((section, sectionIndex)=>{
+    const sectionBox = document.createElement("div");
+    sectionBox.className = "admin-section-editor";
+
+    sectionBox.innerHTML = `
+      <div class="section-edit-header">
+        <input 
+          value="${escapeHtml(section.name)}"
+          onchange="renameSection('${escapeAttr(section.name)}', this.value)"
+          placeholder="Nom de section"
+        >
+
+        <input 
+          type="number"
+          value="${section.order || 0}"
+          onchange="changeSectionOrder('${escapeAttr(section.name)}', this.value)"
+          title="Ordre section"
+        >
+
+        <button onclick="addItem('${escapeAttr(section.name)}')">➕ Item</button>
+        <button onclick="deleteSection('${escapeAttr(section.name)}')">🗑 Section</button>
+      </div>
+
+      <div id="items-${sectionIndex}" class="items-editor"></div>
+    `;
+
+    editor.appendChild(sectionBox);
+
+    const itemsBox = sectionBox.querySelector(`#items-${sectionIndex}`);
+
+    Object.keys(section.items || {}).forEach(item=>{
+      const row = document.createElement("div");
+      row.className = "admin-item-editor";
+
+      row.innerHTML = `
+        <input 
+          value="${escapeHtml(item)}"
+          onchange="renameItem('${escapeAttr(section.name)}', '${escapeAttr(item)}', this.value)"
+          placeholder="Nom de l’item"
+        >
+
+        <button onclick="moveItemUp('${escapeAttr(section.name)}', '${escapeAttr(item)}')">⬆</button>
+        <button onclick="moveItemDown('${escapeAttr(section.name)}', '${escapeAttr(item)}')">⬇</button>
+        <button onclick="deleteItem('${escapeAttr(section.name)}', '${escapeAttr(item)}')">🗑</button>
+      `;
+
+      itemsBox.appendChild(row);
+    });
+  });
+}
+
+/* ================= SECTIONS ================= */
+
+function addSection(){
+  const name = prompt("Nom de la nouvelle section");
+  if(!name) return;
+
+  if(currentEditData[name]){
+    alert("Cette section existe déjà.");
+    return;
+  }
+
+  currentEditData[name] = {
+    order: Object.keys(currentEditData).length + 1,
+    items: {}
+  };
+
+  renderStructureEditor();
+}
+
+function deleteSection(section){
+  if(!confirm("Supprimer la section : " + section + " ?")) return;
+
+  delete currentEditData[section];
+  renderStructureEditor();
+}
+
+function renameSection(oldName, newName){
+  newName = newName.trim();
+
+  if(!newName || oldName === newName) return;
+
+  if(currentEditData[newName]){
+    alert("Une section avec ce nom existe déjà.");
+    renderStructureEditor();
+    return;
+  }
+
+  currentEditData[newName] = currentEditData[oldName];
+  delete currentEditData[oldName];
+
+  renderStructureEditor();
+}
+
+function changeSectionOrder(section, order){
+  currentEditData[section].order = Number(order);
+  renderStructureEditor();
+}
+
+/* ================= ITEMS ================= */
+
+function addItem(section){
+  const name = prompt("Nom du nouvel item");
+  if(!name) return;
+
+  if(currentEditData[section].items[name]){
+    alert("Cet item existe déjà.");
+    return;
+  }
+
+  currentEditData[section].items[name] = true;
+  renderStructureEditor();
+}
+
+function deleteItem(section, item){
+  if(!confirm("Supprimer l’item : " + item + " ?")) return;
+
+  delete currentEditData[section].items[item];
+  renderStructureEditor();
+}
+
+function renameItem(section, oldName, newName){
+  newName = newName.trim();
+
+  if(!newName || oldName === newName) return;
+
+  const items = currentEditData[section].items;
+
+  if(items[newName]){
+    alert("Un item avec ce nom existe déjà.");
+    renderStructureEditor();
+    return;
+  }
+
+  const newItems = {};
+
+  Object.entries(items).forEach(([key, value])=>{
+    newItems[key === oldName ? newName : key] = value;
+  });
+
+  currentEditData[section].items = newItems;
+  renderStructureEditor();
+}
+
+function moveItemUp(section, item){
+  const items = Object.entries(currentEditData[section].items);
+  const index = items.findIndex(([key]) => key === item);
+
+  if(index <= 0) return;
+
+  [items[index - 1], items[index]] = [items[index], items[index - 1]];
+
+  currentEditData[section].items = Object.fromEntries(items);
+  renderStructureEditor();
+}
+
+function moveItemDown(section, item){
+  const items = Object.entries(currentEditData[section].items);
+  const index = items.findIndex(([key]) => key === item);
+
+  if(index === -1 || index >= items.length - 1) return;
+
+  [items[index], items[index + 1]] = [items[index + 1], items[index]];
+
+  currentEditData[section].items = Object.fromEntries(items);
+  renderStructureEditor();
+}
+
+/* ================= SAVE ================= */
+
+async function saveEdit(){
+  if(!currentEditFiche || !currentEditData){
+    alert("Aucune fiche en cours de modification.");
+    return;
+  }
+
+  await db.collection("FICHEVerif")
+    .doc(currentEditFiche)
+    .set(currentEditData);
+
+  alert("Structure sauvegardée avec succès.");
+  closeEdit();
+}
+
+/* ================= HELPERS ================= */
+
+function getOrderedSections(data){
+  return Object.entries(data)
+    .map(([name, section]) => ({ name, ...section }))
+    .filter(section => section.items)
+    .sort((a,b) => (a.order || 0) - (b.order || 0));
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function escapeAttr(value){
+  return String(value)
+    .replaceAll("\\", "\\\\")
+    .replaceAll("'", "\\'")
+    .replaceAll('"', "&quot;");
+}
+
+/* ================= GLOBAL ================= */
+
+window.showSection = showSection;
+window.toggleCreateUser = toggleCreateUser;
+
+window.openEngin = openEngin;
+window.viewFiche = viewFiche;
+window.editFiche = editFiche;
+window.closeView = closeView;
+window.closeEdit = closeEdit;
+window.saveEdit = saveEdit;
+
+window.addSection = addSection;
+window.deleteSection = deleteSection;
+window.renameSection = renameSection;
+window.changeSectionOrder = changeSectionOrder;
+
+window.addItem = addItem;
+window.deleteItem = deleteItem;
+window.renameItem = renameItem;
+window.moveItemUp = moveItemUp;
+window.moveItemDown = moveItemDown;
+
+window.deleteUserById = deleteUserById;
+window.openEditUser = openEditUser;
+
+/* ================= INIT ================= */
+
+loadUsers();
+showSection("users");
+</script>
+
+</body>
+</html>

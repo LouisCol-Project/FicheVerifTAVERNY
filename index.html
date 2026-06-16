@@ -5,649 +5,305 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Accueil – CIS Taverny</title>
 
-<!-- =========================
-     PWA FIX (IMPORTANT)
-========================= -->
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#c62828">
 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="CIS Taverny">
 
 <link rel="apple-touch-icon" href="./images/logo.png">
 <link rel="shortcut icon" href="./images/logo.png">
 
 <meta name="format-detection" content="telephone=no">
 
-<!-- Cache OFF -->
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-
-<!-- Librairies -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
-
+<body class="bg-image">
 </head>
+
 <body>
+
 <div class="app-bg"></div>
+
 <header>
-
-  <img
-    src="images/logo.png"
-    alt="Logo CIS Taverny"
-    onclick="location.href='index.html'"
-    class="logoHeader"
-  >
-
-  <h1>Vérifications journalières</h1>
-
-  <div class="headerRight">
-
-    <button
-      id="helpBtn"
-      onclick="openConsignes()"
-    >
-      ?
-    </button>
-
-    <div id="date"></div>
-
-  </div>
-
+    <img src="images/logo.png" class="logoHeader" onclick="location.href='index.html'">
+    <h1>Vérifications journalières CIS TAVERNY</h1>
 </header>
 
-<script>
-document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-</script>
-
 <main>
-<!-- Message lundi -->
-<div id="lundi-msg">⚠️ Merci de mettre en charge tous les éléments fonctionnant sur batterie ⚠️</div>
 
-<!-- Nom vérificateur -->
+<!-- NOM -->
 <input type="text" id="verificateur" placeholder="Entrez votre nom">
 
-<!-- Bouton installation application -->
-<button id="installBtn" style="
-display:none;
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-background:linear-gradient(90deg,#43a047,#2e7d32);
-color:white;
-font-weight:bold;
-font-size:1rem;
-cursor:pointer;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
-margin-bottom:1rem;
-">
+<!-- INSTALL PWA -->
+<button id="installBtn" style="display:none;width:100%;padding:14px;border:none;border-radius:12px;background:#2e7d32;color:white;font-weight:bold;">
 📲 Télécharger l'application
 </button>
-<div id="iosInstall" style="
-display:none;
-padding:14px;
-background:#1e1e1e;
-color:white;
-border-radius:14px;
-margin-bottom:1rem;
-text-align:center;
-font-weight:bold;
-">
+
+<div id="iosInstall" style="display:none;padding:14px;background:#1e1e1e;color:white;border-radius:14px;margin-bottom:1rem;">
 📲 Sur iPhone :<br><br>
-1️⃣ Appuyez sur <b>Partager</b><br>
-2️⃣ Puis <b>Sur l’écran d’accueil</b>
+1️⃣ Partager<br>
+2️⃣ Ajouter à l’écran d’accueil
 </div>
 
-<!-- Dashboard véhicules -->
+<!-- VEHICULES -->
 <div class="vehicules">
-  <div class="vehicule vsav" id="btn-vsav" onclick="selectVehicule('VSSUAP')" disabled><i class="fas fa-ambulance"></i>VSSUAP</div>
-  <div class="vehicule fpt" id="btn-fpt" onclick="selectVehicule('FPTGP')" disabled><i class="fas fa-fire-extinguisher"></i>FPTGP</div>
-  <div class="vehicule ccf" id="btn-ccf" onclick="selectVehicule('CCFM')" disabled><i class="fas fa-tree"></i>CCFM</div>
-  <div class="vehicule vsr" id="btn-vsr" onclick="selectVehicule('VSRM')" disabled><i class="fas fa-car-crash"></i>VSRM </div>
-  <div class="vehicule vtu" id="btn-vtu" onclick="selectVehicule('VTU')" disabled><i class="fas fa-truck"></i>VTU</div>
-  <div class="vehicule stat" onclick="location.href='Stats.html'"><i class="fas fa-house"></i>STATIONNAIRE</div>
-  <div class="vehicule stat" onclick="location.href='Historique.html'"><i class="fas fa-history"></i>HISTORIQUE</div>
+  <div class="vehicule vsav" id="btn-vsav" onclick="selectVehicule('VSSUAP')"><i class="fas fa-ambulance"></i>VSSUAP</div>
+  <div class="vehicule fpt" id="btn-fpt" onclick="selectVehicule('FPTGP')"><i class="fas fa-fire-extinguisher"></i>FPTGP</div>
+  <div class="vehicule ccf" id="btn-ccf" onclick="selectVehicule('CCFM')"><i class="fas fa-tree"></i>CCFM</div>
+  <div class="vehicule vsr" id="btn-vsr" onclick="selectVehicule('VSRM')"><i class="fas fa-car-crash"></i>VSRM</div>
+  <div class="vehicule vtu" id="btn-vtu" onclick="selectVehicule('VTU')"><i class="fas fa-truck"></i>VTU</div>
+
+  <div class="vehicule stat" onclick="location.href='Stats.html'">
+    <i class="fas fa-house"></i>STATIONNAIRE
+  </div>
+
+  <div class="vehicule stat" onclick="location.href='Historique.html'">
+    <i class="fas fa-history"></i>HISTORIQUE
+  </div>
 </div>
 
+<!-- LOGIN -->
+<div class="login-card">
 
+<h2><i class="fas fa-user-shield"></i> Connexion</h2>
 
-<!-- =========================
-     BOUTON ADMIN
-========================= -->
+<input type="text" id="adminUser" placeholder="Nom utilisateur">
+<div class="password-box">
 
-<button
-id="btnAdmin"
-onclick="openAdminPanel()"
-style="display:none;"
->
-⚙️ Administration CIS Taverny
-</button>
+  <input
+    type="password"
+    id="adminPass"
+    placeholder="Mot de passe"
+  >
 
-<!-- =========================
-     CONNEXION ADMIN
-========================= -->
+  <i class="fa-solid fa-eye" id="togglePassword"></i>
 
-<div class="consignes admin-login">
+</div>
+<button id="adminLoginBtn">Connexion</button>
 
-<h2>Connexion Administration 🔐</h2>
-
-<input
-type="text"
-id="adminUser"
-placeholder="Nom utilisateur"
->
-
-<input
-type="password"
-id="adminPass"
-placeholder="Mot de passe"
->
-
-<button
-id="adminLoginBtn"
-style="
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#1976D2;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-"
->
-Connexion
-</button>
-
-<p
-id="adminStatus"
-style="
-margin-top:10px;
-font-weight:bold;
-text-align:center;
-"
-></p>
+<p id="adminStatus"></p>
 
 </div>
 
-<!-- Infos App -->
-<div class="info-app">
-<h2>Informations sur l'application</h2>
-<table>
-<thead><tr><th>Section</th><th>Détails</th></tr></thead>
-<tbody>
-<tr><td>Version</td><td>2.4 – MAI 2026</td></tr>
-<tr><td>Usage</td><td>Vérification quotidienne des véhicules et postes</td></tr>
-<tr><td>Contact</td><td>CIS Taverny – SGT COLIN Louis et Bureau OPS</td></tr>
-</tbody>
-</table>
-</div>
+<!-- INFO APP -->
+<div class="infoCard">
 
-<!-- =========================
-     PANEL ADMIN
-========================= -->
+  <div class="infoHeader">
+    <i class="fas fa-mobile-alt"></i>
+    <h2>Application CIS Taverny</h2>
+  </div>
 
-<div
-id="adminPanel"
-style="
-display:none;
-background:white;
-padding:1rem;
-border-radius:14px;
-box-shadow:0 4px 15px rgba(0,0,0,0.1);
-"
->
+  <div class="infoGrid">
 
-<h2 style="
-text-align:center;
-color:#c62828;
-margin-bottom:1rem;
-">
-⚙️ Administration CIS Taverny
-</h2>
+    <div class="infoItem">
+      <i class="fas fa-code-branch"></i>
+      <div><strong>Version</strong><span>2.5 - JUIN 2026</span></div>
+    </div>
 
-<div style="
-display:grid;
-gap:12px;
-">
+    <div class="infoItem">
+      <i class="fas fa-fire"></i><div><strong>Mission</strong><span>Réalisation de contrôles quotidiens afin de garantir le bon état, la sécurité et le fonctionnement des équipements</span></div>
+    </div>
 
-<button onclick="exportAndResetDB()" class="adminBtn">
-📊 Export PDF + Réinitialisation
-</button>
-
-<button onclick="createNewUser()" class="adminBtn">
-👤 Ajouter utilisateur
-</button>
-
-<button onclick="deleteUser()" class="adminBtn">
-🗑️ Supprimer utilisateur
-</button>
-
-<button onclick="listUsers()" class="adminBtn">
-📋 Liste utilisateurs
-</button>
-
-<button onclick="logoutAdmin()" class="adminBtn logoutBtn">
-🚪 Déconnexion
-</button>
-
-</div>
-
-<div
-id="adminConsole"
-style="
-margin-top:1rem;
-padding:1rem;
-background:#f5f5f5;
-border-radius:10px;
-font-size:0.9rem;
-max-height:250px;
-overflow:auto;
-"
->
-Console administration...
-</div>
-
+    <div class="infoItem">
+      <i class="fas fa-users"></i>
+      <div><strong>Gestion</strong><span> SGT COLIN Louis et Bureau OPS</span></div>
+    </div>
+  </div>
 </div>
 
 </main>
-<footer style="text-align:center; padding:0.8rem; font-size:0.9rem; background:#d32f2f; color:white;">CIS Taverny – Vérifications opérationnelles</footer>
 
-<!-- Firebase -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-/* =========================
-   DATE
-========================= */
-const dateEl = document.getElementById("date");
-
-function setDate() {
-  if (!dateEl) return;
-  dateEl.textContent = new Date().toLocaleDateString("fr-FR", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
-}
-setDate();
-
-/* =========================
-   FIREBASE INIT
-========================= */
 const firebaseConfig = {
   apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
   projectId: "veriftav",
-  storageBucket: "veriftav.firebasestorage.app",
+  storageBucket: "veriftav.appspot.com",
   messagingSenderId: "401217101102",
-  appId: "1:401217101102:web:dd375734d4f0464c146ebf",
-  measurementId: "G-KVSC8V8M1B"
+  appId: "1:401217101102:web:dd375734d4f0464c146ebf"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* =========================
-   ELEMENTS
-========================= */
 const inputNom = document.getElementById("verificateur");
 
+/* MEMORISATION 24H */
+const savedNom = localStorage.getItem("nomVerificateur");
+const savedTime = localStorage.getItem("nomVerificateurTime");
+
+const now = Date.now();
+const duree24h = 24 * 60 * 60 * 1000;
+
+if (
+  savedNom &&
+  savedTime &&
+  (now - Number(savedTime) < duree24h)
+) {
+  inputNom.value = savedNom;
+}
+
 const vehicules = [
-  "btn-vsav",
-  "btn-fpt",
-  "btn-ccf",
-  "btn-vsr",
-  "btn-vtu"
+  "btn-vsav","btn-fpt","btn-ccf","btn-vsr","btn-vtu"
 ];
 
-/* =========================
-   LUNDI MESSAGE
-========================= */
-if (new Date().getDay() === 1) {
-  const el = document.getElementById("lundi-msg");
-  if (el) el.style.display = "block";
-}
-
-/* =========================
-   STOCKAGE NOM 24H
-========================= */
-const saved = JSON.parse(localStorage.getItem("nomVerificateur24h"));
-
-if (saved) {
-  const now = Date.now();
-
-  if (now - saved.timestamp < 24 * 60 * 60 * 1000) {
-    inputNom.value = saved.nom;
-
-    const enable = saved.nom.length >= 3;
-    vehicules.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.toggle("disabled", !enable);
-    });
-  } else {
-    localStorage.removeItem("nomVerificateur24h");
-  }
-}
-
-/* =========================
-   INPUT NOM
-========================= */
-inputNom?.addEventListener("input", () => {
+inputNom.addEventListener("input", () => {
 
   const val = inputNom.value.trim().toUpperCase();
   inputNom.value = val;
 
+  localStorage.setItem("nomVerificateur", val);
+  localStorage.setItem("nomVerificateurTime", Date.now());
+
   const enable = val.length >= 3;
 
   vehicules.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle("disabled", !enable);
+    document.getElementById(id)
+    ?.classList.toggle("disabled", !enable);
   });
 
-  if (enable) {
-    localStorage.setItem("nomVerificateur24h", JSON.stringify({
-      nom: val,
-      timestamp: Date.now()
-    }));
-  }
 });
 
-/* =========================
-   VEHICULE SELECT
-========================= */
+const enableOnLoad = inputNom.value.trim().length >= 3;
+
+vehicules.forEach(id => {
+  document.getElementById(id)
+  ?.classList.toggle("disabled", !enableOnLoad);
+});
+
+/* VEHICULE */
 window.selectVehicule = function(v) {
 
   const nom = inputNom.value.trim().toUpperCase();
 
+localStorage.setItem("nomVerificateur", nom);
+localStorage.setItem("nomVerificateurTime", Date.now());
+
   if (nom.length < 3) {
-    alert("Merci de renseigner votre nom !");
+    alert("Nom obligatoire");
     return;
   }
 
-  localStorage.setItem("nomVerificateur", nom);
-  localStorage.setItem("vehiculeSelectionne", v);
-
   const pages = {
-    VSSUAP: "VSAV.html",
-    FPTGP: "FPT.html",
-    CCFM: "CCF.html",
-    VSRM: "VSR.html",
-    VTU: "VTU.html"
+    VSSUAP:"VSAV.html",
+    FPTGP:"FPT.html",
+    CCFM:"CCF.html",
+    VSRM:"VSR.html",
+    VTU:"VTU.html"
   };
 
   location.href = pages[v];
 };
 
-/* =========================
-   PWA INSTALL
-========================= */
-let deferredPrompt = null;
+/* LOGIN */
+document.getElementById("adminLoginBtn")
+.addEventListener("click", async () => {
+
+const username = adminUser.value.trim();
+const password = adminPass.value.trim();
+const status = document.getElementById("adminStatus");
+
+if(!username || !password){
+status.innerText = "Champs obligatoires";
+status.style.color="red";
+return;
+}
+
+const doc = await db.collection("users").doc(username).get();
+
+if(!doc.exists){
+status.innerText="Utilisateur introuvable";
+status.style.color="red";
+return;
+}
+
+const data = doc.data();
+
+if(data.password !== password){
+status.innerText="Mot de passe incorrect";
+status.style.color="red";
+return;
+}
+
+localStorage.setItem("userRole", data.role);
+
+status.style.color="green";
+status.innerText="Connexion OK";
+
+setTimeout(()=>{
+
+switch(data.role){
+
+case "admin":
+location.href="admin.html";
+break;
+
+case "BMM":
+location.href="bureau-bmm.html";
+break;
+
+case "Chef":
+location.href="chef-centre.html";
+break;
+
+default:
+status.innerText="Rôle invalide";
+}
+
+},800);
+
+});
+
+/* PWA */
+let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
 
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  if (installBtn) installBtn.style.display = "block";
+window.addEventListener("beforeinstallprompt", e=>{
+e.preventDefault();
+deferredPrompt=e;
+installBtn.style.display="block";
 });
 
-installBtn?.addEventListener("click", async () => {
-  if (!deferredPrompt) return;
-
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-
-  deferredPrompt = null;
-  installBtn.style.display = "none";
+installBtn.addEventListener("click", async ()=>{
+deferredPrompt.prompt();
+await deferredPrompt.userChoice;
+deferredPrompt=null;
+installBtn.style.display="none";
 });
 
-/* =========================
-   SERVICE WORKER (GITHUB PAGES FIX)
-========================= */
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js", {
-    scope: "./"
-  })
-  .then(() => console.log("SW OK"))
-  .catch(err => console.log("SW ERROR", err));
+/* IOS */
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)){
+iosInstall.style.display="block";
 }
 
-/* =========================
-   ADMIN PANEL
-========================= */
-window.openAdminPanel = function () {
-  const panel = document.getElementById("adminPanel");
-  if (!panel) return;
-
-  panel.style.display =
-    panel.style.display === "none" ? "block" : "none";
-};
-
-/* =========================
-   LOGIN ADMIN FIRESTORE
-========================= */
-const adminBtn = document.getElementById("adminLoginBtn");
-
-adminBtn?.addEventListener("click", async () => {
-
-  const username = document.getElementById("adminUser").value.trim();
-  const password = document.getElementById("adminPass").value.trim();
-  const status = document.getElementById("adminStatus");
-
-  if (!username || !password) {
-    status.style.color = "red";
-    status.innerText = "Veuillez remplir les champs";
-    return;
-  }
-
-  try {
-    const docRef = db.collection("users").doc(username);
-    const docSnap = await docRef.get();
-
-    if (!docSnap.exists) {
-      status.style.color = "red";
-      status.innerText = "Utilisateur introuvable";
-      return;
-    }
-
-    const data = docSnap.data();
-
-    if (data.password !== password) {
-      status.style.color = "red";
-      status.innerText = "Mot de passe incorrect";
-      return;
-    }
-
-    status.style.color = "green";
-    status.innerText = "Connexion réussie ✅";
-
-    localStorage.setItem("adminConnected", "true");
-    localStorage.setItem("adminUser", username);
-
-    document.getElementById("btnAdmin").style.display = "block";
-    openAdminPanel();
-
-  } catch (e) {
-    status.style.color = "red";
-    status.innerText = "Erreur serveur";
-  }
 });
 
-/* =========================
-   AUTO LOGIN ADMIN
-========================= */
-if (localStorage.getItem("adminConnected") === "true") {
-  const btn = document.getElementById("btnAdmin");
-  if (btn) btn.style.display = "block";
-}
+const togglePassword = document.getElementById("togglePassword");
+const passwordInput = document.getElementById("adminPass");
 
-/* =========================
-   CREATE USER
-========================= */
-window.createNewUser = async function () {
+togglePassword?.addEventListener("click", () => {
 
-  const username = prompt("Nom utilisateur");
-  if (!username) return;
+  const isHidden = passwordInput.type === "password";
 
-  const password = prompt("Mot de passe");
-  if (!password) return;
+  passwordInput.type = isHidden ? "text" : "password";
 
-  try {
-    await db.collection("users").doc(username).set({
-      password,
-      createdAt: new Date()
-    });
-
-    adminLog("Utilisateur ajouté : " + username);
-
-  } catch (e) {
-    adminLog("Erreur : " + e.message);
-  }
-};
-
-/* =========================
-   DELETE USER
-========================= */
-window.deleteUser = async function () {
-
-  const username = prompt("Utilisateur à supprimer");
-  if (!username) return;
-
-  try {
-    await db.collection("users").doc(username).delete();
-    adminLog("Utilisateur supprimé : " + username);
-  } catch (e) {
-    adminLog("Erreur : " + e.message);
-  }
-};
-
-/* =========================
-   LIST USERS
-========================= */
-window.listUsers = async function () {
-
-  try {
-    const snap = await db.collection("users").get();
-
-    let html = "<b>Liste utilisateurs :</b><br><br>";
-
-    snap.forEach(doc => {
-      html += "👤 " + doc.id + "<br>";
-    });
-
-    document.getElementById("adminConsole").innerHTML = html;
-
-  } catch (e) {
-    adminLog("Erreur : " + e.message);
-  }
-};
-
-/* =========================
-   LOGOUT ADMIN
-========================= */
-window.logoutAdmin = function () {
-
-  localStorage.removeItem("adminConnected");
-  localStorage.removeItem("adminUser");
-
-  document.getElementById("adminPanel").style.display = "none";
-  document.getElementById("btnAdmin").style.display = "none";
-
-  alert("Déconnecté");
-};
-
-/* =========================
-   ADMIN LOG
-========================= */
-function adminLog(msg) {
-  const c = document.getElementById("adminConsole");
-  if (c) c.innerHTML = msg;
-}
-
-/* =========================
-   IOS INSTALL MESSAGE
-========================= */
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone = window.navigator.standalone;
-
-if (isIOS && !isStandalone) {
-  const ios = document.getElementById("iosInstall");
-  if (ios) ios.style.display = "block";
-}
-
-/* =========================
-   CONSIGNES MODAL
-========================= */
-window.openConsignes = function () {
-  const m = document.getElementById("consignesModal");
-  if (m) m.style.display = "flex";
-};
-
-window.closeConsignes = function () {
-  const m = document.getElementById("consignesModal");
-  if (m) m.style.display = "none";
-};
+  togglePassword.classList.toggle("fa-eye");
+  togglePassword.classList.toggle("fa-eye-slash");
 
 });
+
 </script>
-<!-- =========================
-     POPUP CONSIGNES
-========================= -->
 
-<div
-id="consignesModal"
-class="modalConsignes"
->
-
-  <div class="modalConsignesContent">
-
-    <button
-      class="closeConsignes"
-      onclick="closeConsignes()"
-    >
-      ✕
-    </button>
-
-    <h2>
-      ⚠️ Consignes importantes
-    </h2>
-
-    <div class="consignesText">
-
-      • Cochez le matériel présent.<br><br>
-
-      • Appuyez une seule fois sur le bouton envoyer.<br><br>
-
-      • Pour le conducteur et secouriste VSSUAP,
-      cochez les vérifications des sacs
-      d’oxygénothérapie et premier secours.<br><br>
-
-      • Faites remonter toutes les anomalies rencontrées.<br><br>
-
-      • Consultez l’historique via le bouton HISTORIQUE.<br><br>
-
-      • Le bouton export BDD est réservé
-      au chef de centre.
-
-    </div>
-
-  </div>
-
-</div>
 </body>
 </html>

@@ -1,382 +1,78 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VSSUAP – CIS Taverny</title>
-<link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-* { box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', sans-serif; }
-body { background:#fff3e0; color:#212121; display:flex; flex-direction:column; min-height:100vh; }
+  <title>VSSUAP – CIS Taverny</title>
 
-/* ===== HEADER ===== */
-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0.8rem 1rem;
-  background:#d32f2f;
-  color:white;
-  border-radius:0 0 12px 12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.25);
-}
-header img { height:40px; border-radius:6px; border:2px solid #fff; }
-header h1 { flex:1; text-align:center; font-size:1rem; font-weight:700; margin:0 0.5rem; }
-header #date { font-size:0.8rem; opacity:0.85; }
-
-/* ===== ALERT MESSAGE ===== */
-#attention-msg {
-  background:#ffb74d;
-  color:#b71c1c;
-  font-weight:bold;
-  text-align:center;
-  padding:0.7rem;
-  border-radius:10px;
-  box-shadow:0 0 12px #ff6f00;
-  font-size:0.9rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:0.2rem;
-  margin:0.5rem 0;
-}
-
-/* ===== FIELDSETS ===== */
-fieldset {
-  border:2px solid #b71c1c;
-  border-radius:10px;
-  padding:0.8rem;
-  background:#fff8e1;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-  margin-bottom:0.8rem;
-}
-legend { font-weight:bold; color:#b71c1c; padding:0 5px; font-size:0.9rem; }
-
-/* ===== IMAGES ===== */
-.image-container {
-  width:100%;
-  margin:0.5rem 0;
-  border-radius:8px;
-  overflow:hidden;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-}
-.image-container img { width:100%; height:auto; display:block; border-radius:8px; }
-
-/* ===== CHECKLIST ===== */
-label {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:0.5rem;
-  border-bottom:1px solid #ffe0b2;
-  font-size:0.85rem;
-  cursor:pointer;
-  border-radius:5px;
-  transition:0.2s;
-}
-label:hover { background:#fff176; }
-input[type="checkbox"] { transform:scale(1.3); accent-color:#b71c1c; }
-label.missing { background:#ed1c24; color:white; font-weight:bold; }
-
-/* ===== BOUTONS ===== */
-.buttons {
-  display:flex;
-  justify-content:center;
-  margin:1rem 0 2rem 0;
-}
-button {
-  width:95%;
-  padding:0.8rem;
-  border:none;
-  border-radius:10px;
-  font-size:1rem;
-  font-weight:bold;
-  background:#b71c1c;
-  color:white;
-  cursor:pointer;
-  box-shadow:0 2px 6px rgba(0,0,0,0.25);
-  transition:0.3s;
-}
-button:hover { transform:translateY(-2px); background:#d32f2f; }
-
-/* ===== FOOTER ===== */
-footer {
-  text-align:center;
-  font-size:0.75rem;
-  padding:0.5rem;
-  background:#ffd54f;
-  color:#b71c1c;
-  font-weight:bold;
-  border-top-left-radius:10px;
-  border-top-right-radius:10px;
-}
-
-/* ===== RESPONSIVE MOBILE ===== */
-@media (max-width:480px){
-  header img { height:35px; }
-  header h1 { font-size:0.95rem; }
-  header #date { font-size:0.75rem; }
-  label { font-size:0.8rem; padding:0.4rem; }
-  button { font-size:0.95rem; padding:0.7rem; }
-  fieldset { padding:0.7rem; }
-  legend { font-size:0.85rem; }
-}
-
-
-/* ===== POPUP O2 MOBILE PRO ===== */
-
-.popup-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 10px;
-}
-
-.popup-overlay.active {
-  display: flex;
-}
-
-/* CONTENEUR PRINCIPAL */
-.popup-content {
-  background: #fff8e1;
-  border-radius: 14px;
-  width: 100%;
-  max-width: 420px;
-  height: 85vh; /* 🔥 important mobile */
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  overflow: hidden;
-}
-
-/* HEADER FIXE */
-.popup-content h2 {
-  margin: 0;
-  padding: 12px;
-  background: #b71c1c;
-  color: white;
-  font-size: 1rem;
-  text-align: center;
-}
-
-.popup-subtitle {
-  text-align: center;
-  font-size: 0.8rem;
-  padding: 6px;
-  background: #ffe082;
-  color: #212121;
-}
-
-/* LISTE SCROLLABLE */
-.popup-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  margin: 0;
-}
-
-/* ITEM CHECKBOX MOBILE PRO */
-.popup-list label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  margin-bottom: 8px;
-  background: white;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  cursor: pointer;
-  user-select: none;
-}
-
-/* CHECKBOX PLUS GROS */
-.popup-list input[type="checkbox"] {
-  transform: scale(1.4);
-  accent-color: #b71c1c;
-  flex-shrink: 0;
-}
-
-/* BOUTON FIXE EN BAS */
-.popup-validate {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  background: #2e7d32;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  position: sticky;
-  bottom: 0;
-}
-
-/* effet tactile */
-.popup-validate:active {
-  background: #1b5e20;
-}
-</style>
+  <link rel="shortcut icon" href="images/logo.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <body class="bg-image">
 </head>
 
 <body>
 
-<header>
-  <img src="images/logo.png" alt="Logo CIS Taverny">
-  <h1>Vérifications Equipier VSSUAP</h1>
-  <div id="date"></div>
-</header>
+  <div class="app-bg"></div>
 
-<main>
+  <header>
+    <img src="images/logo.png" class="logoHeader" onclick="location.href='index.html'">
+    <h1>Vérifications VSSUAP</h1>
+    <div class="headerRight">
+      <div id="date"></div>
+    </div>
+  </header>
 
-<fieldset>
-    <legend>RAPPEL</legend>
-    <p>À chaque retour d’intervention, je passe un coup de serpillière dans la cellule.</p>
-    <p>En quittant ma garde, je vide les seaux et les rince.</p>
-    <p>Je vide les poubelles du VSAV et celles du chariot, puis je remets des sacs (1 sac DASRI et 1 sac poubelle <strong>noir</strong>).</p>
-    <p>Je nettoie le local VSAV ainsi que l’évier.</p>
-    <p>Je prends ma caméra avec mon matricule.</p>
-  </fieldset>
+  <main>
+    <div id="container"></div>
 
- <fieldset>
-  <legend>COFFRE 1</legend>
-  <ul>
-    <label><input type="checkbox" id="5 draps à usage unique"> 5 draps à usage unique</label><br>
-    <label><input type="checkbox" id="Tabliers à usage unique"> Tabliers à usage unique</label><br>
-    <label><input type="checkbox" id="1 spray SURFANIOS"> 1 spray SURFANIOS</label><br>
-    <label><input type="checkbox" id="1 paquet de lingette"> 1 paquet de lingette</label><br>
-    <label><input type="checkbox" id="1 flacon de gel hydroalcoolique"> 1 flacon de gel hydroalcoolique</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 5 ET 6</legend>
-  <ul>
-    <label><input type="checkbox" id="Sac poubelle NOIR"> Sac poubelle NOIR</label><br>
-    <label><input type="checkbox" id="Sac DASRI"> Sac DASRI</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 7</legend>
-  <ul>
-    <label><input type="checkbox" id="1 Rouleau de sac DASRI, rouge et transparent"> 1 Rouleau de sac DASRI, rouge et transparent</label><br>
-    <label><input type="checkbox" id="1 Boite OPTC"> 1 Boite OPTC</label><br>
-    <label><input type="checkbox" id="1 Boite de gants taille S"> 1 Boite de gants taille S</label><br>
-    <label><input type="checkbox" id="1 Boite de masques chirurgicaux"> 1 Boite de masques chirurgicaux</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 8</legend>
-  <ul>
-    <label><input type="checkbox" id="4 Tenues CUO27"> 4 Tenues CUO27</label><br>
-    <label><input type="checkbox" id="1 Bassin"> 1 Bassin</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 9</legend>
-  <ul>
-    <label><input type="checkbox" id="10 Compresses"> 10 Compresses</label><br>
-    <label><input type="checkbox" id="3 Bandes crêpe de 15cm"> 3 Bandes crêpe de 15cm</label><br>
-    <label><input type="checkbox" id="3 Bandes crêpe de 10cm"> 3 Bandes crêpe de 10cm</label><br>
-    <label><input type="checkbox" id="1 Paire de ciseaux JESCO"> 1 Paire de ciseaux JESCO</label><br>
-    <label><input type="checkbox" id="10 Couvres thermomètres"> 10 Couvres thermomètres</label><br>
-    <label><input type="checkbox" id="1 Rouleau de sparadrap"> 1 Rouleau de sparadrap</label><br>
-    <label><input type="checkbox" id="10 Auto piqueurs + 10 Compresses antiseptiques"> 10 Auto piqueurs + 10 Compresses antiseptiques</label><br>
-    <label><input type="checkbox" id="2 Chlorures de sodium de 45ml et 10 de 5ml"> 2 Chlorures de sodium de 45ml et 10 de 5ml</label><br>
-    <label><input type="checkbox" id="1 BETADINE de 100ml et 10 de 5ml"> 1 BETADINE de 100ml et 10 de 5ml</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 10</legend>
-  <ul>
-    <label><input type="checkbox" id="2 Poches de froid"> 2 Poches de froid</label><br>
-    <label><input type="checkbox" id="2 Écharpes"> 2 Écharpes</label><br>
-    <label><input type="checkbox" id="1 Lampe Stylo"> 1 Lampe Stylo</label><br>
-    <label><input type="checkbox" id="2 Pansements Israéliens"> 2 Pansements Israéliens</label><br>
-    <label><input type="checkbox" id="1 Garrot tourniquet"> 1 Garrot tourniquet</label><br>
-    <label><input type="checkbox" id="1 Kit AES"> 1 Kit AES</label><br>
-    <label><input type="checkbox" id="2 Couvertures de survie"> 2 Couvertures de survie</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 11</legend>
-  <ul>
-    <label><input type="checkbox" id="Filet tubulaire (4 tailles différentes)"> Filet tubulaire (4 tailles différentes)</label><br>
-    <label><input type="checkbox" id="10 Pansements absorbants"> 10 Pansements absorbants</label><br>
-    <label><input type="checkbox" id="3 Champs stériles + gants stériles taille 7, 8 et 9"> 3 Champs stériles + gants stériles taille 7, 8 et 9</label><br>
-    <label><input type="checkbox" id="3 Sacs à Uribag"> 3 Sacs à Uribag</label><br>
-    <label><input type="checkbox" id="5 Sacs Vomix"> 5 Sacs Vomix</label><br>
-    <label><input type="checkbox" id="5 Bassins type haricot"> 5 Bassins type haricot</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 12</legend>
-  <ul>
-    <label><input type="checkbox" id="1 Brancard souple"> 1 Brancard souple</label><br>
-    <label><input type="checkbox" id="2 Housses mortuaire"> 2 Housses mortuaire</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 13</legend>
-  <ul>
-    <label><input type="checkbox" id="3 Masques insufflateurs adulte S, M, L"> 3 Masques insufflateurs adulte S, M, L</label><br>
-    <label><input type="checkbox" id="3 Masques insufflateurs pédiatrique néonat, enfant et toddler"> 3 Masques insufflateurs pédiatrique néonat, enfant et toddler</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 14</legend>
-  <ul>
-    <label><input type="checkbox" id="4 MHC et 1 lunettes O2 Pédiatrique"> 4 MHC et 1 lunettes O2 Pédiatrique</label><br>
-    <label><input type="checkbox" id="4 MHC et 1 lunettes O2 Adulte"> 4 MHC et 1 lunettes O2 Adulte</label><br>
-    <label><input type="checkbox" id="3 Raccords biconique"> 3 Raccords biconique</label><br>
-    <label><input type="checkbox" id="6 Canules (000, 00, 1, 2, 4 et 5)"> 6 Canules (000, 00, 1, 2, 4 et 5)</label>
-  </ul>
-</fieldset>
-
-<fieldset>
-  <legend>COFFRE 15</legend>
-  <ul>
-    <label><input type="checkbox" id="1 Aspirateur manuel"> 1 Aspirateur manuel</label><br>
-    <label><input type="checkbox" id="3 Sondes d’aspiration (Taille CH6, CH8 et CH12)"> 3 Sondes d’aspiration (Taille CH6, CH8 et CH12)</label><br>
-    <label><input type="checkbox" id="3 Canules d’aspiration CH26"> 3 Canules d’aspiration CH26</label><br>
-    <label><input type="checkbox" id="3 Poches d’aspiration + 3 tubulures"> 3 Poches d’aspiration + 3 tubulures</label><br>
-    <label><input type="checkbox" id="1 BAVU adulte"> 1 BAVU adulte</label><br>
-    <label><input type="checkbox" id="2 Tubulures O2"> 2 Tubulures O2</label>
-  </ul>
-</fieldset>
-
-<button onclick="openPopupO2()">Vérification du sac premier secours</button>
-
-<div class="buttons">
-  <button onclick="saveAndReturn()">Enregistrer et revenir au menu</button>
+    <div class="comment-section">
+  <label for="commentaire"><strong>Commentaire :</strong></label>
+  <textarea
+    id="commentaire"
+    rows="4"
+    placeholder="Saisir un commentaire..."
+  ></textarea>
 </div>
 
-<footer>
-  CIS Taverny – Vérifications opérationnelles
-</footer>
+<button class="btn" onclick="saveAndReturn()">
+  Enregistrer
+</button>
+  </main>
 
-<script>
-document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-</script>
-<script type="module">
+  <!-- DATE -->
+  <script>
+    document.getElementById('date').textContent =
+      new Date().toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+  </script>
+
+  <!-- FIREBASE -->
+  <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+  where,
+  collection,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-// 🔹 Config Firebase
+/* ================= FIREBASE ================= */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyD14dNcDQWq4SygSlo8YC8bJWisLYOh0Es",
+  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
   projectId: "veriftav",
   storageBucket: "veriftav.firebasestorage.app",
@@ -385,165 +81,246 @@ const firebaseConfig = {
   measurementId: "G-KVSC8V8M1B"
 };
 
-// 🔹 Initialisation Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🔹 Récupérer toutes les checkboxes
+/* ================= DATA ================= */
+
 function getData() {
   const inputs = document.querySelectorAll("input[type=checkbox]");
   const data = {};
-  inputs.forEach(input => data[input.id] = input.checked);
+  inputs.forEach(i => data[i.id] = i.checked);
   return data;
 }
 
-// 🔹 Surligner les éléments non cochés
-function highlightMissing(data) {
-  // Reset
-  document.querySelectorAll("label").forEach(label => label.style.backgroundColor = "");
-  // Surligner les manquants
+/* ================= SAFE DATE ================= */
+
+function formatDate(raw) {
+  let date;
+
+  if (!raw) date = new Date();
+  else if (raw.toDate) date = raw.toDate();
+  else date = new Date(raw);
+
+  if (isNaN(date.getTime())) date = new Date();
+
+  return date.toLocaleDateString("fr-FR");
+}
+
+/* ================= HIGHLIGHT ================= */
+
+function highlightMissing(data, lastInfo = null) {
+
+  document.querySelectorAll(".check-item").forEach(el => {
+    el.classList.remove("missing");
+
+    const badge = el.querySelector(".missing-badge");
+    const warn = el.querySelector(".missing-text");
+
+    if (badge) badge.style.display = "none";
+    if (warn) warn.style.display = "none";
+  });
+
+  const date = formatDate(lastInfo?.date);
+  const nom = lastInfo?.verificateur || "Inconnu";
+
   for (const [id, checked] of Object.entries(data)) {
+
     if (!checked) {
       const input = document.getElementById(id);
-      if (input) input.parentElement.style.backgroundColor = "#ED1C24";
+      if (!input) continue;
+
+      const wrapper = input.closest(".check-item");
+
+      if (wrapper) {
+        wrapper.classList.add("missing");
+
+        const badge = wrapper.querySelector(".missing-badge");
+        const warn = wrapper.querySelector(".missing-text");
+
+        if (badge) badge.style.display = "flex";
+
+        if (warn) {
+          warn.textContent =
+            `Matériel manquant constaté par ${nom} le ${date}`;
+          warn.style.display = "inline";
+        }
+      }
     }
   }
 }
 
-// 🔹 Sauvegarder une vérification avec ID unique basé sur la date
+/* ================= SAVE ================= */
+
 async function saveCheck() {
-  const data = getData();
-  highlightMissing(data);
+  const checkData = {};
+
+  document
+    .querySelectorAll("input[type=checkbox]")
+    .forEach(input => {
+      checkData[input.id] = input.checked;
+    });
+
+  const commentaire =
+    document.getElementById("commentaire")?.value.trim() || "";
 
   try {
     const timestamp = new Date();
-    const docId = "EQUIPIER VSSUAP_" + timestamp.getTime(); // ID unique
-    const docRef = doc(db, "verifications", docId);
+    const docId = "EQ VSSUAP_" + timestamp.getTime();
 
-    // Récupérer le nom du vérificateur depuis localStorage si existant
-    const nomVerificateur = localStorage.getItem("nomVerificateur") || "Inconnu";
+    const nomVerificateur =
+      localStorage.getItem("nomVerificateur") || "Inconnu";
 
-    await setDoc(docRef, {
-      nomDoc: "EQUIPIER VSSUAP",
+    await setDoc(doc(db, "verifications", docId), {
+      nomDoc: "EQ VSSUAP",
       date: timestamp,
       verificateur: nomVerificateur,
-      data
+      commentaire: commentaire,
+      data: checkData
     });
 
-    const allChecked = Object.values(data).every(v => v === true);
+    console.log("Enregistrement OK");
+
   } catch (e) {
-    console.error(e);
-    alert("Erreur enregistrement : " + e.message);
+    console.error("Erreur Firestore :", e);
+    alert("Erreur lors de l'enregistrement");
   }
 }
 
-// 🔹 Charger le dernier état pour surligner les éléments manquants
+/* ================= LAST CHECK ================= */
+
 async function highlightLastMissing() {
   try {
     const q = query(
       collection(db, "verifications"),
-      where("nomDoc", "==", "EQUIPER VSSUAP"),
+      where("nomDoc", "==", "EQ VSSUAP"),
       orderBy("date", "desc"),
       limit(1)
     );
 
     const snapshot = await getDocs(q);
-    if (!snapshot.empty) {
-      const lastDoc = snapshot.docs[0].data();
-      highlightMissing(lastDoc.data); // Surligner sans cocher
-    }
+    if (snapshot.empty) return;
+
+    const docData = snapshot.docs[0].data();
+
+    highlightMissing(docData.data, {
+      date: docData.date,
+      verificateur: docData.verificateur
+    });
+
   } catch (e) {
-    console.error("Erreur chargement dernière vérification :", e);
+    console.error(e);
   }
 }
 
-// 🔹 Fonction combinée pour le bouton : enregistrer et revenir au menu
-window.saveAndReturn = async function() {
-  await saveCheck();           // Sauvegarde la vérification
-  location.href = "index.html"; // Retour au menu principal
+/* ================= STRUCTURE ================= */
+
+function makeId(sectionName, labelText) {
+  return `${sectionName}_${labelText}`
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "_")
+    .replace(/[^\w_]/g, "");
+}
+
+function createSectionImage(sectionName) {
+  const normalize = (name) =>
+    name
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "_")
+      .replace(/[^\w_]/g, "");
+
+  const img = document.createElement("img");
+  img.src = `images/EQVSSUAP/${normalize(sectionName)}.jpg`;
+  img.alt = sectionName;
+  img.onerror = () => img.remove();
+
+  return img;
+}
+
+/* ================= LOAD ================= */
+
+async function loadStructure() {
+  const snap = await getDoc(doc(db, "FICHEVerif", "EQVSSUAP"));
+  if (!snap.exists()) return;
+
+  const data = snap.data();
+  const container = document.getElementById("container");
+  container.innerHTML = "";
+
+  const sections = Object.entries(data)
+    .map(([name, section]) => ({ name, ...section }))
+    .filter(s => s.items)
+    .sort((a, b) => a.order - b.order);
+
+  for (const section of sections) {
+
+    const fieldset = document.createElement("fieldset");
+
+    const legend = document.createElement("legend");
+    legend.textContent = section.name;
+    fieldset.appendChild(legend);
+
+    fieldset.appendChild(createSectionImage(section.name));
+
+    const isSimpleList = section.order === 1;
+
+    for (const [labelText, value] of Object.entries(section.items)) {
+
+      if (isSimpleList) {
+        const p = document.createElement("p");
+        p.textContent = "📌 " + labelText;
+        fieldset.appendChild(p);
+        continue;
+      }
+
+      const label = document.createElement("label");
+      label.classList.add("check-item");
+
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.id = makeId(section.name, labelText);
+      input.checked = value === true;
+
+      const text = document.createElement("span");
+      text.textContent = labelText;
+
+      const badge = document.createElement("div");
+      badge.className = "missing-badge";
+      badge.style.display = "none";
+
+      const warn = document.createElement("span");
+      warn.className = "missing-text";
+      warn.style.display = "none";
+
+      label.appendChild(input);
+      label.appendChild(badge);
+      label.appendChild(text);
+      label.appendChild(warn);
+
+      fieldset.appendChild(label);
+    }
+
+    container.appendChild(fieldset);
+  }
+}
+
+/* ================= GLOBAL ================= */
+
+window.saveAndReturn = async function () {
+  await saveCheck();
+  location.href = "index.html";
 };
 
-// 🔹 Exécuter au chargement pour surligner les éléments manquants précédents
-window.addEventListener("DOMContentLoaded", highlightLastMissing);
-</script>
+/* ================= INIT ================= */
 
-</main>
-
-<!-- POPUP O2 -->
-<div id="popupO2" class="popup-overlay">
-  <div class="popup-content">
-	<h2>SAC PS</h2>
-    <p class="popup-subtitle">Inventaire réglementaire</p>
-
-    <div class="popup-list">
-	<label><input type="checkbox" id="1 flacon de betadine 125ml"> 1 flacon de betadine 125ml</label><br>
-<label><input type="checkbox" id="2 flacons de chlorure de sodium 100ml"> 2 flacons de chlorure de sodium 100ml</label><br>
-<label><input type="checkbox" id="1 paire de ciseaux de dégagement"> 1 paire de ciseaux de dégagement</label><br>
-<label><input type="checkbox" id="6 masques FFP2"> 6 masques FFP2</label><br>
-<label><input type="checkbox" id="1 boite à aiguilles"> 1 boite à aiguilles</label><br>
-<label><input type="checkbox" id="gants à usage unique"> gants à usage unique</label><br>
-<label><input type="checkbox" id="6 masques chirurgicaux"> 6 masques chirurgicaux</label><br>
-<label><input type="checkbox" id="2 draps à usage unique"> 2 draps à usage unique</label><br>
-<label><input type="checkbox" id="1 radio"> 1 radio</label><br>
-<label><input type="checkbox" id="plusieurs fiches bilan papier"> plusieurs fiches bilan papier</label><br>
-<label><input type="checkbox" id="1 sac rouge"> 1 sac rouge</label><br>
-<label><input type="checkbox" id="2 sacs DASRI"> 2 sacs DASRI</label><br>
-<label><input type="checkbox" id="1 sac transparent"> 1 sac transparent</label><br>
-<label><input type="checkbox" id="1 sac uribag"> 1 sac uribag</label><br>
-<label><input type="checkbox" id="1 sac vomix"> 1 sac vomix</label><br>
-<label><input type="checkbox" id="3 pansements américains stériles"> 3 pansements américains stériles</label><br>
-<label><input type="checkbox" id="6 sachets de compresses stériles"> 6 sachets de compresses stériles</label><br>
-<label><input type="checkbox" id="1 stétoscope"> 1 stétoscope</label><br>
-<label><input type="checkbox" id="1 tensiomètre mano-poire avec 3 brassards (adulte, enfant, large)"> 1 tensiomètre mano-poire avec 3 brassards (adulte, enfant, large)</label><br>
-<label><input type="checkbox" id="2 pansements israéliens"> 2 pansements israéliens</label><br>
-<label><input type="checkbox" id="2 écharpes à usage unique"> 2 écharpes à usage unique</label><br>
-<label><input type="checkbox" id="2 champs stériles à usage unique"> 2 champs stériles à usage unique</label><br>
-<label><input type="checkbox" id="2 couvertures de survie"> 2 couvertures de survie</label><br>
-<label><input type="checkbox" id="1 garrot tourniquet"> 1 garrot tourniquet</label><br>
-<label><input type="checkbox" id="2 poches de froid"> 2 poches de froid</label><br>
-<label><input type="checkbox" id="1 rouleau de sparadrap"> 1 rouleau de sparadrap</label><br>
-<label><input type="checkbox" id="1 masque bouche à bouche"> 1 masque bouche à bouche</label><br>
-<label><input type="checkbox" id="1 indicateur de température"> 1 indicateur de température</label><br>
-<label><input type="checkbox" id="1 paire de ciseaux JESCO"> 1 paire de ciseaux JESCO</label><br>
-<label><input type="checkbox" id="4 dosettes de betadine"> 4 dosettes de betadine</label><br>
-<label><input type="checkbox" id="4 dosettes de chlorure de sodium"> 4 dosettes de chlorure de sodium</label><br>
-<label><input type="checkbox" id="2 garrots à usage unique"> 2 garrots à usage unique</label><br>
-<label><input type="checkbox" id="1 flacon de gel hydroalcoolique"> 1 flacon de gel hydroalcoolique</label><br>
-<label><input type="checkbox" id="1 lampe stylo"> 1 lampe stylo</label><br>
-<label><input type="checkbox" id="2 bandes de crêpe de 10cm"> 2 bandes de crêpe de 10cm</label><br>
-<label><input type="checkbox" id="2 bandes de crêpe de 15cm"> 2 bandes de crêpe de 15cm</label><br>
-<label><input type="checkbox" id="1 paire de gants stériles taille moyenne"> 1 paire de gants stériles taille moyenne</label><br>
-<label><input type="checkbox" id="1 paire de gants stériles taille large"> 1 paire de gants stériles taille large</label><br>
-<label><input type="checkbox" id="Lot de filet élastique SURGIFIX différentes tailles"> Lot de filet élastique SURGIFIX différentes tailles</label>
-    </div>
-
-    <button class="popup-validate" onclick="closePopupO2()">✔ Inventaire vérifié</button>
-  </div>
-</div>
-
-<script>
-const popupO2 = document.getElementById("popupO2");
-
-function openPopupO2() {
-  popupO2.classList.add("active");
-  document.body.style.overflow = "hidden";
-}
-
-function closePopupO2() {
-  popupO2.classList.remove("active");
-  document.body.style.overflow = "";
-}
-
-popupO2.addEventListener("click", e => {
-  if (e.target === popupO2) closePopupO2();
+window.addEventListener("DOMContentLoaded", async () => {
+  await loadStructure();
+  await highlightLastMissing();
 });
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && popupO2.classList.contains("active")) {
-    closePopupO2();
-  }
-});
-</script>
+  </script>
 
 </body>
 </html>
