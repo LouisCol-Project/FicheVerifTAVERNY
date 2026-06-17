@@ -3,258 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Accueil – CIS Taverny</title>
+<title>Historique – CIS Taverny</title>
 
 <link rel="shortcut icon" href="images/logo.png">
+<link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style>
-
-/* =========================
-   BASE
-========================= */
-body{
-  margin:0;
-  font-family:Arial;
-  background:#eef2f7;
-  color:#1c1c1c;
-}
-
-/* =========================
-   HEADER
-========================= */
-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:1rem;
-  background:#d32f2f;
-  color:white;
-  border-radius:0 0 15px 15px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.3);
-  gap:10px;
-}
-
-header img{
-  height:45px;
-  border-radius:8px;
-}
-
-header h1{
-  flex:1;
-  text-align:center;
-  font-size:1.2rem;
-  margin:0;
-}
-
-header #date{
-  font-size:0.85rem;
-}
-
-/* =========================
-   KPI DASHBOARD PRO
-========================= */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  max-width:1100px;
-  margin:20px auto;
-  padding:10px;
-}
-
-.card{
-  background:white;
-  border-radius:16px;
-  padding:18px;
-  text-align:center;
-  box-shadow:0 6px 20px rgba(0,0,0,0.08);
-  transition:0.2s;
-  position:relative;
-}
-
-.card:hover{
-  transform:translateY(-3px);
-}
-
-.card h2{
-  margin:0;
-  font-size:28px;
-  color:#b71c1c;
-}
-
-.card p{
-  margin-top:6px;
-  font-size:13px;
-  opacity:0.7;
-}
-
-/* bar color */
-.card::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:5px;
-  background:#b71c1c;
-}
-
-.card:nth-child(2)::before{background:#2e7d32;}
-.card:nth-child(3)::before{background:#f9a825;}
-
-/* =========================
-   FILTER BAR
-========================= */
-.bar{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  padding:10px;
-  max-width:1100px;
-  margin:auto;
-}
-
-input,select,button{
-  padding:8px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-
-button{
-  background:#b71c1c;
-  color:white;
-  border:none;
-  cursor:pointer;
-}
-
-/* =========================
-   TABLE
-========================= */
-table{
-  width:100%;
-  border-collapse:collapse;
-  background:white;
-  margin:10px auto;
-  max-width:1100px;
-  border-radius:12px;
-  overflow:hidden;
-}
-
-th{
-  background:#b71c1c;
-  color:white;
-  padding:10px;
-  text-align:left;
-}
-
-td{
-  padding:10px;
-  border-bottom:1px solid #eee;
-}
-
-/* badges */
-.badge{
-  padding:4px 8px;
-  border-radius:6px;
-  color:white;
-  font-size:12px;
-}
-
-.vsav{background:#e53935;}
-.fpt{background:#f4511e;}
-.ccf{background:#43a047;}
-.vsr{background:#1e88e5;}
-.vtu{background:#6d4c41;}
-
-/* severity */
-.low{background:#fff8e1;}
-.medium{background:#ffe0b2;}
-.high{background:#ffcdd2;}
-
-.missing{
-  background:#d32f2f;
-  color:white;
-  padding:3px 6px;
-  border-radius:6px;
-  font-size:11px;
-  margin:2px;
-  display:inline-block;
-}
-
-/* =========================
-   MOBILE OPTIMISATION
-========================= */
-@media (max-width:768px){
-
-header{
-  flex-direction:column;
-  text-align:center;
-}
-
-.grid{
-  grid-template-columns:1fr;
-}
-
-.bar{
-  flex-direction:column;
-}
-
-.bar input,
-.bar select,
-.bar button{
-  width:100%;
-}
-
-table{
-  display:block;
-  overflow-x:auto;
-  white-space:nowrap;
-}
-}
-
-</style>
 </head>
 
 <body>
 
 <header>
-  <img src="images/logo.png">
+  <img src="images/logo.png" class="logoHeader" alt="Logo CIS Taverny">
   <h1>Historique vérifications</h1>
   <div id="date"></div>
 </header>
 
-<!-- KPI -->
-<div class="grid">
-  <div class="card"><h2 id="total">0</h2><p>Vérifications</p></div>
-  <div class="card"><h2 id="okRate">0%</h2><p>Taux conformité</p></div>
-  <div class="card"><h2 id="alerts">0</h2><p>Alertes</p></div>
-</div>
+<main class="history-main">
 
-<!-- FILTER -->
-<div class="bar">
-  <input type="date" id="dateFilter">
-  <select id="vehFilter"><option value="">Tous véhicules</option></select>
-  <input type="text" id="search" placeholder="Recherche...">
-  <button onclick="window.location.href='index.html'">⬅ Retour</button>
-</div>
+  <section class="history-hero">
+    <div class="history-title">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      <div>
+        <h2 id="pageTitle">Historique des vérifications</h2>
+        <p id="pageSub">Clique sur une date pour afficher les gardes jour et nuit.</p>
+      </div>
+    </div>
 
-<!-- TABLE -->
-<table>
-<thead>
-<tr>
-  <th>Date</th>
-  <th>Véhicule</th>
-  <th>Vérificateur</th>
-  <th>Manquants</th>
-</tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
+    <button class="back-btn" onclick="window.location.href='index.html'">
+      <i class="fa-solid fa-arrow-left"></i> Accueil
+    </button>
+  </section>
+
+  <section id="statsView" class="history-stats">
+    <div class="history-stat">
+      <span id="statTotal">0</span>
+      <p>Vérifications</p>
+    </div>
+    <div class="history-stat green">
+      <span id="statOk">0%</span>
+      <p>Conformité</p>
+    </div>
+    <div class="history-stat orange">
+      <span id="statMissing">0</span>
+      <p>Manquants</p>
+    </div>
+    <div class="history-stat blue">
+      <span id="statDays">0</span>
+      <p>Jours</p>
+    </div>
+  </section>
+
+  <section id="dayBoard" class="day-board">
+    <div class="board-top">
+      <div>
+        <h3>Calendrier historique</h3>
+        <p>Une case par jour. Le détail jour / nuit apparaît après clic.</p>
+      </div>
+      <input id="historySearch" class="search-box" type="text" placeholder="Rechercher une date...">
+    </div>
+
+    <div id="daysGrid" class="days-grid"></div>
+  </section>
+
+  <section id="detailBoard" class="detail-board">
+    <div class="board-top">
+      <div>
+        <h3 id="detailTitle">Détail du jour</h3>
+        <p id="detailSub">Garde jour et garde nuit</p>
+      </div>
+      <div class="detail-actions">
+        <button class="secondary-btn" onclick="backToDays()">
+          <i class="fa-solid fa-arrow-left"></i> Retour aux dates
+        </button>
+      </div>
+    </div>
+
+    <div id="dayDetailContent"></div>
+  </section>
+
+</main>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
@@ -264,74 +94,296 @@ const app = initializeApp({
 });
 
 const db = getFirestore(app);
+let verifs = [];
+let groupedDays = {};
 
-let data = [];
+const enginsModel = {
+  VSSUAP: ["CA", "CO", "EQ"],
+  FPTGP: ["CA", "CO", "CEBA", "EQBAT", "CEBAL", "EQBAL"],
+  CCFM: ["CA", "CO", "EQ1", "EQ2"],
+  VRSM: ["CA", "CO", "EQ"],
+  VTU: ["CA", "CO"]
+};
 
-async function load(){
+async function loadHistory(){
+  const q = query(collection(db, "verifications"), orderBy("date", "desc"));
+  const snap = await getDocs(q);
 
-const q = query(collection(db,"verifications"), orderBy("date","desc"));
-const snap = await getDocs(q);
+  verifs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-data = snap.docs.map(d=>d.data());
-
-render(data);
-stats(data);
-
+  buildGroupedDays();
+  renderStats();
+  renderDays();
 }
 
-function stats(d){
+function getDateObj(e){
+  if(e.date?.seconds) return new Date(e.date.seconds * 1000);
+  return new Date(e.date);
+}
 
-document.getElementById("total").innerText = d.length;
+function getLocalDayKey(date){
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
 
-let ok = 0;
-let miss = 0;
+function getDayLabelFromKey(dayKey){
+  const [y, m, d] = dayKey.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  });
+}
 
-d.forEach(e=>{
-const m = Object.values(e.data).filter(v=>!v).length;
-if(m === 0) ok++;
-miss += m;
+function getShift(date){
+  const hour = date.getHours();
+  return hour >= 8 && hour < 20 ? "jour" : "nuit";
+}
+
+function getMissing(verif){
+  if(!verif || !verif.data) return [];
+  return Object.entries(verif.data).filter(([key, value]) => !value);
+}
+
+function countMissing(list){
+  return list.reduce((total, e) => total + getMissing(e).length, 0);
+}
+
+function buildGroupedDays(){
+  groupedDays = {};
+
+  verifs.forEach(e => {
+    const date = getDateObj(e);
+    const dayKey = getLocalDayKey(date);
+    const shift = getShift(date);
+
+    if(!groupedDays[dayKey]){
+      groupedDays[dayKey] = { jour: [], nuit: [] };
+    }
+
+    groupedDays[dayKey][shift].push(e);
+  });
+}
+
+function renderStats(){
+  const total = verifs.length;
+  const missing = countMissing(verifs);
+  const ok = verifs.filter(e => getMissing(e).length === 0).length;
+  const okRate = total ? Math.round((ok / total) * 100) : 0;
+
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statOk").textContent = okRate + "%";
+  document.getElementById("statMissing").textContent = missing;
+  document.getElementById("statDays").textContent = Object.keys(groupedDays).length;
+}
+
+function renderDays(filter = ""){
+  const daysGrid = document.getElementById("daysGrid");
+  daysGrid.innerHTML = "";
+
+  const keys = Object.keys(groupedDays).sort().reverse();
+  const filteredKeys = keys.filter(dayKey => getDayLabelFromKey(dayKey).toLowerCase().includes(filter.toLowerCase()));
+
+  if(filteredKeys.length === 0){
+    daysGrid.innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-calendar-xmark"></i>
+        Aucune date trouvée.
+      </div>
+    `;
+    return;
+  }
+
+  filteredKeys.forEach(dayKey => {
+    const day = groupedDays[dayKey];
+    const all = [...day.jour, ...day.nuit];
+    const missing = countMissing(all);
+    const total = all.length;
+
+    let state = "good";
+    if(missing > 0) state = "warn";
+    if(missing > 8) state = "danger";
+
+    daysGrid.innerHTML += `
+      <button class="day-card ${state}" onclick="openDay('${dayKey}')">
+        <div class="day-date">${getDayLabelFromKey(dayKey)}</div>
+        <div class="day-sub">Clique pour ouvrir le détail</div>
+
+        <div class="day-kpis">
+          <span class="day-pill blue"><i class="fa-solid fa-list-check"></i> ${total} vérif.</span>
+          <span class="day-pill day"><i class="fa-solid fa-sun"></i> ${day.jour.length} jour</span>
+          <span class="day-pill night"><i class="fa-solid fa-moon"></i> ${day.nuit.length} nuit</span>
+          <span class="day-pill ${missing ? 'red' : 'green'}">
+            <i class="fa-solid ${missing ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i> ${missing} manquant(s)
+          </span>
+        </div>
+      </button>
+    `;
+  });
+}
+
+window.openDay = function(dayKey){
+  document.getElementById("statsView").classList.add("hidden");
+  document.getElementById("dayBoard").classList.add("hidden");
+  document.getElementById("detailBoard").classList.add("active");
+
+  document.getElementById("pageTitle").textContent = "Détail de la journée";
+  document.getElementById("pageSub").textContent = "Séparation garde jour 08h00-20h00 et garde nuit 20h00-08h00.";
+  document.getElementById("detailTitle").textContent = getDayLabelFromKey(dayKey);
+  document.getElementById("detailSub").textContent = "Vue par engin et par poste";
+
+  renderDayDetail(dayKey);
+};
+
+window.backToDays = function(){
+  document.getElementById("statsView").classList.remove("hidden");
+  document.getElementById("dayBoard").classList.remove("hidden");
+  document.getElementById("detailBoard").classList.remove("active");
+
+  document.getElementById("pageTitle").textContent = "Historique des vérifications";
+  document.getElementById("pageSub").textContent = "Clique sur une date pour afficher les gardes jour et nuit.";
+};
+
+function renderDayDetail(dayKey){
+  const day = groupedDays[dayKey] || { jour: [], nuit: [] };
+  const content = document.getElementById("dayDetailContent");
+
+  content.innerHTML = `
+    ${renderShiftSection("jour", day.jour)}
+    ${renderShiftSection("nuit", day.nuit)}
+  `;
+}
+
+function renderShiftSection(shift, list){
+  const isDay = shift === "jour";
+  const title = isDay ? "Garde Jour" : "Garde Nuit";
+  const hours = isDay ? "08h00 → 20h00" : "20h00 → 08h00";
+  const icon = isDay ? "fa-sun" : "fa-moon";
+
+  return `
+    <section class="shift-section">
+      <div class="shift-header ${isDay ? 'day' : 'night'}">
+        <h3><i class="fa-solid ${icon}"></i> ${title}</h3>
+        <p>${hours} · ${list.length} vérification(s) · ${countMissing(list)} manquant(s)</p>
+      </div>
+
+      <div class="vehicles-grid">
+        ${Object.entries(enginsModel).map(([vehicle, posts]) => renderVehicleCard(vehicle, posts, list)).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderVehicleCard(vehicle, posts, list){
+  const vehicleClass = vehicle.toLowerCase();
+  const checkedPosts = posts.filter(post => findVerification(list, vehicle, post)).length;
+
+  return `
+    <article class="vehicle-card">
+      <div class="vehicle-head ${vehicleClass}">
+        <h4>${vehicle}</h4>
+        <span>${checkedPosts}/${posts.length} poste(s)</span>
+      </div>
+
+      <div class="posts-grid">
+        ${posts.map(post => renderPostCard(vehicle, post, list)).join("")}
+      </div>
+    </article>
+  `;
+}
+
+function renderPostCard(vehicle, post, list){
+  const verif = findVerification(list, vehicle, post);
+
+  if(!verif){
+    return `
+      <div class="post-card missing-verif">
+        <div class="post-code">${post}</div>
+        <div class="post-main">
+          <strong>${vehicle} ${post}</strong>
+          <span>Aucune vérification enregistrée</span>
+        </div>
+        <span class="post-state wait"><i class="fa-solid fa-clock"></i> Non vérifié</span>
+      </div>
+    `;
+  }
+
+  const missing = getMissing(verif);
+  const date = getDateObj(verif);
+  const verificateur = verif.verificateur || "Non renseigné";
+
+  return `
+    <div class="post-card ${missing.length ? 'alert' : 'done'}">
+      <div class="post-code">${post}</div>
+      <div class="post-main">
+        <strong>${vehicle} ${post}</strong>
+        <span>${verificateur} · ${date.toLocaleTimeString("fr-FR", {hour:"2-digit", minute:"2-digit"})}</span>
+      </div>
+      <span class="post-state ${missing.length ? 'ko' : 'ok'}">
+        <i class="fa-solid ${missing.length ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i>
+        ${missing.length ? missing.length + ' manquant(s)' : 'Conforme'}
+      </span>
+
+      ${missing.length ? `
+        <div class="missing-list">
+          ${missing.map(([name]) => `<span class="missing-chip"><i class="fa-solid fa-xmark"></i> ${name}</span>`).join("")}
+        </div>
+      ` : ""}
+    </div>
+  `;
+}
+
+function findVerification(list, vehicle, post){
+  return list.find(e => normalizeVehicle(e) === vehicle && normalizePost(e) === post);
+}
+
+function normalizeVehicle(e){
+  const raw = String(e.nomDoc || e.engin || e.vehicule || "").toUpperCase().replaceAll(" ", "");
+
+  if(raw.includes("VSSUAP") || raw.includes("VSAV")) return "VSSUAP";
+  if(raw.includes("FPTGP") || raw.includes("FPT")) return "FPTGP";
+  if(raw.includes("CCFM") || raw.includes("CCF")) return "CCFM";
+  if(raw.includes("VRSM") || raw.includes("VSR")) return "VRSM";
+  if(raw.includes("VTU")) return "VTU";
+
+  return raw;
+}
+
+function normalizePost(e){
+  const raw = String(e.poste || e.nomPoste || e.role || e.fonction || e.nomDoc || "").toUpperCase().replaceAll(" ", "");
+
+  if(raw.includes("EQBAL")) return "EQBAL";
+  if(raw.includes("CEBAL")) return "CEBAL";
+  if(raw.includes("EQBAT")) return "EQBAT";
+  if(raw.includes("CEBA")) return "CEBA";
+  if(raw.includes("EQ1")) return "EQ1";
+  if(raw.includes("EQ2")) return "EQ2";
+  if(raw.includes("CA")) return "CA";
+  if(raw.includes("CO")) return "CO";
+  if(raw.includes("EQ")) return "EQ";
+
+  return raw;
+}
+
+document.getElementById("historySearch").addEventListener("input", e => {
+  renderDays(e.target.value);
 });
 
-document.getElementById("okRate").innerText =
-Math.round((ok / d.length) * 100) + "%";
-
-document.getElementById("alerts").innerText = miss;
-
-}
-
-function render(d){
-
-tbody.innerHTML="";
-
-d.forEach(e=>{
-
-const missing = Object.entries(e.data).filter(([k,v])=>!v);
-
-const sev = missing.length>10?"high":missing.length>3?"medium":"low";
-
-tbody.innerHTML += `
-<tr class="${sev}">
-<td>${new Date(e.date.seconds*1000).toLocaleDateString()}</td>
-<td><span class="badge vsav">${e.nomDoc}</span></td>
-<td>${e.verificateur}</td>
-<td>
-${missing.length?
-missing.map(m=>`<span class="missing">${m[0]}</span>`).join("")
-:"OK"}
-</td>
-</tr>
-`;
-});
-
-}
-
-load();
-
+loadHistory();
 </script>
 
 <script>
-document.getElementById('date').textContent =
-new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+document.getElementById("date").textContent =
+new Date().toLocaleDateString("fr-FR",{
+  weekday:"long",
+  day:"numeric",
+  month:"long",
+  year:"numeric"
+});
 </script>
 
 </body>
