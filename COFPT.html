@@ -27,7 +27,7 @@
 
     <div id="container"></div>
 
-    <div class="comment-section">
+<div class="comment-section">
   <label for="commentaire"><strong>Commentaire :</strong></label>
   <textarea
     id="commentaire"
@@ -39,6 +39,7 @@
 <button class="btn" onclick="saveAndReturn()">
   Enregistrer
 </button>
+
 
   </main>
 
@@ -329,7 +330,7 @@ async function loadStructure() {
 
       if (
         section.name === "CABINE" &&
-        labelText.includes("1 ARI complet derrière le siège")
+        labelText.includes("ARI complet derrière le siège")
       ) {
         createAriPressureField(section.name, fieldset);
       }
@@ -343,7 +344,7 @@ window.saveAndReturn = async function () {
 
   const pressionInput = document.getElementById(
     makeId(
-      "CABINE ARRIERE",
+      "CABINE",
       "Pression de la bouteille de l'ARI"
     )
   );

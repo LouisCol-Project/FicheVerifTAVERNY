@@ -330,8 +330,17 @@ function renderPostCard(vehicle, post, list){
 
       ${missing.length ? `
         <div class="missing-list">
-          ${missing.map(([name]) => `<span class="missing-chip"><i class="fa-solid fa-xmark"></i> ${name}</span>`).join("")}
-        </div>
+${missing.map(([name]) => {
+  const libelle = name
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, l => l.toUpperCase());
+
+  return `
+    <span class="missing-chip">
+      <i class="fa-solid fa-xmark"></i> ${libelle}
+    </span>
+  `;
+}).join("")}        </div>
       ` : ""}
     </div>
   `;
