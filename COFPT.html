@@ -248,7 +248,6 @@ input.type = "number";
 input.className = "ari-pressure";
 input.inputMode = "numeric";
 input.min = "0";
-input.max = "300";
 input.placeholder = "300";
 input.required = true;
 input.id = makeId(
@@ -359,7 +358,7 @@ window.saveAndReturn = async function () {
 
   const pression = Number(pressionInput.value);
 
-  if (pression < 280 || pression > 300) {
+  if (pression < 280) {
     alert(
       "La pression de la bouteille de l'ARI doit être comprise entre 280 et 300 Bars en dessous il faut changé sa bouteille."
     );
