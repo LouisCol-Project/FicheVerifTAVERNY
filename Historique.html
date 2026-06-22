@@ -8,7 +8,6 @@
 <link rel="shortcut icon" href="images/logo.png">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 </head>
 
 <body>
@@ -84,36 +83,77 @@
 
 </main>
 
+<div id="photoModal" class="photo-modal">
+  <div class="photo-modal-content">
+    <button class="photo-close" onclick="closePhotos()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h3>Photos de la vérification</h3>
+    <div id="photoModalGrid" class="photo-modal-grid"></div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const app = initializeApp({
-  apiKey: "XXX",
-  projectId: "veriftav"
+  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
+  authDomain: "veriftav.firebaseapp.com",
+  projectId: "veriftav",
+  storageBucket: "veriftav.firebasestorage.app",
+  messagingSenderId: "401217101102",
+  appId: "1:401217101102:web:dd375734d4f0464c146ebf",
+  measurementId: "G-KVSC8V8M1B"
 });
 
 const db = getFirestore(app);
+
+const supabaseUrl = "https://crekdqowqtivflqhhxfc.supabase.co";
+const supabaseAnonKey = "sb_publishable_556tCAQOJpCdKuBCM2lM7Q_962-59jD";
+const supabaseBucket = "photo_verif";
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 let verifs = [];
 let groupedDays = {};
+let photoCache = {};
 
 const enginsModel = {
   VSSUAP: ["CA", "CO", "EQ"],
-  FPTGP: ["CA", "CO", "CEBA", "EQBAT", "CEBAL", "EQBAL"],
+  FPTGP: ["CA", "CO", "CEBAT", "EQBAT", "CEBAL", "EQBAL"],
   CCFM: ["CA", "CO", "EQ1", "EQ2"],
   VRSM: ["CA", "CO", "EQ"],
   VTU: ["CA", "CO"]
 };
 
 async function loadHistory(){
-  const q = query(collection(db, "verifications"), orderBy("date", "desc"));
-  const snap = await getDocs(q);
+  try {
+    const q = query(collection(db, "verifications"), orderBy("date", "desc"));
+    const snap = await getDocs(q);
 
-  verifs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    verifs = snap.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
 
-  buildGroupedDays();
-  renderStats();
-  renderDays();
+    buildGroupedDays();
+    renderStats();
+    renderDays();
+
+  } catch (error) {
+    console.error("ERREUR FIRESTORE HISTORIQUE :", error);
+    alert("Erreur Firestore : " + error.message);
+  }
 }
 
 function getDateObj(e){
@@ -131,6 +171,7 @@ function getLocalDayKey(date){
 function getDayLabelFromKey(dayKey){
   const [y, m, d] = dayKey.split("-").map(Number);
   const date = new Date(y, m - 1, d);
+
   return date.toLocaleDateString("fr-FR", {
     weekday: "long",
     day: "2-digit",
@@ -186,7 +227,9 @@ function renderDays(filter = ""){
   daysGrid.innerHTML = "";
 
   const keys = Object.keys(groupedDays).sort().reverse();
-  const filteredKeys = keys.filter(dayKey => getDayLabelFromKey(dayKey).toLowerCase().includes(filter.toLowerCase()));
+  const filteredKeys = keys.filter(dayKey =>
+    getDayLabelFromKey(dayKey).toLowerCase().includes(filter.toLowerCase())
+  );
 
   if(filteredKeys.length === 0){
     daysGrid.innerHTML = `
@@ -237,6 +280,7 @@ window.openDay = function(dayKey){
   document.getElementById("detailSub").textContent = "Vue par engin et par poste";
 
   renderDayDetail(dayKey);
+  refreshPhotoIconsForVisibleCards();
 };
 
 window.backToDays = function(){
@@ -272,7 +316,9 @@ function renderShiftSection(shift, list){
       </div>
 
       <div class="vehicles-grid">
-        ${Object.entries(enginsModel).map(([vehicle, posts]) => renderVehicleCard(vehicle, posts, list)).join("")}
+        ${Object.entries(enginsModel).map(([vehicle, posts]) =>
+          renderVehicleCard(vehicle, posts, list)
+        ).join("")}
       </div>
     </section>
   `;
@@ -303,11 +349,15 @@ function renderPostCard(vehicle, post, list){
     return `
       <div class="post-card missing-verif">
         <div class="post-code">${post}</div>
+
         <div class="post-main">
           <strong>${vehicle} ${post}</strong>
           <span>Aucune vérification enregistrée</span>
         </div>
-        <span class="post-state wait"><i class="fa-solid fa-clock"></i> Non vérifié</span>
+
+        <span class="post-state wait">
+          <i class="fa-solid fa-clock"></i> Non vérifié
+        </span>
       </div>
     `;
   }
@@ -315,60 +365,209 @@ function renderPostCard(vehicle, post, list){
   const missing = getMissing(verif);
   const date = getDateObj(verif);
   const verificateur = verif.verificateur || "Non renseigné";
+  const showPhotoButton = canHavePhotos(verif);
+  const folder = getPhotoFolder(verif);
 
   return `
     <div class="post-card ${missing.length ? 'alert' : 'done'}">
       <div class="post-code">${post}</div>
+
       <div class="post-main">
         <strong>${vehicle} ${post}</strong>
-        <span>${verificateur} · ${date.toLocaleTimeString("fr-FR", {hour:"2-digit", minute:"2-digit"})}</span>
+        <span>
+          ${verificateur} ·
+          ${date.toLocaleTimeString("fr-FR", {
+            hour:"2-digit",
+            minute:"2-digit"
+          })}
+        </span>
       </div>
+
       <span class="post-state ${missing.length ? 'ko' : 'ok'}">
         <i class="fa-solid ${missing.length ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i>
         ${missing.length ? missing.length + ' manquant(s)' : 'Conforme'}
       </span>
 
+      ${showPhotoButton ? `
+        <button
+          class="photo-btn no-photo"
+          data-verif-id="${verif.id}"
+          data-folder="${folder}"
+          onclick="openPhotos('${verif.id}')"
+          title="Vérifier les photos">
+          <i class="fa-solid fa-camera"></i>
+          <span class="photo-count">0</span>
+        </button>
+      ` : ""}
+
       ${missing.length ? `
         <div class="missing-list">
-${missing.map(([name]) => {
-  const libelle = name
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, l => l.toUpperCase());
+          ${missing.map(([name]) => {
+            const libelle = name
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, l => l.toUpperCase());
 
-  return `
-    <span class="missing-chip">
-      <i class="fa-solid fa-xmark"></i> ${libelle}
-    </span>
-  `;
-}).join("")}        </div>
+            return `
+              <span class="missing-chip">
+                <i class="fa-solid fa-xmark"></i> ${libelle}
+              </span>
+            `;
+          }).join("")}
+        </div>
       ` : ""}
     </div>
   `;
 }
+
+function canHavePhotos(verif){
+  const nomDoc = String(verif.nomDoc || "")
+    .toUpperCase()
+    .replace(/\s+/g,"");
+
+  return [
+    "COVSSUAP",
+    "COFPTGP",
+    "COVRSM",
+    "COVSRM",
+    "COCCFM",
+    "COVTU"
+  ].includes(nomDoc);
+}
+
+function getPhotoFolder(verif){
+  const nomDoc = String(verif.nomDoc || "")
+    .toUpperCase()
+    .replace(/\s+/g,"");
+
+  const folders = {
+    COVSSUAP: "CO-VSSUAP",
+    COFPTGP: "CO-FPTGP",
+    COVRSM: "CO-VRSM",
+    COVSRM: "CO-VSRM",
+    COCCFM: "CO-CCFM",
+    COVTU: "CO-VTU"
+  };
+
+  return `${folders[nomDoc] || "CO-VSSUAP"}/${verif.id}`;
+}
+
+async function refreshPhotoIconsForVisibleCards(){
+  const buttons = document.querySelectorAll(".photo-btn[data-verif-id]");
+
+  for(const btn of buttons){
+    const verifId = btn.dataset.verifId;
+    const folder = btn.dataset.folder;
+
+    const photos = await getPhotosForVerif(verifId, folder);
+
+    const countSpan = btn.querySelector(".photo-count");
+    if(countSpan) countSpan.textContent = photos.length;
+
+    if(photos.length > 0){
+      btn.classList.remove("no-photo");
+      btn.classList.add("has-photo");
+      btn.title = "Voir les photos";
+    } else {
+      btn.classList.remove("has-photo");
+      btn.classList.add("no-photo");
+      btn.title = "Aucune photo";
+    }
+  }
+}
+
+async function getPhotosForVerif(verifId, folder){
+  if(photoCache[verifId]){
+    return photoCache[verifId];
+  }
+
+  const { data, error } = await supabase.storage
+    .from(supabaseBucket)
+    .list(folder);
+
+  if(error || !data || data.length === 0){
+    photoCache[verifId] = [];
+    return [];
+  }
+
+  const photos = data.map(file => {
+    const path = `${folder}/${file.name}`;
+
+    const { data: publicData } = supabase.storage
+      .from(supabaseBucket)
+      .getPublicUrl(path);
+
+    return publicData.publicUrl;
+  });
+
+  photoCache[verifId] = photos;
+  return photos;
+}
+
+window.openPhotos = async function(verifId){
+  const verif = verifs.find(v => v.id === verifId);
+
+  if(!verif || !canHavePhotos(verif)){
+    alert("Aucune photo disponible pour cette vérification.");
+    return;
+  }
+
+  const folder = getPhotoFolder(verif);
+  const photos = await getPhotosForVerif(verifId, folder);
+
+  if(photos.length === 0){
+    alert("Aucune photo pour cette vérification.");
+    return;
+  }
+
+  const modal = document.getElementById("photoModal");
+  const grid = document.getElementById("photoModalGrid");
+
+  grid.innerHTML = photos.map(url => `
+    <a href="${url}" target="_blank">
+      <img src="${url}" alt="Photo vérification">
+    </a>
+  `).join("");
+
+  modal.classList.add("active");
+};
+
+window.closePhotos = function(){
+  document.getElementById("photoModal").classList.remove("active");
+};
+
+document.getElementById("photoModal").addEventListener("click", e => {
+  if(e.target.id === "photoModal"){
+    closePhotos();
+  }
+});
 
 function findVerification(list, vehicle, post){
   return list.find(e => normalizeVehicle(e) === vehicle && normalizePost(e) === post);
 }
 
 function normalizeVehicle(e){
-  const raw = String(e.nomDoc || e.engin || e.vehicule || "").toUpperCase().replaceAll(" ", "");
+  const raw = String(e.nomDoc || e.engin || e.vehicule || "")
+    .toUpperCase()
+    .replaceAll(" ", "");
 
   if(raw.includes("VSSUAP") || raw.includes("VSAV")) return "VSSUAP";
   if(raw.includes("FPTGP") || raw.includes("FPT")) return "FPTGP";
   if(raw.includes("CCFM") || raw.includes("CCF")) return "CCFM";
-  if(raw.includes("VRSM") || raw.includes("VSR")) return "VRSM";
+  if(raw.includes("VRSM") || raw.includes("VSRM") || raw.includes("VSR")) return "VRSM";
   if(raw.includes("VTU")) return "VTU";
 
   return raw;
 }
 
 function normalizePost(e){
-  const raw = String(e.poste || e.nomPoste || e.role || e.fonction || e.nomDoc || "").toUpperCase().replaceAll(" ", "");
+  const raw = String(e.poste || e.nomPoste || e.role || e.fonction || e.nomDoc || "")
+    .toUpperCase()
+    .replaceAll(" ", "");
 
   if(raw.includes("EQBAL")) return "EQBAL";
   if(raw.includes("CEBAL")) return "CEBAL";
   if(raw.includes("EQBAT")) return "EQBAT";
-  if(raw.includes("CEBA")) return "CEBA";
+  if(raw.includes("CEBAT")) return "CEBAT";
   if(raw.includes("EQ1")) return "EQ1";
   if(raw.includes("EQ2")) return "EQ2";
   if(raw.includes("CA")) return "CA";
@@ -387,11 +586,11 @@ loadHistory();
 
 <script>
 document.getElementById("date").textContent =
-new Date().toLocaleDateString("fr-FR",{
-  weekday:"long",
-  day:"numeric",
-  month:"long",
-  year:"numeric"
+new Date().toLocaleDateString("fr-FR", {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+  year: "numeric"
 });
 </script>
 

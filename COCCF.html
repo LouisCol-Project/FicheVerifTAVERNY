@@ -9,10 +9,9 @@
   <link rel="shortcut icon" href="images/logo.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
-  <body class="bg-image">
 </head>
 
-<body>
+<body class="bg-image">
 
   <div class="app-bg"></div>
 
@@ -25,27 +24,43 @@
   </header>
 
   <main>
-
     <div id="container"></div>
 
-<div class="comment-section">
-  <label for="commentaire"><strong>Commentaire :</strong></label>
-  <textarea
-    id="commentaire"
-    rows="4"
-    placeholder="Saisir un commentaire..."
-  ></textarea>
-</div>
+    <div class="comment-section">
+      <label for="commentaire"><strong>Commentaire :</strong></label>
+      <textarea
+        id="commentaire"
+        rows="4"
+        placeholder="Saisir un commentaire..."
+      ></textarea>
+    </div>
 
-<button class="btn" onclick="saveAndReturn()">
-  Enregistrer
-</button>
+    <div class="photo-section">
+      <label><strong>Photos :</strong></label>
 
+      <video
+        id="camera"
+        autoplay
+        playsinline
+        style="display:none; width:100%; max-width:420px; border-radius:12px; margin:10px 0;"
+      ></video>
 
+      <canvas id="canvas" style="display:none;"></canvas>
 
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;">
+        <button type="button" class="btn" onclick="startCamera()">Ouvrir caméra</button>
+        <button type="button" class="btn" onclick="takePhoto()">Prendre photo</button>
+        <button type="button" class="btn" onclick="stopCamera()">Fermer caméra</button>
+      </div>
+
+      <div id="photoPreview" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+    </div>
+
+    <button class="btn" onclick="saveAndReturn()">
+      Enregistrer
+    </button>
   </main>
 
-  <!-- DATE -->
   <script>
     document.getElementById('date').textContent =
       new Date().toLocaleDateString('fr-FR', {
@@ -56,276 +71,367 @@
       });
   </script>
 
-  <!-- FIREBASE -->
   <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDocs,
-  query,
-  orderBy,
-  limit,
-  where,
-  collection,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDocs,
+      query,
+      orderBy,
+      limit,
+      where,
+      collection,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-/* ================= FIREBASE ================= */
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
-  authDomain: "veriftav.firebaseapp.com",
-  projectId: "veriftav",
-  storageBucket: "veriftav.firebasestorage.app",
-  messagingSenderId: "401217101102",
-  appId: "1:401217101102:web:dd375734d4f0464c146ebf",
-  measurementId: "G-KVSC8V8M1B"
-};
+    /* ================= FIREBASE ================= */
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    const firebaseConfig = {
+      apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
+      authDomain: "veriftav.firebaseapp.com",
+      projectId: "veriftav",
+      storageBucket: "veriftav.firebasestorage.app",
+      messagingSenderId: "401217101102",
+      appId: "1:401217101102:web:dd375734d4f0464c146ebf",
+      measurementId: "G-KVSC8V8M1B"
+    };
 
-/* ================= DATA ================= */
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-function getData() {
-  const inputs = document.querySelectorAll("input[type=checkbox]");
-  const data = {};
-  inputs.forEach(i => data[i.id] = i.checked);
-  return data;
-}
+    /* ================= SUPABASE ================= */
 
-/* ================= SAFE DATE ================= */
+    const supabaseUrl = "https://crekdqowqtivflqhhxfc.supabase.co";
+    const supabaseAnonKey = "sb_publishable_556tCAQOJpCdKuBCM2lM7Q_962-59jD";
+    const supabaseBucket = "photo_verif";
 
-function formatDate(raw) {
-  let date;
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-  if (!raw) date = new Date();
-  else if (raw.toDate) date = raw.toDate();
-  else date = new Date(raw);
+    /* ================= CAMERA ================= */
 
-  if (isNaN(date.getTime())) date = new Date();
+    let cameraStream = null;
+    let photosToUpload = [];
 
-  return date.toLocaleDateString("fr-FR");
-}
+    window.startCamera = async function () {
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { ideal: "environment" }
+          },
+          audio: false
+        });
 
-/* ================= HIGHLIGHT ================= */
+        const video = document.getElementById("camera");
+        video.srcObject = cameraStream;
+        video.style.display = "block";
 
-function highlightMissing(data, lastInfo = null) {
+      } catch (e) {
+        console.error(e);
+        alert("Impossible d'accéder à la caméra.");
+      }
+    };
 
-  document.querySelectorAll(".check-item").forEach(el => {
-    el.classList.remove("missing");
+    window.takePhoto = function () {
+      const video = document.getElementById("camera");
+      const canvas = document.getElementById("canvas");
 
-    const badge = el.querySelector(".missing-badge");
-    const warn = el.querySelector(".missing-text");
+      if (!cameraStream) {
+        alert("Ouvre d'abord la caméra.");
+        return;
+      }
 
-    if (badge) badge.style.display = "none";
-    if (warn) warn.style.display = "none";
-  });
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
 
-  const date = formatDate(lastInfo?.date);
-  const nom = lastInfo?.verificateur || "Inconnu";
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  for (const [id, checked] of Object.entries(data)) {
+      canvas.toBlob(blob => {
+        if (!blob) return;
 
-    if (!checked) {
-      const input = document.getElementById(id);
-      if (!input) continue;
+        photosToUpload.push(blob);
 
-      const wrapper = input.closest(".check-item");
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
 
-      if (wrapper) {
-        wrapper.classList.add("missing");
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(blob);
+        img.style.width = "120px";
+        img.style.height = "120px";
+        img.style.objectFit = "cover";
+        img.style.borderRadius = "10px";
 
-        const badge = wrapper.querySelector(".missing-badge");
-        const warn = wrapper.querySelector(".missing-text");
+        wrapper.appendChild(img);
+        document.getElementById("photoPreview").appendChild(wrapper);
 
-        if (badge) badge.style.display = "flex";
+      }, "image/jpeg", 0.85);
+    };
 
-        if (warn) {
-          warn.textContent =
-            `Matériel manquant constaté par ${nom} le ${date}`;
-          warn.style.display = "inline";
+    window.stopCamera = function () {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+
+      document.getElementById("camera").style.display = "none";
+    };
+
+    async function uploadPhotos(docId) {
+      for (let i = 0; i < photosToUpload.length; i++) {
+        const file = photosToUpload[i];
+
+        const filePath =
+          `CO-CCFM/${docId}/photo_${i + 1}_${Date.now()}.jpg`;
+
+        const { error } = await supabase.storage
+          .from(supabaseBucket)
+          .upload(filePath, file, {
+            contentType: "image/jpeg",
+            upsert: false
+          });
+
+        if (error) {
+          console.error("Erreur upload Supabase :", error);
+          alert("Erreur lors de l'envoi d'une photo vers Supabase.");
         }
       }
     }
-  }
-}
 
-/* ================= SAVE ================= */
+    /* ================= SAFE DATE ================= */
 
-async function saveCheck() {
-  const checkData = {};
+    function formatDate(raw) {
+      let date;
 
-  document
-    .querySelectorAll("input[type=checkbox]")
-    .forEach(input => {
-      checkData[input.id] = input.checked;
-    });
+      if (!raw) date = new Date();
+      else if (raw.toDate) date = raw.toDate();
+      else date = new Date(raw);
 
-  const commentaire =
-    document.getElementById("commentaire")?.value.trim() || "";
+      if (isNaN(date.getTime())) date = new Date();
 
-  try {
-    const timestamp = new Date();
-    const docId = "CO CCFM_" + timestamp.getTime();
-
-    const nomVerificateur =
-      localStorage.getItem("nomVerificateur") || "Inconnu";
-
-    await setDoc(doc(db, "verifications", docId), {
-      nomDoc: "CO CCFM",
-      date: timestamp,
-      verificateur: nomVerificateur,
-      commentaire: commentaire,
-      data: checkData
-    });
-
-    console.log("Enregistrement OK");
-
-  } catch (e) {
-    console.error("Erreur Firestore :", e);
-    alert("Erreur lors de l'enregistrement");
-  }
-}
-
-/* ================= LAST CHECK ================= */
-
-async function highlightLastMissing() {
-  try {
-    const q = query(
-      collection(db, "verifications"),
-      where("nomDoc", "==", "CO CCFM"),
-      orderBy("date", "desc"),
-      limit(1)
-    );
-
-    const snapshot = await getDocs(q);
-    if (snapshot.empty) return;
-
-    const docData = snapshot.docs[0].data();
-
-    highlightMissing(docData.data, {
-      date: docData.date,
-      verificateur: docData.verificateur
-    });
-
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-/* ================= STRUCTURE ================= */
-
-function makeId(sectionName, labelText) {
-  return `${sectionName}_${labelText}`
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "_")
-    .replace(/[^\w_]/g, "");
-}
-
-function createSectionImage(sectionName) {
-  const normalize = (name) =>
-    name
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/\s+/g, "_")
-      .replace(/[^\w_]/g, "");
-
-  const img = document.createElement("img");
-  img.src = `images/COCCFM/${normalize(sectionName)}.jpg`;
-  img.alt = sectionName;
-  img.onerror = () => img.remove();
-
-  return img;
-}
-
-/* ================= LOAD ================= */
-
-async function loadStructure() {
-  const snap = await getDoc(doc(db, "FICHEVerif", "COCCFM"));
-  if (!snap.exists()) return;
-
-  const data = snap.data();
-  const container = document.getElementById("container");
-  container.innerHTML = "";
-
-  const sections = Object.entries(data)
-    .map(([name, section]) => ({ name, ...section }))
-    .filter(s => s.items)
-    .sort((a, b) => a.order - b.order);
-
-  for (const section of sections) {
-
-    const fieldset = document.createElement("fieldset");
-
-    const legend = document.createElement("legend");
-    legend.textContent = section.name;
-    fieldset.appendChild(legend);
-
-    fieldset.appendChild(createSectionImage(section.name));
-
-   const isRappel =
-      section.order === 1 &&
-      section.name.toUpperCase() === "RAPPEL";
-
-    for (const [labelText, value] of Object.entries(section.items)) {
-
-      if (isRappel) {
-        const p = document.createElement("p");
-        p.textContent = "📌 " + labelText;
-        fieldset.appendChild(p);
-        continue;
-      }
-
-      const label = document.createElement("label");
-      label.classList.add("check-item");
-
-      const input = document.createElement("input");
-      input.type = "checkbox";
-      input.id = makeId(section.name, labelText);
-      input.checked = value === true;
-
-      const text = document.createElement("span");
-      text.textContent = labelText;
-
-      const badge = document.createElement("div");
-      badge.className = "missing-badge";
-      badge.style.display = "none";
-
-      const warn = document.createElement("span");
-      warn.className = "missing-text";
-      warn.style.display = "none";
-
-      label.appendChild(input);
-      label.appendChild(badge);
-      label.appendChild(text);
-      label.appendChild(warn);
-
-      fieldset.appendChild(label);
-
+      return date.toLocaleDateString("fr-FR");
     }
 
-    container.appendChild(fieldset);
-  }
-}
+    /* ================= HIGHLIGHT ================= */
 
-/* ================= GLOBAL ================= */
+    function highlightMissing(data, lastInfo = null) {
 
-window.saveAndReturn = async function () {
-  await saveCheck();
-  location.href = "index.html";
-};
+      document.querySelectorAll(".check-item").forEach(el => {
+        el.classList.remove("missing");
 
-/* ================= INIT ================= */
+        const badge = el.querySelector(".missing-badge");
+        const warn = el.querySelector(".missing-text");
 
-window.addEventListener("DOMContentLoaded", async () => {
-  await loadStructure();
-  await highlightLastMissing();
-});
+        if (badge) badge.style.display = "none";
+        if (warn) warn.style.display = "none";
+      });
+
+      const date = formatDate(lastInfo?.date);
+      const nom = lastInfo?.verificateur || "Inconnu";
+
+      for (const [id, checked] of Object.entries(data)) {
+
+        if (!checked) {
+          const input = document.getElementById(id);
+          if (!input) continue;
+
+          const wrapper = input.closest(".check-item");
+
+          if (wrapper) {
+            wrapper.classList.add("missing");
+
+            const badge = wrapper.querySelector(".missing-badge");
+            const warn = wrapper.querySelector(".missing-text");
+
+            if (badge) badge.style.display = "flex";
+
+            if (warn) {
+              warn.textContent =
+                `Matériel manquant constaté par ${nom} le ${date}`;
+              warn.style.display = "inline";
+            }
+          }
+        }
+      }
+    }
+
+    /* ================= SAVE FIRESTORE + SUPABASE ================= */
+
+    async function saveCheck() {
+      const checkData = {};
+
+      document
+        .querySelectorAll("input[type=checkbox]")
+        .forEach(input => {
+          checkData[input.id] = input.checked;
+        });
+
+      const commentaire =
+        document.getElementById("commentaire")?.value.trim() || "";
+
+      try {
+        const timestamp = new Date();
+        const docId = "CO CCFM_" + timestamp.getTime();
+
+        const nomVerificateur =
+          localStorage.getItem("nomVerificateur") || "Inconnu";
+
+        await setDoc(doc(db, "verifications", docId), {
+          nomDoc: "CO CCFM",
+          date: timestamp,
+          verificateur: nomVerificateur,
+          commentaire: commentaire,
+          data: checkData
+        });
+
+        await uploadPhotos(docId);
+
+        console.log("Checkbox Firestore OK + Photos Supabase OK");
+
+      } catch (e) {
+        console.error("Erreur enregistrement :", e);
+        alert("Erreur lors de l'enregistrement");
+        throw e;
+      }
+    }
+
+    /* ================= LAST CHECK ================= */
+
+    async function highlightLastMissing() {
+      try {
+        const q = query(
+          collection(db, "verifications"),
+          where("nomDoc", "==", "CO CCFM"),
+          orderBy("date", "desc"),
+          limit(1)
+        );
+
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) return;
+
+        const docData = snapshot.docs[0].data();
+
+        highlightMissing(docData.data, {
+          date: docData.date,
+          verificateur: docData.verificateur
+        });
+
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    /* ================= STRUCTURE ================= */
+
+    function makeId(sectionName, labelText) {
+      return `${sectionName}_${labelText}`
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, "_")
+        .replace(/[^\w_]/g, "");
+    }
+
+    function createSectionImage(sectionName) {
+      const normalize = (name) =>
+        name
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/\s+/g, "_")
+          .replace(/[^\w_]/g, "");
+
+      const img = document.createElement("img");
+      img.src = `images/COCCFM/${normalize(sectionName)}.jpg`;
+      img.alt = sectionName;
+      img.onerror = () => img.remove();
+
+      return img;
+    }
+
+    /* ================= LOAD ================= */
+
+    async function loadStructure() {
+      const snap = await getDoc(doc(db, "FICHEVerif", "COCCFM"));
+      if (!snap.exists()) return;
+
+      const data = snap.data();
+      const container = document.getElementById("container");
+      container.innerHTML = "";
+
+      const sections = Object.entries(data)
+        .map(([name, section]) => ({ name, ...section }))
+        .filter(s => s.items)
+        .sort((a, b) => a.order - b.order);
+
+      for (const section of sections) {
+
+        const fieldset = document.createElement("fieldset");
+
+        const legend = document.createElement("legend");
+        legend.textContent = section.name;
+        fieldset.appendChild(legend);
+
+        fieldset.appendChild(createSectionImage(section.name));
+
+        const isSimpleList = section.order === 1;
+
+        for (const [labelText, value] of Object.entries(section.items)) {
+
+          if (isSimpleList) {
+            const p = document.createElement("p");
+            p.textContent = "📌 " + labelText;
+            fieldset.appendChild(p);
+            continue;
+          }
+
+          const label = document.createElement("label");
+          label.classList.add("check-item");
+
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.id = makeId(section.name, labelText);
+          input.checked = value === true;
+
+          const text = document.createElement("span");
+          text.textContent = labelText;
+
+          const badge = document.createElement("div");
+          badge.className = "missing-badge";
+          badge.style.display = "none";
+
+          const warn = document.createElement("span");
+          warn.className = "missing-text";
+          warn.style.display = "none";
+
+          label.appendChild(input);
+          label.appendChild(badge);
+          label.appendChild(text);
+          label.appendChild(warn);
+
+          fieldset.appendChild(label);
+        }
+
+        container.appendChild(fieldset);
+      }
+    }
+
+    /* ================= GLOBAL ================= */
+
+    window.saveAndReturn = async function () {
+      await saveCheck();
+      stopCamera();
+      location.href = "index.html";
+    };
+
+    /* ================= INIT ================= */
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadStructure();
+      await highlightLastMissing();
+    });
 
   </script>
 
