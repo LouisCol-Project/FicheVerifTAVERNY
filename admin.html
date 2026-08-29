@@ -3,180 +3,439 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Admin CIS Taverny</title>
 
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#c62828">
+
+<link rel="apple-touch-icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+<link rel="shortcut icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
+
+<style>
+/* Images communes chargées depuis Supabase */
+body {
+  background:
+    linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.70)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover fixed !important;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.65)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover no-repeat !important;
+}
+
+
+/* Gestion photos alignée avec le design Admin */
+.photo-upload-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  margin-bottom: 22px;
+  padding: 18px;
+  background: #f7f7f7;
+  border-radius: 18px;
+}
+
+.photo-upload-panel button {
+  min-height: 52px;
+  background: linear-gradient(135deg,#c62828,#8e0000);
+}
+
+.photo-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.photo-admin-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-left: 5px solid #c62828;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.10);
+}
+
+.photo-admin-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  background: #f5f5f5;
+  border-radius: 14px;
+}
+
+.photo-admin-card strong {
+  color: #111;
+  font-size: .95rem;
+  word-break: break-all;
+}
+
+.photo-admin-card button {
+  min-height: 44px;
+  border-radius: 12px;
+}
+
+.photo-folder-card {
+  cursor: pointer;
+  border-left-color: #1976d2;
+}
+
+.photo-folder-icon {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef4ff;
+  border-radius: 14px;
+  color: #1976d2;
+  font-size: 58px;
+}
+
+.photo-folder-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.photo-folder-title small {
+  color: #666;
+  font-weight: 800;
+}
+
+.photo-folder-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  grid-column: 1 / -1;
+  padding: 14px 16px;
+  background: #f7f7f7;
+  border-radius: 16px;
+}
+
+.photo-folder-toolbar h3 {
+  margin: 0;
+  color: #111;
+}
+
+.photo-folder-toolbar button {
+  width: auto;
+  min-height: 44px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg,#202124,#444);
+}
+
+.delete-photo-btn {
+  background: linear-gradient(135deg,#c62828,#8e0000) !important;
+}
+
+@media(max-width:760px){
+  .photo-upload-panel {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
 </head>
 
 <body class="bg-image">
+<div class="app-bg"></div>
 
 <header>
-  <img src="images/logo.png" onclick="location.href='index.html'" width="110">
-  <h1>Administration des fiches de vérification et gestion des utilisateurs du CIS de Taverny.</h1>
+  <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" class="logoHeader" onclick="location.href='index.html'" loading="eager" fetchpriority="high">
+  <h1>Administration CIS TAVERNY</h1>
 </header>
 
 <main class="admin-dashboard">
 
   <aside class="admin-sidebar">
-
     <div class="admin-profile">
-      <img src="images/logo.png" alt="Logo">
+      <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" alt="Logo CIS Taverny">
       <h2>Admin CIS Taverny</h2>
       <p>Panneau de contrôle</p>
     </div>
 
-    <button id="btnUsers" class="side-btn active" onclick="showSection('users')">
-      👤 Utilisateurs
-    </button>
-
-    <button id="btnVerif" class="side-btn" onclick="showSection('verif')">
-      🚒 Vérifications
-    </button>
-
+    <button id="btnUsers" class="side-btn active" onclick="showSection('users')"><i class="fas fa-users-gear"></i> Utilisateurs</button>
+    <button id="btnVerif" class="side-btn" onclick="showSection('verif')"><i class="fas fa-clipboard-check"></i> Vérifications</button>
+    <button id="btnPhotos" class="side-btn" onclick="showSection('photos')"><i class="fas fa-images"></i> Photos</button>
+    <button class="side-btn" onclick="location.href='index.html'"><i class="fas fa-house"></i> Accueil</button>
   </aside>
 
   <section class="admin-content">
 
     <div id="dashboardHeader" class="dashboard-header">
-      <div>
-        <h1>Tableau de bord</h1>
-        <p>Gestion des accès et des fiches de vérification</p>
+      <div class="card-top" style="margin-bottom:0;">
+        <div>
+          <h1>Tableau de bord</h1>
+          <p>Gestion des accès, des rôles et des fiches de vérification.</p>
+        </div>
+        <div class="admin-top-actions">
+          <button onclick="toggleCreateUser()"><i class="fas fa-user-plus"></i> Nouvel utilisateur</button>
+        </div>
       </div>
     </div>
 
     <div id="dashboardStats" class="dashboard-stats">
-      <div class="dash-stat">
-        <span id="totalUsers">0</span>
-        <p>Utilisateurs</p>
-      </div>
-      <div class="dash-stat">
-        <span id="adminUsers">0</span>
-        <p>Admins</p>
-      </div>
-      <div class="dash-stat">
-        <span id="chefUsers">0</span>
-        <p>Chefs</p>
-      </div>
-      <div class="dash-stat">
-        <span id="bmmUsers">0</span>
-        <p>BMM</p>
-      </div>
+      <div class="dash-stat"><span id="totalUsers">0</span><p>Utilisateurs</p></div>
+      <div class="dash-stat"><span id="adminUsers">0</span><p>Admins</p></div>
+      <div class="dash-stat"><span id="opsUsers">0</span><p>OPS</p></div>
+      <div class="dash-stat"><span id="bmmUsers">0</span><p>BMM</p></div>
+      <div class="dash-stat"><span id="sapUsers">0</span><p>SAP</p></div>
+      <div class="dash-stat"><span id="chefUsers">0</span><p>Chef de centre</p></div>
     </div>
 
     <section id="usersSection" class="admin-card">
       <div class="card-top">
         <div>
-          <h2>Gestion des utilisateurs</h2>
-          <p>Créer, modifier ou supprimer un accès.</p>
+          <h2><i class="fas fa-users-gear"></i> Gestion des utilisateurs</h2>
+          <p>Créer, modifier ou supprimer un accès applicatif.</p>
         </div>
-        <button onclick="toggleCreateUser()">+ Nouvel utilisateur</button>
+        <button onclick="toggleCreateUser()"><i class="fas fa-user-plus"></i> Créer</button>
       </div>
 
-      <div id="createUserBox" class="create-user-box" style="display:none;">
-        <input id="newUser" placeholder="Identifiant">
+      <div class="admin-notice">
+        <i class="fas fa-circle-info"></i>
+        <div><strong>Rôles disponibles :</strong><br>Administrateur, Bureau OPS, Bureau BMM, Bureau SAP, Chef de centre.</div>
+      </div>
+
+      <div id="createUserBox" class="create-user-box">
+        <input id="newUser" placeholder="Identifiant utilisateur">
         <input id="newPass" type="password" placeholder="Mot de passe">
-        <select id="newRole">
+        <select id="newRole" class="role-select">
+          <option value="">Sélectionner un rôle</option>
           <option value="admin">Administrateur</option>
-          <option value="chef">Chef</option>
-          <option value="bmm">BMM</option>
+          <option value="OPS">Bureau OPS</option>
+          <option value="BMM">Bureau BMM</option>
+          <option value="SAP">Bureau SAP</option>
+          <option value="Chef">Chef de centre</option>
         </select>
-        <button onclick="createUser()">Créer</button>
+        <button onclick="createUser()"><i class="fas fa-check"></i> Créer</button>
+      </div>
+
+      <div class="user-tools">
+        <input id="userSearch" type="search" placeholder="Rechercher un utilisateur ou un rôle..." oninput="filterUsers()">
+        <button onclick="loadUsers()"><i class="fas fa-rotate"></i> Actualiser</button>
       </div>
 
       <table id="usersTable">
-        <thead>
-          <tr>
-            <th>Utilisateur</th>
-            <th>Rôle</th>
-            <th>Mot de passe</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Utilisateur</th><th>Rôle</th><th>Mot de passe</th><th>Actions</th></tr></thead>
         <tbody></tbody>
       </table>
+      <div id="usersEmpty" class="admin-empty" style="display:none;">Aucun utilisateur trouvé.</div>
     </section>
 
-    <section id="verifSection" class="admin-card">
+    <section id="verifSection" class="admin-card" style="display:none;">
       <div class="card-top">
         <div>
-          <h2>Gestion des vérifications</h2>
-          <p>Visualiser ou modifier les fiches matériel.</p>
+          <h2><i class="fas fa-clipboard-check"></i> Gestion des vérifications</h2>
+          <p>Visualiser ou modifier les fiches matériel des engins.</p>
         </div>
       </div>
 
-      <div class="engins-grid">
-        <button onclick="openEngin('VSSUAP')">VSSUAP</button>
-        <button onclick="openEngin('FPTGP')">FPTGP</button>
-        <button onclick="openEngin('VSRM')">VSRM</button>
-        <button onclick="openEngin('CCFM')">CCFM</button>
-        <button onclick="openEngin('VTU')">VTU</button>
-        <button onclick="openEngin('STATIONNAIRE')">STATIONNAIRE</button>
+     <div class="engins-grid">
+        <button onclick="openEngin('VSSUAP')"><i class="fas fa-ambulance"></i> VSSUAP</button>
+        <button onclick="openEngin('FPTGP')"><i class="fas fa-fire-extinguisher"></i> FPTGP</button>
+        <button onclick="openEngin('CCFM')"><i class="fas fa-tree"></i> CCFM</button>
+        <button onclick="openEngin('VSRM')"><i class="fas fa-car-crash"></i> VSRM</button>
+        <button onclick="openEngin('VTU')"><i class="fas fa-truck"></i> VTU</button>
       </div>
 
       <div id="enginPanel"></div>
     </section>
 
-  </section>
 
+    <section id="photosSection" class="admin-card" style="display:none;">
+      <div class="card-top">
+        <div>
+          <h2><i class="fas fa-images"></i> Gestion des photos</h2>
+          <p>Ajouter, modifier ou supprimer les images du bucket Supabase.</p>
+        </div>
+      </div>
+
+      <div class="photo-upload-panel">
+        <input type="file" id="newPhotoFile" accept="image/*">
+        <input id="newPhotoName" placeholder="Nom du fichier : logo.png ou DOSSIER/image.jpg">
+        <button onclick="insertPhoto()">
+          <i class="fas fa-upload"></i> Ajouter la photo
+        </button>
+      </div>
+
+      <div id="photosGrid" class="photo-admin-grid"></div>
+    </section>
+
+  </section>
 </main>
 
-<div id="viewModal" class="modal" style="display:none">
+<div id="viewModal" class="modal" style="display:none;">
   <div class="modal-content">
-
-    <div class="modal-header">
-      <h3>👁 Visualisation fiche</h3>
-      <button onclick="closeView()">✖</button>
-    </div>
-
+    <div class="modal-header"><h3><i class="fas fa-eye"></i> Visualisation fiche</h3><button onclick="closeView()"><i class="fas fa-xmark"></i></button></div>
     <div id="viewContainer"></div>
-
   </div>
 </div>
 
-<div id="editModal" class="modal" style="display:none">
+<div id="editModal" class="modal" style="display:none;">
   <div class="modal-content">
-
-    <div class="modal-header">
-      <h3>✏ Modification fiche</h3>
-      <button onclick="closeEdit()">✖</button>
-    </div>
-
+    <div class="modal-header"><h3><i class="fas fa-pen-to-square"></i> Modification fiche</h3><button onclick="closeEdit()"><i class="fas fa-xmark"></i></button></div>
     <div id="editContainer"></div>
+  </div>
+</div>
 
-    <button onclick="saveEdit()">💾 Sauvegarder</button>
-
+<div id="editUserModal" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:560px;">
+    <div class="modal-header"><h3><i class="fas fa-user-pen"></i> Modifier utilisateur</h3><button onclick="closeEditUser()"><i class="fas fa-xmark"></i></button></div>
+    <div class="edit-user-grid">
+      <label>Identifiant<input id="editUserId" disabled></label>
+      <label>Rôle
+        <select id="editRole">
+          <option value="admin">Administrateur</option>
+          <option value="OPS">Bureau OPS</option>
+          <option value="BMM">Bureau BMM</option>
+          <option value="SAP">Bureau SAP</option>
+          <option value="Chef">Chef de centre</option>
+        </select>
+      </label>
+      <label>Nouveau mot de passe<input id="editPassword" type="password" placeholder="Laisser vide pour ne pas modifier"></label>
+      <p class="edit-help">Si le champ mot de passe reste vide, seul le rôle sera modifié.</p>
+      <div class="modal-actions">
+        <button class="cancel-btn" onclick="closeEditUser()">Annuler</button>
+        <button onclick="saveEditUser()"><i class="fas fa-floppy-disk"></i> Enregistrer</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
   authDomain: "veriftav.firebaseapp.com",
-  projectId: "veriftav"
+  projectId: "veriftav",
+  storageBucket: "veriftav.appspot.com",
+  messagingSenderId: "401217101102",
+  appId: "1:401217101102:web:dd375734d4f0464c146ebf"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ================= NAVIGATION ADMIN ================= */
+/* =========================================================
+   SUPABASE PHOTOS
+========================================================= */
+const supabaseUrl = "https://crekdqowqtivflqhhxfc.supabase.co";
+const supabaseAnonKey = "sb_publishable_556tCAQOJpCdKuBCM2lM7Q_962-59jD";
+const supabaseBucket = "Photo_Engins";
+
+const sb = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+function getPhotoUrl(fileName) {
+  return `${supabaseUrl}/storage/v1/object/public/${supabaseBucket}/${fileName}`;
+}
+
+async function uploadPhoto(fileName, file) {
+  const { error } = await sb.storage
+    .from(supabaseBucket)
+    .upload(fileName, file, {
+      cacheControl: "3600",
+      upsert: false
+    });
+
+  if (error) {
+    alert("Erreur ajout photo : " + error.message);
+    return;
+  }
+
+  alert("Photo ajoutée.");
+  refreshPhotos();
+}
+
+async function updatePhoto(fileName, file) {
+  const { error } = await sb.storage
+    .from(supabaseBucket)
+    .upload(fileName, file, {
+      cacheControl: "3600",
+      upsert: true
+    });
+
+  if (error) {
+    alert("Erreur modification photo : " + error.message);
+    return;
+  }
+
+  alert("Photo modifiée.");
+  refreshPhotos();
+}
+
+async function deletePhoto(fileName) {
+  if (!confirm("Supprimer la photo : " + fileName + " ?")) return;
+
+  const { error } = await sb.storage
+    .from(supabaseBucket)
+    .remove([fileName]);
+
+  if (error) {
+    alert("Erreur suppression photo : " + error.message);
+    return;
+  }
+
+  alert("Photo supprimée.");
+  refreshPhotos();
+}
+
+async function refreshPhotos() {
+  const { data, error } = await sb.storage
+    .from(supabaseBucket)
+    .list("", {
+      limit: 100,
+      sortBy: { column: "name", order: "asc" }
+    });
+
+  if (error) {
+    alert("Erreur chargement photos : " + error.message);
+    return;
+  }
+
+  renderPhotos(data || []);
+}
+
+
+const currentRole = localStorage.getItem("userRole");
+if(currentRole && currentRole !== "admin"){
+  alert("Accès réservé administrateur.");
+  location.href = "index.html";
+}
+
+function logoutAdmin(){
+  localStorage.removeItem("userRole");
+  localStorage.removeItem("bureauAccess");
+  location.href = "index.html";
+}
 
 function showSection(section){
-
   const users = document.getElementById("usersSection");
   const verif = document.getElementById("verifSection");
+  const photos = document.getElementById("photosSection");
   const stats = document.getElementById("dashboardStats");
   const header = document.getElementById("dashboardHeader");
 
-  document.querySelectorAll(".side-btn")
-    .forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".side-btn").forEach(btn => btn.classList.remove("active"));
 
   if(section === "users"){
-
     users.style.display = "block";
     verif.style.display = "none";
+    photos.style.display = "none";
 
     header.style.display = "block";
     stats.style.display = "grid";
@@ -185,110 +444,193 @@ function showSection(section){
   }
 
   if(section === "verif"){
-
     users.style.display = "none";
     verif.style.display = "block";
+    photos.style.display = "none";
 
     header.style.display = "none";
     stats.style.display = "none";
 
     document.getElementById("btnVerif").classList.add("active");
   }
+
+  if(section === "photos"){
+    users.style.display = "none";
+    verif.style.display = "none";
+    photos.style.display = "block";
+
+    header.style.display = "none";
+    stats.style.display = "none";
+
+    document.getElementById("btnPhotos").classList.add("active");
+
+    refreshPhotos();
+  }
 }
 
-/* ================= USERS ================= */
+let usersCache = [];
+let editingUserId = null;
 
 function toggleCreateUser(){
-  const box = document.getElementById("createUserBox");
-  box.style.display = box.style.display === "none" ? "grid" : "none";
+  document.getElementById("createUserBox").classList.toggle("active");
 }
 
 async function loadUsers(){
   const snap = await db.collection("users").get();
-  const tbody = document.querySelector("#usersTable tbody");
+  usersCache = [];
 
-  tbody.innerHTML = "";
-
-  let total = 0;
-  let admin = 0;
-  let chef = 0;
-  let bmm = 0;
+  let total = 0, admin = 0, ops = 0, bmm = 0, sap = 0, chef = 0;
 
   snap.forEach(doc=>{
     const u = doc.data();
+    const user = {
+      id: doc.id,
+      role: normalizeRole(u.role),
+      password: u.password || "",
+      createdAt: u.createdAt || null
+    };
+
+    usersCache.push(user);
     total++;
-
-    if(u.role === "admin") admin++;
-    if(u.role === "chef") chef++;
-    if(u.role === "bmm") bmm++;
-
-    tbody.innerHTML += `
-      <tr>
-        <td><strong>${doc.id}</strong></td>
-        <td>${roleBadge(u.role)}</td>
-        <td>••••••••</td>
-        <td class="actions">
-          <button onclick="openEditUser('${doc.id}', '${u.role}')">Modifier</button>
-          <button onclick="deleteUserById('${doc.id}')">Supprimer</button>
-        </td>
-      </tr>
-    `;
+    if(user.role === "admin") admin++;
+    if(user.role === "OPS") ops++;
+    if(user.role === "BMM") bmm++;
+    if(user.role === "SAP") sap++;
+    if(user.role === "Chef") chef++;
   });
 
   document.getElementById("totalUsers").textContent = total;
   document.getElementById("adminUsers").textContent = admin;
-  document.getElementById("chefUsers").textContent = chef;
+  document.getElementById("opsUsers").textContent = ops;
   document.getElementById("bmmUsers").textContent = bmm;
+  document.getElementById("sapUsers").textContent = sap;
+  document.getElementById("chefUsers").textContent = chef;
+
+  renderUsers(usersCache);
 }
 
-function roleBadge(role){
-  return `<span class="role role-${role}">${role}</span>`;
-}
+function renderUsers(users){
+  const tbody = document.querySelector("#usersTable tbody");
+  const empty = document.getElementById("usersEmpty");
+  tbody.innerHTML = "";
 
-async function createUser(){
-  if(!newUser.value || !newPass.value){
-    alert("Remplir tous les champs");
+  if(users.length === 0){
+    empty.style.display = "block";
     return;
   }
 
-  await db.collection("users").doc(newUser.value).set({
-    password: newPass.value,
-    role: newRole.value,
+  empty.style.display = "none";
+
+  users.forEach(user=>{
+    tbody.innerHTML += `
+      <tr>
+        <td><div class="user-id-cell"><strong>${escapeHtml(user.id)}</strong><small>Compte applicatif</small></div></td>
+        <td>${roleBadge(user.role)}</td>
+        <td><span class="password-muted">••••••••</span></td>
+        <td class="actions">
+          <button onclick="openEditUser('${escapeAttr(user.id)}')"><i class="fas fa-pen"></i> Modifier</button>
+          <button onclick="deleteUserById('${escapeAttr(user.id)}')"><i class="fas fa-trash"></i> Supprimer</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function filterUsers(){
+  const q = document.getElementById("userSearch").value.trim().toLowerCase();
+  if(!q){ renderUsers(usersCache); return; }
+  renderUsers(usersCache.filter(user =>
+    user.id.toLowerCase().includes(q) || String(user.role).toLowerCase().includes(q)
+  ));
+}
+
+function normalizeRole(role){
+  if(!role) return "unknown";
+  const r = String(role).trim();
+  if(r.toLowerCase() === "admin") return "admin";
+  if(r.toLowerCase() === "ops") return "OPS";
+  if(r.toLowerCase() === "bmm") return "BMM";
+  if(r.toLowerCase() === "sap") return "SAP";
+  if(r.toLowerCase() === "chef") return "Chef";
+  return r;
+}
+
+function roleBadge(role){
+  const roleClass = String(role).toLowerCase();
+  const labels = {admin:"Administrateur",ops:"Bureau OPS",bmm:"Bureau BMM",sap:"Bureau SAP",chef:"Chef de centre"};
+  return `<span class="role role-${roleClass}">${labels[roleClass] || role}</span>`;
+}
+
+async function createUser(){
+  const username = document.getElementById("newUser").value.trim();
+  const password = document.getElementById("newPass").value.trim();
+  const role = document.getElementById("newRole").value;
+
+  if(!username || !password || !role){
+    alert("Merci de remplir tous les champs.");
+    return;
+  }
+
+  const exists = await db.collection("users").doc(username).get();
+  if(exists.exists){
+    alert("Cet utilisateur existe déjà.");
+    return;
+  }
+
+  await db.collection("users").doc(username).set({
+    password: password,
+    role: role,
     createdAt: new Date()
   });
 
-  newUser.value = "";
-  newPass.value = "";
-  document.getElementById("createUserBox").style.display = "none";
+  document.getElementById("newUser").value = "";
+  document.getElementById("newPass").value = "";
+  document.getElementById("newRole").value = "";
+  document.getElementById("createUserBox").classList.remove("active");
+  loadUsers();
+}
+
+function openEditUser(id){
+  const user = usersCache.find(u => u.id === id);
+  if(!user){ alert("Utilisateur introuvable."); return; }
+
+  editingUserId = id;
+  document.getElementById("editUserId").value = id;
+  document.getElementById("editRole").value = user.role;
+  document.getElementById("editPassword").value = "";
+  document.getElementById("editUserModal").style.display = "flex";
+}
+
+function closeEditUser(){
+  editingUserId = null;
+  document.getElementById("editUserModal").style.display = "none";
+}
+
+async function saveEditUser(){
+  if(!editingUserId){ alert("Aucun utilisateur sélectionné."); return; }
+
+  const role = document.getElementById("editRole").value;
+  const password = document.getElementById("editPassword").value.trim();
+  const updateData = { role: role, updatedAt: new Date() };
+
+  if(password) updateData.password = password;
+
+  await db.collection("users").doc(editingUserId).update(updateData);
+  closeEditUser();
   loadUsers();
 }
 
 function deleteUserById(id){
-  if(!confirm("Supprimer " + id + " ?")) return;
+  if(!confirm("Supprimer l'utilisateur " + id + " ?")) return;
   db.collection("users").doc(id).delete().then(loadUsers);
 }
 
-async function openEditUser(id, role){
-  const newRoleValue = prompt("Modifier rôle de " + id, role);
-  if(!newRoleValue) return;
-
-  await db.collection("users").doc(id).update({
-    role: newRoleValue
-  });
-
-  loadUsers();
-}
-
-/* ================= FICHEVERIF ================= */
-
 const engins = {
-
   VSSUAP: [
     { label: "CA VSSUAP", fiche: "CAVSSUAP" },
     { label: "CO VSSUAP", fiche: "COVSSUAP" },
     { label: "EQ VSSUAP", fiche: "EQVSSUAP" }
   ],
-
   FPTGP: [
     { label: "CA FPTGP", fiche: "CAFPTGP" },
     { label: "CO FPTGP", fiche: "COFPTGP" },
@@ -297,39 +639,29 @@ const engins = {
     { label: "CE BAL FPTGP", fiche: "CEBALFPTGP" },
     { label: "EQ BAL FPTGP", fiche: "EQBALFPTGP" }
   ],
-
-  VSRM: [
-    { label: "CA VSRM", fiche: "CAVSRM" },
-    { label: "CO VSRM", fiche: "COVSRM" },
-    { label: "EQ VSRM", fiche: "EQVSRM" }
-  ],
-
   CCFM: [
     { label: "CA CCFM", fiche: "CACCFM" },
     { label: "CO CCFM", fiche: "COCCFM" },
     { label: "EQ1 CCFM", fiche: "EQ1CCFM" },
     { label: "EQ2 CCFM", fiche: "EQ2CCFM" }
   ],
-
+  VSRM: [
+    { label: "CA VSRM", fiche: "CAVSRM" },
+    { label: "CO VSRM", fiche: "COVSRM" },
+    { label: "EQ VSRM", fiche: "EQVSRM" }
+  ],
   VTU: [
     { label: "CA VTU", fiche: "CAVTU" },
     { label: "CO VTU", fiche: "COVTU" }
-  ],
-
-  STATIONNAIRE: [
-    { label: "STATIONNAIRE", fiche: "STATIONNAIRE" }
   ]
-
 };
 
 let currentEditFiche = null;
 let currentEditData = null;
 
-/* ================= OPEN ENGIN ================= */
-
 function openEngin(name){
   const panel = document.getElementById("enginPanel");
-  panel.innerHTML = `<h3>${name}</h3>`;
+  panel.innerHTML = `<h3>${escapeHtml(name)}</h3><p class="admin-muted">Sélectionnez une fiche à visualiser ou modifier.</p>`;
 
   if(!engins[name]){
     panel.innerHTML += "<p>Fiche pas encore disponible.</p>";
@@ -339,95 +671,62 @@ function openEngin(name){
   engins[name].forEach(poste=>{
     const div = document.createElement("div");
     div.className = "engin-card";
-
     div.innerHTML = `
-      <p><strong>${poste.label}</strong></p>
+      <p><strong>${escapeHtml(poste.label)}</strong></p>
       <div>
-        <button onclick="viewFiche('${poste.fiche}', '${poste.label}')">👁 Visualiser</button>
-        <button onclick="editFiche('${poste.fiche}', '${poste.label}')">✏ Modifier</button>
-      </div>
-    `;
-
+        <button onclick="viewFiche('${escapeAttr(poste.fiche)}', '${escapeAttr(poste.label)}')"><i class="fas fa-eye"></i> Visualiser</button>
+        <button onclick="editFiche('${escapeAttr(poste.fiche)}', '${escapeAttr(poste.label)}')"><i class="fas fa-pen"></i> Modifier</button>
+      </div>`;
     panel.appendChild(div);
   });
 }
 
-/* ================= VISUALISATION ================= */
-
 async function viewFiche(ficheId, title){
   const snap = await db.collection("FICHEVerif").doc(ficheId).get();
-
-  if(!snap.exists){
-    alert("Aucune fiche trouvée : " + ficheId);
-    return;
-  }
+  if(!snap.exists){ alert("Aucune fiche trouvée : " + ficheId); return; }
 
   const data = snap.data();
   const container = document.getElementById("viewContainer");
-
-  container.innerHTML = `
-    <h2>${title}</h2>
-    <p class="admin-muted">Liste du matériel présent dans la fiche de vérification</p>
-  `;
+  container.innerHTML = `<h2>${escapeHtml(title)}</h2><p class="admin-muted">Liste du matériel présent dans la fiche de vérification.</p>`;
 
   getOrderedSections(data).forEach(section=>{
     const fieldset = document.createElement("fieldset");
-
-    fieldset.innerHTML = `
-      <legend>${section.name}</legend>
-    `;
-
+    fieldset.innerHTML = `<legend>${escapeHtml(section.name)}</legend>`;
     Object.keys(section.items || {}).forEach(item=>{
       const row = document.createElement("div");
       row.className = "admin-list-row";
       row.textContent = item;
       fieldset.appendChild(row);
     });
-
     container.appendChild(fieldset);
   });
 
   document.getElementById("viewModal").style.display = "flex";
 }
 
-function closeView(){
-  document.getElementById("viewModal").style.display = "none";
-}
-
-/* ================= EDITION ================= */
+function closeView(){ document.getElementById("viewModal").style.display = "none"; }
 
 async function editFiche(ficheId, title){
   const snap = await db.collection("FICHEVerif").doc(ficheId).get();
-
-  if(!snap.exists){
-    alert("Aucune fiche trouvée : " + ficheId);
-    return;
-  }
+  if(!snap.exists){ alert("Aucune fiche trouvée : " + ficheId); return; }
 
   currentEditFiche = ficheId;
   currentEditData = snap.data();
 
   const container = document.getElementById("editContainer");
-
   container.innerHTML = `
-    <h2>${title}</h2>
-
+    <h2>${escapeHtml(title)}</h2>
     <div class="admin-edit-toolbar">
-      <button onclick="addSection()">➕ Ajouter une section</button>
-      <button onclick="saveEdit()">💾 Sauvegarder</button>
+      <button onclick="addSection()"><i class="fas fa-plus"></i> Ajouter une section</button>
+      <button onclick="saveEdit()"><i class="fas fa-floppy-disk"></i> Sauvegarder</button>
     </div>
-
-    <div id="sectionsEditor"></div>
-  `;
+    <div id="sectionsEditor"></div>`;
 
   renderStructureEditor();
-
   document.getElementById("editModal").style.display = "flex";
 }
 
-function closeEdit(){
-  document.getElementById("editModal").style.display = "none";
-}
+function closeEdit(){ document.getElementById("editModal").style.display = "none"; }
 
 function renderStructureEditor(){
   const editor = document.getElementById("sectionsEditor");
@@ -436,94 +735,51 @@ function renderStructureEditor(){
   getOrderedSections(currentEditData).forEach((section, sectionIndex)=>{
     const sectionBox = document.createElement("div");
     sectionBox.className = "admin-section-editor";
-
     sectionBox.innerHTML = `
       <div class="section-edit-header">
-        <input 
-          value="${escapeHtml(section.name)}"
-          onchange="renameSection('${escapeAttr(section.name)}', this.value)"
-          placeholder="Nom de section"
-        >
-
-        <input 
-          type="number"
-          value="${section.order || 0}"
-          onchange="changeSectionOrder('${escapeAttr(section.name)}', this.value)"
-          title="Ordre section"
-        >
-
+        <input value="${escapeHtml(section.name)}" onchange="renameSection('${escapeAttr(section.name)}', this.value)" placeholder="Nom de section">
+        <input type="number" value="${section.order || 0}" onchange="changeSectionOrder('${escapeAttr(section.name)}', this.value)" title="Ordre section">
         <button onclick="addItem('${escapeAttr(section.name)}')">➕ Item</button>
         <button onclick="deleteSection('${escapeAttr(section.name)}')">🗑 Section</button>
       </div>
-
-      <div id="items-${sectionIndex}" class="items-editor"></div>
-    `;
+      <div id="items-${sectionIndex}" class="items-editor"></div>`;
 
     editor.appendChild(sectionBox);
-
     const itemsBox = sectionBox.querySelector(`#items-${sectionIndex}`);
 
     Object.keys(section.items || {}).forEach(item=>{
       const row = document.createElement("div");
       row.className = "admin-item-editor";
-
       row.innerHTML = `
-        <input 
-          value="${escapeHtml(item)}"
-          onchange="renameItem('${escapeAttr(section.name)}', '${escapeAttr(item)}', this.value)"
-          placeholder="Nom de l’item"
-        >
-
+        <input value="${escapeHtml(item)}" onchange="renameItem('${escapeAttr(section.name)}', '${escapeAttr(item)}', this.value)" placeholder="Nom de l’item">
         <button onclick="moveItemUp('${escapeAttr(section.name)}', '${escapeAttr(item)}')">⬆</button>
         <button onclick="moveItemDown('${escapeAttr(section.name)}', '${escapeAttr(item)}')">⬇</button>
-        <button onclick="deleteItem('${escapeAttr(section.name)}', '${escapeAttr(item)}')">🗑</button>
-      `;
-
+        <button onclick="deleteItem('${escapeAttr(section.name)}', '${escapeAttr(item)}')">🗑</button>`;
       itemsBox.appendChild(row);
     });
   });
 }
 
-/* ================= SECTIONS ================= */
-
 function addSection(){
   const name = prompt("Nom de la nouvelle section");
   if(!name) return;
-
-  if(currentEditData[name]){
-    alert("Cette section existe déjà.");
-    return;
-  }
-
-  currentEditData[name] = {
-    order: Object.keys(currentEditData).length + 1,
-    items: {}
-  };
-
+  if(currentEditData[name]){ alert("Cette section existe déjà."); return; }
+  currentEditData[name] = { order: Object.keys(currentEditData).length + 1, items: {} };
   renderStructureEditor();
 }
 
 function deleteSection(section){
   if(!confirm("Supprimer la section : " + section + " ?")) return;
-
   delete currentEditData[section];
   renderStructureEditor();
 }
 
 function renameSection(oldName, newName){
   newName = newName.trim();
-
   if(!newName || oldName === newName) return;
-
-  if(currentEditData[newName]){
-    alert("Une section avec ce nom existe déjà.");
-    renderStructureEditor();
-    return;
-  }
-
+  if(currentEditData[newName]){ alert("Une section avec ce nom existe déjà."); renderStructureEditor(); return; }
   currentEditData[newName] = currentEditData[oldName];
   delete currentEditData[oldName];
-
   renderStructureEditor();
 }
 
@@ -532,43 +788,28 @@ function changeSectionOrder(section, order){
   renderStructureEditor();
 }
 
-/* ================= ITEMS ================= */
-
 function addItem(section){
   const name = prompt("Nom du nouvel item");
   if(!name) return;
-
-  if(currentEditData[section].items[name]){
-    alert("Cet item existe déjà.");
-    return;
-  }
-
+  if(currentEditData[section].items[name]){ alert("Cet item existe déjà."); return; }
   currentEditData[section].items[name] = true;
   renderStructureEditor();
 }
 
 function deleteItem(section, item){
   if(!confirm("Supprimer l’item : " + item + " ?")) return;
-
   delete currentEditData[section].items[item];
   renderStructureEditor();
 }
 
 function renameItem(section, oldName, newName){
   newName = newName.trim();
-
   if(!newName || oldName === newName) return;
 
   const items = currentEditData[section].items;
-
-  if(items[newName]){
-    alert("Un item avec ce nom existe déjà.");
-    renderStructureEditor();
-    return;
-  }
+  if(items[newName]){ alert("Un item avec ce nom existe déjà."); renderStructureEditor(); return; }
 
   const newItems = {};
-
   Object.entries(items).forEach(([key, value])=>{
     newItems[key === oldName ? newName : key] = value;
   });
@@ -580,11 +821,8 @@ function renameItem(section, oldName, newName){
 function moveItemUp(section, item){
   const items = Object.entries(currentEditData[section].items);
   const index = items.findIndex(([key]) => key === item);
-
   if(index <= 0) return;
-
   [items[index - 1], items[index]] = [items[index], items[index - 1]];
-
   currentEditData[section].items = Object.fromEntries(items);
   renderStructureEditor();
 }
@@ -592,32 +830,18 @@ function moveItemUp(section, item){
 function moveItemDown(section, item){
   const items = Object.entries(currentEditData[section].items);
   const index = items.findIndex(([key]) => key === item);
-
   if(index === -1 || index >= items.length - 1) return;
-
   [items[index], items[index + 1]] = [items[index + 1], items[index]];
-
   currentEditData[section].items = Object.fromEntries(items);
   renderStructureEditor();
 }
 
-/* ================= SAVE ================= */
-
 async function saveEdit(){
-  if(!currentEditFiche || !currentEditData){
-    alert("Aucune fiche en cours de modification.");
-    return;
-  }
-
-  await db.collection("FICHEVerif")
-    .doc(currentEditFiche)
-    .set(currentEditData);
-
+  if(!currentEditFiche || !currentEditData){ alert("Aucune fiche en cours de modification."); return; }
+  await db.collection("FICHEVerif").doc(currentEditFiche).set(currentEditData);
   alert("Structure sauvegardée avec succès.");
   closeEdit();
 }
-
-/* ================= HELPERS ================= */
 
 function getOrderedSections(data){
   return Object.entries(data)
@@ -627,47 +851,197 @@ function getOrderedSections(data){
 }
 
 function escapeHtml(value){
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
+  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 }
 
 function escapeAttr(value){
-  return String(value)
-    .replaceAll("\\", "\\\\")
-    .replaceAll("'", "\\'")
-    .replaceAll('"', "&quot;");
+  return String(value).replaceAll("\\", "\\\\").replaceAll("'", "\\'").replaceAll('"', "&quot;");
 }
 
-/* ================= GLOBAL ================= */
+/* =========================================================
+   PHOTO
+========================================================= */
+async function insertPhoto() {
+  const fileInput = document.getElementById("newPhotoFile");
+  const nameInput = document.getElementById("newPhotoName");
+
+  const file = fileInput.files[0];
+  const fileName = nameInput.value.trim();
+
+  if (!file || !fileName) {
+    alert("Choisis une image et indique un nom de fichier.");
+    return;
+  }
+
+  await uploadPhoto(fileName, file);
+
+  fileInput.value = "";
+  nameInput.value = "";
+}
+
+function isSupabaseFolder(file) {
+  return !file.id && !file.metadata;
+}
+
+function renderPhotos(files) {
+  const grid = document.getElementById("photosGrid");
+
+  if (!files.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-image"></i>
+        Aucune photo dans Supabase.
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = "";
+
+  const folders = files.filter(isSupabaseFolder);
+  const rootPhotos = files.filter(file => !isSupabaseFolder(file));
+
+  folders.forEach(folder => {
+    const card = document.createElement("div");
+    card.className = "photo-admin-card photo-folder-card";
+    card.onclick = () => openPhotoFolder(folder.name);
+
+    card.innerHTML = `
+      <div class="photo-folder-icon">
+        <i class="fas fa-folder-open"></i>
+      </div>
+
+      <div class="photo-folder-title">
+        <strong>${escapeHtml(folder.name)}</strong>
+        <small>Dossier</small>
+      </div>
+
+      <button type="button">
+        <i class="fas fa-images"></i> Voir les photos
+      </button>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  rootPhotos.forEach(file => {
+    renderPhotoCard(grid, file.name, file.name);
+  });
+}
+
+function renderPhotoCard(grid, displayName, storagePath) {
+  const url = getPhotoUrl(storagePath);
+
+  const card = document.createElement("div");
+  card.className = "photo-admin-card";
+
+  card.innerHTML = `
+    <img src="${url}?t=${Date.now()}" alt="${escapeHtml(displayName)}">
+
+    <strong>${escapeHtml(displayName)}</strong>
+
+    <input type="file" accept="image/*" onchange="replacePhoto('${escapeAttr(storagePath)}', this.files[0])">
+
+    <button onclick="copyPhotoUrl('${escapeAttr(url)}')">
+      <i class="fas fa-link"></i> Copier URL
+    </button>
+
+    <button class="delete-photo-btn" onclick="deletePhoto('${escapeAttr(storagePath)}')">
+      <i class="fas fa-trash"></i> Supprimer
+    </button>
+  `;
+
+  grid.appendChild(card);
+}
+
+async function openPhotoFolder(folderName) {
+  const { data, error } = await sb.storage
+    .from(supabaseBucket)
+    .list(folderName, {
+      limit: 100,
+      sortBy: { column: "name", order: "asc" }
+    });
+
+  if (error) {
+    alert("Erreur chargement dossier : " + error.message);
+    return;
+  }
+
+  renderFolderPhotos(folderName, data || []);
+}
+
+function renderFolderPhotos(folderName, files) {
+  const grid = document.getElementById("photosGrid");
+  grid.innerHTML = `
+    <div class="photo-folder-toolbar">
+      <h3><i class="fas fa-folder-open"></i> ${escapeHtml(folderName)}</h3>
+      <button onclick="refreshPhotos()">
+        <i class="fas fa-arrow-left"></i> Retour
+      </button>
+    </div>
+  `;
+
+  if (!files.length) {
+    grid.innerHTML += `
+      <div class="empty-state">
+        <i class="fas fa-image"></i>
+        Aucune photo dans ce dossier.
+      </div>
+    `;
+    return;
+  }
+
+  files
+    .filter(file => !isSupabaseFolder(file))
+    .forEach(file => {
+      renderPhotoCard(grid, file.name, `${folderName}/${file.name}`);
+    });
+}
+
+async function replacePhoto(fileName, file) {
+  if (!file) return;
+  await updatePhoto(fileName, file);
+}
+
+function copyPhotoUrl(url) {
+  navigator.clipboard?.writeText(url);
+  alert("URL copiée.");
+}
+
+window.insertPhoto = insertPhoto;
+window.replacePhoto = replacePhoto;
+window.copyPhotoUrl = copyPhotoUrl;
+window.deletePhoto = deletePhoto;
+window.refreshPhotos = refreshPhotos;
+window.openPhotoFolder = openPhotoFolder;
+
+
 
 window.showSection = showSection;
+window.logoutAdmin = logoutAdmin;
 window.toggleCreateUser = toggleCreateUser;
-
+window.createUser = createUser;
+window.openEditUser = openEditUser;
+window.closeEditUser = closeEditUser;
+window.saveEditUser = saveEditUser;
+window.deleteUserById = deleteUserById;
+window.filterUsers = filterUsers;
+window.loadUsers = loadUsers;
 window.openEngin = openEngin;
 window.viewFiche = viewFiche;
 window.editFiche = editFiche;
 window.closeView = closeView;
 window.closeEdit = closeEdit;
 window.saveEdit = saveEdit;
-
 window.addSection = addSection;
 window.deleteSection = deleteSection;
 window.renameSection = renameSection;
 window.changeSectionOrder = changeSectionOrder;
-
 window.addItem = addItem;
 window.deleteItem = deleteItem;
 window.renameItem = renameItem;
 window.moveItemUp = moveItemUp;
 window.moveItemDown = moveItemDown;
-
-window.deleteUserById = deleteUserById;
-window.openEditUser = openEditUser;
-
-/* ================= INIT ================= */
 
 loadUsers();
 showSection("users");

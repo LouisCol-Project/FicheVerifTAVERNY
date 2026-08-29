@@ -6,9 +6,33 @@
 
   <title>FPTGP – CIS Taverny</title>
 
-  <link rel="shortcut icon" href="images/logo.png" />
+<link rel="preconnect" href="https://crekdqowqtivflqhhxfc.supabase.co">
+<link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+<link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png">
+
+
+  <link rel="shortcut icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
+
+<style>
+/* Images communes chargées depuis Supabase */
+body {
+  background:
+    linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.70)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover fixed !important;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.65)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover no-repeat !important;
+}
+</style>
+
 </head>
 
 <body class="bg-image">
@@ -16,7 +40,7 @@
   <div class="app-bg"></div>
 
   <header>
-    <img src="images/logo.png" class="logoHeader" onclick="location.href='index.html'">
+    <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" class="logoHeader" onclick="location.href='AccVerif.html'" loading="eager" fetchpriority="high">
     <h1>Vérifications FPTGP</h1>
     <div class="headerRight">
       <div id="date"></div>
@@ -50,7 +74,14 @@
         month: 'long',
         year: 'numeric'
       });
-  </script>
+  
+function uncheckAllBoxes(){
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+  });
+}
+
+</script>
 
   <script type="module">
 
@@ -226,9 +257,14 @@ function createSectionImage(sectionName) {
       .replace(/\s+/g, "_")
       .replace(/[^\w_]/g, "");
 
+  const supabaseUrl = "https://crekdqowqtivflqhhxfc.supabase.co";
+  const supabaseBucket = "Photo_Engins";
+  const filePath = `EQBATFPTGP/${normalize(sectionName)}.jpg`;
+
   const img = document.createElement("img");
-  img.src = `images/EQBATFPTGP/${normalize(sectionName)}.jpg`;
+  img.src = `${supabaseUrl}/storage/v1/object/public/${supabaseBucket}/${filePath}`;
   img.alt = sectionName;
+  img.loading = "lazy";
   img.onerror = () => img.remove();
 
   return img;
@@ -366,11 +402,12 @@ window.saveAndReturn = async function () {
   }
 
   await saveCheck();
-  location.href = "index.html";
+  location.href = "AccVerif.html";
 };
 
 window.addEventListener("DOMContentLoaded", async () => {
   await loadStructure();
+  uncheckAllBoxes();
   await highlightLastMissing();
 });
 

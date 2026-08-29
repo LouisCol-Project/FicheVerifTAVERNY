@@ -12,11 +12,7 @@
 
   <title>VTU – CIS Taverny</title>
 
-  <link
-    rel="shortcut icon"
-    href="images/logo.png"
-    type="image/x-icon"
-  >
+  <link rel="shortcut icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" type="image/x-icon">
 
   <!-- FONT AWESOME -->
   <link
@@ -26,11 +22,11 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-  <body class="bg-image">
 
+  <link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/VTU.png">
 </head>
 
-<body>
+<body class="bg-image vtu">
 
   <!-- BACKGROUND -->
   <div class="app-bg"></div>
@@ -39,11 +35,10 @@
   <header>
 
     <!-- LOGO -->
-    <img
-      src="images/logo.png"
+    <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png"
       alt="Logo CIS Taverny"
       class="logoHeader"
-    >
+     loading="eager" fetchpriority="high">
 
     <!-- TITRE -->
     <h1>Vérifications VTU</h1>
@@ -74,7 +69,7 @@
         >
           <i class="fa-solid fa-walkie-talkie"></i>
 
-          <span>Chef VTU</span>
+          <span>Chef d'agrès</span>
         </button>
 
         <!-- CONDUCTEUR VTU -->
@@ -84,7 +79,7 @@
         >
           <i class="fas fa-car-side"></i>
 
-          <span>Conducteur VTU</span>
+          <span>Conducteur </span>
         </button>
 
       </div>

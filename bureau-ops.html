@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bureau OPS — Gestion des vérifications</title>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#c62828">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<link rel="preconnect" href="https://crekdqowqtivflqhhxfc.supabase.co">
+<link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+<link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png">
+
+<link id="appleIcon" rel="apple-touch-icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+<link id="favicon" rel="shortcut icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+
+<meta name="format-detection" content="telephone=no">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* Images Supabase chargées immédiatement */
+body {
+  background:
+    linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.70)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover fixed !important;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.65)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover no-repeat !important;
+}
+
+/* Gestion photos alignée avec le design OPS */
+.photo-upload-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  margin-bottom: 22px;
+  padding: 18px;
+  background: #f7f7f7;
+  border-radius: 18px;
+}
+
+.photo-upload-panel button {
+  min-height: 52px;
+  background: linear-gradient(135deg,#c62828,#8e0000);
+}
+
+.photo-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.photo-admin-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-left: 5px solid #c62828;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.10);
+}
+
+.photo-admin-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  background: #f5f5f5;
+  border-radius: 14px;
+}
+
+.photo-admin-card strong {
+  color: #111;
+  font-size: .95rem;
+  word-break: break-all;
+}
+
+.photo-admin-card button {
+  min-height: 44px;
+  border-radius: 12px;
+}
+
+.photo-folder-card {
+  cursor: pointer;
+  border-left-color: #1976d2;
+}
+
+.photo-folder-icon {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef4ff;
+  border-radius: 14px;
+  color: #1976d2;
+  font-size: 58px;
+}
+
+.photo-folder-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.photo-folder-title small {
+  color: #666;
+  font-weight: 800;
+}
+
+.photo-folder-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  grid-column: 1 / -1;
+  padding: 14px 16px;
+  background: #f7f7f7;
+  border-radius: 16px;
+}
+
+.photo-folder-toolbar h3 {
+  margin: 0;
+  color: #111;
+}
+
+.photo-folder-toolbar button {
+  width: auto;
+  min-height: 44px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg,#202124,#444);
+}
+
+.delete-photo-btn {
+  background: linear-gradient(135deg,#c62828,#8e0000) !important;
+}
+
+@media(max-width:760px){
+  .photo-upload-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   BUREAU OPS - COMPTE UTILISATEUR
+========================================================= */
+.account-card {
+  border-left: 6px solid #1976d2;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.account-grid label {
+  display: grid;
+  gap: 7px;
+  color: #333;
+  font-weight: 900;
+}
+
+.account-grid input {
+  min-height: 48px;
+}
+
+.account-help {
+  margin-top: 12px;
+  color: #666;
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+.account-status {
+  margin-top: 12px;
+  font-weight: 900;
+}
+
+.account-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.account-actions button {
+  width: auto;
+  min-height: 50px;
+  padding: 12px 18px;
+}
+
+@media(max-width:760px){
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .account-actions button {
+    width: 100%;
+  }
+}
+
+</style>
+
+</head>
+
+<body class="bg-image">
+
+<div class="app-bg"></div>
+
+<header>
+  <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" class="logoHeader" onclick="location.href='index.html'" loading="eager" fetchpriority="high">
+  <h1>Bureau OPS — Gestion des vérifications</h1>
+</header>
+
+<main class="ops-main">
+
+  <aside class="ops-sidebar">
+
+    <div class="ops-profile">
+      <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" alt="Logo CIS Taverny" loading="eager" fetchpriority="high">
+      <h2>Bureau OPS</h2>
+      <p>Gestion des fiches engins</p>
+    </div>
+
+    
+    <button id="btnOpsVerif" class="side-btn active" onclick="showOpsSection('verifications')">
+      <i class="fas fa-clipboard-check"></i> Vérifications
+    </button>
+
+    <button id="btnOpsPhotos" class="side-btn" onclick="showOpsSection('photos')">
+      <i class="fas fa-images"></i> Photos
+    </button>
+
+    <button id="btnOpsAccount" class="side-btn" onclick="showOpsSection('account')">
+      <i class="fas fa-key"></i> Mot de passe
+    </button>
+
+<button class="side-btn" onclick="refreshCurrentEngin()">
+      <i class="fas fa-rotate"></i> Actualiser
+    </button>
+       
+  </aside>
+
+  <section class="ops-content">
+
+    <section class="ops-hero">
+      <div class="ops-hero-title">
+        <i class="fas fa-screwdriver-wrench"></i>
+        <div>
+          <h1>Modification des fiches de vérification</h1>
+          <p>Visualisation, édition, ajout et suppression des sections et matériels contrôlés.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="ops-card account-card" id="accountCard" style="display:none;">
+      <div class="ops-card-top">
+        <div>
+          <h2><i class="fas fa-user-lock"></i> Mon compte</h2>
+          <p>Modifier son mot de passe. La modification est enregistrée dans Firebase et visible depuis la page Admin.</p>
+        </div>
+      </div>
+
+      <div class="account-grid">
+        <label>
+          Identifiant utilisateur
+          <input id="accountUserId" placeholder="Votre identifiant">
+        </label>
+
+        <label>
+          Mot de passe actuel
+          <input id="accountOldPassword" type="password" placeholder="Mot de passe actuel">
+        </label>
+
+        <label>
+          Nouveau mot de passe
+          <input id="accountNewPassword" type="password" placeholder="Nouveau mot de passe">
+        </label>
+
+        <label>
+          Confirmer le nouveau mot de passe
+          <input id="accountConfirmPassword" type="password" placeholder="Confirmer">
+        </label>
+      </div>
+
+      <p class="account-help">
+        Pour plus de sécurité, l’ancien mot de passe est demandé avant validation.
+      </p>
+
+      <div id="accountStatus" class="account-status"></div>
+
+      <div class="account-actions">
+        <button class="save-btn" onclick="changeOwnPassword()">
+          <i class="fas fa-floppy-disk"></i> Modifier mon mot de passe
+        </button>
+        <button class="cancel-btn" onclick="clearPasswordForm()">
+          <i class="fas fa-eraser"></i> Effacer
+        </button>
+      </div>
+    </section>
+
+    <section class="ops-stats">
+      <div class="ops-stat">
+        <span id="statEngins">5</span>
+        <p>Engins</p>
+      </div>
+
+      <div class="ops-stat">
+        <span id="statFiches">0</span>
+        <p>Fiches</p>
+      </div>
+
+      <div class="ops-stat">
+        <span id="statSections">0</span>
+        <p>Sections chargées</p>
+      </div>
+
+      <div class="ops-stat">
+        <span id="statItems">0</span>
+        <p>Items chargés</p>
+      </div>
+    </section>
+
+    <section id="verificationsCard" class="ops-card">
+
+      <div class="ops-card-top">
+        <div>
+          <h2><i class="fas fa-truck-medical"></i> Fiches de vérification</h2>
+          <p>Sélectionnez un engin puis une fiche à visualiser ou modifier.</p>
+        </div>
+      </div>
+     
+      <div class="engins-grid ops-engins">
+        <button onclick="openEngin('VSSUAP')"><i class="fas fa-ambulance"></i> VSSUAP</button>
+        <button onclick="openEngin('FPTGP')"><i class="fas fa-fire-extinguisher"></i> FPTGP</button>
+        <button onclick="openEngin('CCFM')"><i class="fas fa-tree"></i> CCFM</button>
+        <button onclick="openEngin('VSRM')"><i class="fas fa-car-crash"></i> VSRM</button>
+        <button onclick="openEngin('VTU')"><i class="fas fa-truck"></i> VTU</button>
+      </div>
+
+      <div id="enginPanel">
+        <div class="empty-state">
+          <i class="fas fa-clipboard-list"></i>
+          Sélectionnez un engin pour afficher les fiches disponibles.
+        </div>
+      </div>
+
+    </section>
+
+<section class="ops-card" id="photosCard" style="display:none;">
+
+  <div class="ops-card-top">
+    <div>
+      <h2><i class="fas fa-images"></i> Gestion des photos</h2>
+      <p>Ajouter, modifier ou supprimer les images du bucket Supabase.</p>
+    </div>
+  </div>
+
+  <div class="photo-upload-panel">
+    <input type="file" id="newPhotoFile" accept="image/*">
+    <input id="newPhotoName" placeholder="Nom du fichier : logo.png">
+    <button onclick="insertPhoto()">
+      <i class="fas fa-upload"></i> Ajouter la photo
+    </button>
+  </div>
+
+  <div id="photosGrid" class="photo-admin-grid"></div>
+
+</section>
+
+  </section>
+  
+
+
+</main>
+
+<!-- MODAL VISUALISATION -->
+<div id="viewModal" class="modal" style="display:none;">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h3><i class="fas fa-eye"></i> Visualisation fiche</h3>
+      <button onclick="closeView()"><i class="fas fa-xmark"></i></button>
+    </div>
+
+    <div id="viewContainer"></div>
+
+  </div>
+</div>
+
+<!-- MODAL EDITION -->
+<div id="editModal" class="modal" style="display:none;">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h3><i class="fas fa-pen-to-square"></i> Modification fiche</h3>
+      <button onclick="closeEdit()"><i class="fas fa-xmark"></i></button>
+    </div>
+
+    <div id="editContainer"></div>
+
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js">
+document.addEventListener("DOMContentLoaded", () => {
+  showOpsSection("verifications");
+});
+
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+/* =========================================================
+   SUPABASE PHOTOS
+========================================================= */
+const supabaseUrl = "https://crekdqowqtivflqhhxfc.supabase.co";
+const supabaseAnonKey = "sb_publishable_556tCAQOJpCdKuBCM2lM7Q_962-59jD";
+const supabaseBucket = "Photo_Engins";
+
+const sb = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+function getPhotoUrl(fileName) {
+  return `${supabaseUrl}/storage/v1/object/public/${supabaseBucket}/${fileName}`;
+}
+
+function getPublicUrl(fileName) {
+  const { data } = sb.storage
+    .from("Photo_Engins")
+    .getPublicUrl(fileName);
+
+  return data.publicUrl;
+}
+
+/* Logo et fond TAV.png chargés directement depuis Supabase dans le HTML/CSS */
+
+async function uploadPhoto(fileName, file) {
+  const { error } = await sb.storage
+    .from(supabaseBucket)
+    .upload(fileName, file, {
+      cacheControl: "3600",
+      upsert: false
+    });
+
+  if (error) {
+    alert("Erreur ajout photo : " + error.message);
+    return;
+  }
+
+  alert("Photo ajoutée.");
+  refreshPhotos();
+}
+
+async function updatePhoto(fileName, file) {
+  const { error } = await sb.storage
+    .from(supabaseBucket)
+    .upload(fileName, file, {
+      cacheControl: "3600",
+      upsert: true
+    });
+
+  if (error) {
+    alert("Erreur modification photo : " + error.message);
+    return;
+  }
+
+  alert("Photo modifiée.");
+  refreshPhotos();
+}
+
+async function deletePhoto(fileName) {
+  if (!confirm("Supprimer la photo : " + fileName + " ?")) return;
+
+  const { error } = await sb.storage
+    .from(supabaseBucket)
+    .remove([fileName]);
+
+  if (error) {
+    alert("Erreur suppression photo : " + error.message);
+    return;
+  }
+
+  alert("Photo supprimée.");
+  refreshPhotos();
+}
+
+async function refreshPhotos() {
+  const { data, error } = await sb.storage
+    .from(supabaseBucket)
+    .list("", {
+      limit: 100,
+      sortBy: { column: "name", order: "asc" }
+    });
+
+  if (error) {
+    alert("Erreur chargement photos : " + error.message);
+    return;
+  }
+
+  renderPhotos(data || []);
+}
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
+  authDomain: "veriftav.firebaseapp.com",
+  projectId: "veriftav",
+  storageBucket: "veriftav.appspot.com",
+  messagingSenderId: "401217101102",
+  appId: "1:401217101102:web:dd375734d4f0464c146ebf"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+/* =========================================================
+   ACCÈS OPS / ADMIN
+========================================================= */
+const currentRole = localStorage.getItem("userRole");
+const allowedRoles = ["admin", "OPS"];
+
+if(!allowedRoles.includes(currentRole)){
+  alert("Accès réservé au Bureau OPS.");
+  location.href = "index.html";
+}
+
+function logoutOps(){
+  localStorage.removeItem("userRole");
+  localStorage.removeItem("bureauAccess");
+  location.href = "index.html";
+}
+
+
+function getConnectedUsername(){
+  return localStorage.getItem("currentUser")
+    || localStorage.getItem("connectedUser")
+    || localStorage.getItem("bureauUser")
+    || localStorage.getItem("username")
+    || "";
+}
+
+function initAccountCard(){
+  const input = document.getElementById("accountUserId");
+  if(input && !input.value){
+    input.value = getConnectedUsername();
+  }
+}
+
+function setAccountStatus(message, type = "info"){
+  const status = document.getElementById("accountStatus");
+  if(!status) return;
+
+  status.textContent = message;
+  status.style.color =
+    type === "success" ? "#1b5e20" :
+    type === "error" ? "#b71c1c" :
+    "#555";
+}
+
+async function changeOwnPassword(){
+  const userId = document.getElementById("accountUserId")?.value.trim();
+  const oldPassword = document.getElementById("accountOldPassword")?.value.trim();
+  const newPassword = document.getElementById("accountNewPassword")?.value.trim();
+  const confirmPassword = document.getElementById("accountConfirmPassword")?.value.trim();
+
+  if(!userId || !oldPassword || !newPassword || !confirmPassword){
+    setAccountStatus("Merci de remplir tous les champs.", "error");
+    return;
+  }
+
+  if(newPassword.length < 4){
+    setAccountStatus("Le nouveau mot de passe doit contenir au moins 4 caractères.", "error");
+    return;
+  }
+
+  if(newPassword !== confirmPassword){
+    setAccountStatus("Les deux nouveaux mots de passe ne correspondent pas.", "error");
+    return;
+  }
+
+  try {
+    const ref = db.collection("users").doc(userId);
+    const snap = await ref.get();
+
+    if(!snap.exists){
+      setAccountStatus("Utilisateur introuvable.", "error");
+      return;
+    }
+
+    const user = snap.data();
+
+    if(String(user.password || "") !== oldPassword){
+      setAccountStatus("Mot de passe actuel incorrect.", "error");
+      return;
+    }
+
+    await ref.update({
+      password: newPassword,
+      updatedAt: new Date(),
+      passwordUpdatedBy: userId,
+      passwordUpdatedFrom: "bureau-ops"
+    });
+
+    localStorage.setItem("currentUser", userId);
+
+    clearPasswordForm(false);
+    setAccountStatus("Mot de passe modifié avec succès. La page Admin est automatiquement à jour.", "success");
+
+  } catch(error) {
+    console.error(error);
+    setAccountStatus("Erreur lors de la modification du mot de passe.", "error");
+  }
+}
+
+function clearPasswordForm(clearUser = false){
+  if(clearUser){
+    const userInput = document.getElementById("accountUserId");
+    if(userInput) userInput.value = "";
+  }
+
+  const oldInput = document.getElementById("accountOldPassword");
+  const newInput = document.getElementById("accountNewPassword");
+  const confirmInput = document.getElementById("accountConfirmPassword");
+
+  if(oldInput) oldInput.value = "";
+  if(newInput) newInput.value = "";
+  if(confirmInput) confirmInput.value = "";
+
+  setAccountStatus("");
+}
+
+document.addEventListener("DOMContentLoaded", initAccountCard);
+
+
+/* =========================================================
+   DONNÉES FICHES
+========================================================= */
+const engins = {
+
+  VSSUAP: [
+    { label: "CA VSSUAP", fiche: "CAVSSUAP" },
+    { label: "CO VSSUAP", fiche: "COVSSUAP" },
+    { label: "EQ VSSUAP", fiche: "EQVSSUAP" }
+  ],
+
+  FPTGP: [
+    { label: "CA FPTGP", fiche: "CAFPTGP" },
+    { label: "CO FPTGP", fiche: "COFPTGP" },
+    { label: "CE BAT FPTGP", fiche: "CEBATFPTGP" },
+    { label: "EQ BAT FPTGP", fiche: "EQBATFPTGP" },
+    { label: "CE BAL FPTGP", fiche: "CEBALFPTGP" },
+    { label: "EQ BAL FPTGP", fiche: "EQBALFPTGP" }
+  ],
+
+  CCFM: [
+    { label: "CA CCFM", fiche: "CACCFM" },
+    { label: "CO CCFM", fiche: "COCCFM" },
+    { label: "EQ1 CCFM", fiche: "EQ1CCFM" },
+    { label: "EQ2 CCFM", fiche: "EQ2CCFM" }
+  ],
+
+  VSRM: [
+    { label: "CA VSRM", fiche: "CAVSRM" },
+    { label: "CO VSRM", fiche: "COVSRM" },
+    { label: "EQ VSRM", fiche: "EQVSRM" }
+  ],
+
+  VTU: [
+    { label: "CA VTU", fiche: "CAVTU" },
+    { label: "CO VTU", fiche: "COVTU" }
+  ]
+
+};
+
+let currentEngin = null;
+let currentEditFiche = null;
+let currentEditTitle = null;
+let currentEditData = null;
+
+const totalFiches = Object.values(engins).reduce((sum, list) => sum + list.length, 0);
+document.getElementById("statFiches").textContent = totalFiches;
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showOpsSection(section){
+  const verifications = document.getElementById("verificationsCard");
+  const photos = document.getElementById("photosCard");
+  const account = document.getElementById("accountCard");
+  const stats = document.querySelector(".ops-stats");
+
+  document.querySelectorAll(".side-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  if(verifications) verifications.style.display = "none";
+  if(photos) photos.style.display = "none";
+  if(account) account.style.display = "none";
+  if(stats) stats.style.display = "none";
+
+  if(section === "verifications"){
+    if(verifications) verifications.style.display = "block";
+    if(stats) stats.style.display = "grid";
+    document.getElementById("btnOpsVerif")?.classList.add("active");
+  }
+
+  if(section === "photos"){
+    if(photos) photos.style.display = "block";
+    document.getElementById("btnOpsPhotos")?.classList.add("active");
+    refreshPhotos();
+  }
+
+  if(section === "account"){
+    if(account) account.style.display = "block";
+    document.getElementById("btnOpsAccount")?.classList.add("active");
+    initAccountCard();
+  }
+}
+
+
+function scrollToPanel(id){
+  document.getElementById(id)?.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function refreshCurrentEngin(){
+  if(currentEngin){
+    openEngin(currentEngin);
+  }
+}
+
+function clearSearch(){
+  const searchInput = document.getElementById("ficheSearch");
+  if (searchInput) searchInput.value = "";
+  filterFiches();
+}
+
+/* =========================================================
+   LISTE FICHES
+========================================================= */
+function openEngin(name){
+  currentEngin = name;
+
+  const panel = document.getElementById("enginPanel");
+  const fiches = engins[name] || [];
+
+  panel.innerHTML = `
+    <h3>${escapeHtml(name)}</h3>
+
+    <div class="fiche-summary">
+      <span class="fiche-pill"><i class="fas fa-file-lines"></i> ${fiches.length} fiches</span>
+      <span class="fiche-pill"><i class="fas fa-database"></i> Collection : FICHEVerif</span>
+      <span class="fiche-pill"><i class="fas fa-pen"></i> Édition structure</span>
+    </div>
+  `;
+
+  if(fiches.length === 0){
+    panel.innerHTML += `
+      <div class="empty-state">
+        <i class="fas fa-circle-info"></i>
+        Aucune fiche disponible pour cet engin.
+      </div>
+    `;
+    return;
+  }
+
+  fiches.forEach(poste => renderFicheCard(panel, poste));
+
+  filterFiches();
+}
+
+function renderFicheCard(panel, poste){
+  const div = document.createElement("div");
+  div.className = "engin-card fiche-card";
+  div.dataset.search = `${poste.label} ${poste.fiche}`.toLowerCase();
+
+  div.innerHTML = `
+    <p>
+      <strong>${escapeHtml(poste.label)}</strong>
+      <small>ID Firebase : ${escapeHtml(poste.fiche)}</small>
+    </p>
+
+    <div>
+      <button onclick="viewFiche('${escapeAttr(poste.fiche)}', '${escapeAttr(poste.label)}')">
+        <i class="fas fa-eye"></i> Visualiser
+      </button>
+
+      <button onclick="editFiche('${escapeAttr(poste.fiche)}', '${escapeAttr(poste.label)}')">
+        <i class="fas fa-pen"></i> Modifier
+      </button>
+
+      <button onclick="duplicateFiche('${escapeAttr(poste.fiche)}')">
+        <i class="fas fa-copy"></i> Copier ID
+      </button>
+    </div>
+  `;
+
+  panel.appendChild(div);
+}
+
+function filterFiches(){
+  const searchInput = document.getElementById("ficheSearch");
+  const q = searchInput ? searchInput.value.trim().toLowerCase() : "";
+  const cards = document.querySelectorAll(".fiche-card");
+
+  cards.forEach(card => {
+    card.style.display = !q || card.dataset.search.includes(q) ? "grid" : "none";
+  });
+}
+
+function duplicateFiche(ficheId){
+  navigator.clipboard?.writeText(ficheId);
+  alert("ID copié : " + ficheId);
+}
+
+/* =========================================================
+   VISUALISATION
+========================================================= */
+async function viewFiche(ficheId, title){
+  const snap = await db.collection("FICHEVerif").doc(ficheId).get();
+
+  if(!snap.exists){
+    alert("Aucune fiche trouvée : " + ficheId);
+    return;
+  }
+
+  const data = snap.data();
+  const sections = getOrderedSections(data);
+
+  document.getElementById("statSections").textContent = sections.length;
+  document.getElementById("statItems").textContent = countItems(sections);
+
+  const container = document.getElementById("viewContainer");
+
+  container.innerHTML = `
+    <h2>${escapeHtml(title)}</h2>
+
+    <div class="section-meta">
+      <span><i class="fas fa-file-lines"></i> ${escapeHtml(ficheId)}</span>
+      <span><i class="fas fa-layer-group"></i> ${sections.length} sections</span>
+      <span><i class="fas fa-list-check"></i> ${countItems(sections)} items</span>
+    </div>
+
+    <p class="admin-muted">Liste du matériel présent dans la fiche de vérification.</p>
+  `;
+
+  if(sections.length === 0){
+    container.innerHTML += `
+      <div class="empty-state">
+        <i class="fas fa-circle-info"></i>
+        Aucune section trouvée dans cette fiche.
+      </div>
+    `;
+  }
+
+  sections.forEach(section=>{
+    const fieldset = document.createElement("fieldset");
+
+    fieldset.innerHTML = `
+      <legend>${escapeHtml(section.name)}</legend>
+    `;
+
+    Object.keys(section.items || {}).forEach((item, index)=>{
+      const row = document.createElement("div");
+      row.className = "admin-list-row";
+      row.innerHTML = `
+        <span>${escapeHtml(item)}</span>
+        <small>#${index + 1}</small>
+      `;
+      fieldset.appendChild(row);
+    });
+
+    container.appendChild(fieldset);
+  });
+
+  document.getElementById("viewModal").style.display = "flex";
+}
+
+function closeView(){
+  document.getElementById("viewModal").style.display = "none";
+}
+
+/* =========================================================
+   ÉDITION
+========================================================= */
+async function editFiche(ficheId, title){
+  const snap = await db.collection("FICHEVerif").doc(ficheId).get();
+
+  if(!snap.exists){
+    alert("Aucune fiche trouvée : " + ficheId);
+    return;
+  }
+
+  currentEditFiche = ficheId;
+  currentEditTitle = title;
+  currentEditData = snap.data();
+
+  renderEditModal();
+  document.getElementById("editModal").style.display = "flex";
+}
+
+function renderEditModal(){
+  const sections = getOrderedSections(currentEditData);
+  const container = document.getElementById("editContainer");
+
+  document.getElementById("statSections").textContent = sections.length;
+  document.getElementById("statItems").textContent = countItems(sections);
+
+  container.innerHTML = `
+    <h2>${escapeHtml(currentEditTitle)}</h2>
+
+    <div class="section-meta">
+      <span><i class="fas fa-file-lines"></i> ${escapeHtml(currentEditFiche)}</span>
+      <span><i class="fas fa-layer-group"></i> ${sections.length} sections</span>
+      <span><i class="fas fa-list-check"></i> ${countItems(sections)} items</span>
+    </div>
+
+    <div class="admin-edit-toolbar">
+      <button onclick="addSection()">
+        <i class="fas fa-plus"></i> Ajouter une section
+      </button>
+
+      <button class="save-btn" onclick="saveEdit()">
+        <i class="fas fa-floppy-disk"></i> Sauvegarder
+      </button>
+    </div>
+
+    <div class="quick-add-box">
+      <input id="quickSectionName" placeholder="Créer rapidement une section">
+      <button onclick="quickAddSection()">
+        <i class="fas fa-plus"></i> Ajouter
+      </button>
+    </div>
+
+    <div id="sectionsEditor"></div>
+
+    <div class="modal-actions">
+      <button class="cancel-btn" onclick="closeEdit()">Fermer</button>
+      <button class="save-btn" onclick="saveEdit()">Enregistrer les modifications</button>
+    </div>
+  `;
+
+  renderStructureEditor();
+}
+
+function closeEdit(){
+  currentEditFiche = null;
+  currentEditTitle = null;
+  currentEditData = null;
+  document.getElementById("editModal").style.display = "none";
+}
+
+function renderStructureEditor(){
+  const editor = document.getElementById("sectionsEditor");
+  editor.innerHTML = "";
+
+  const sections = getOrderedSections(currentEditData);
+
+  if(sections.length === 0){
+    editor.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-circle-info"></i>
+        Aucune section. Ajoutez une section pour commencer.
+      </div>
+    `;
+    return;
+  }
+
+  sections.forEach((section, sectionIndex)=>{
+    const sectionBox = document.createElement("div");
+    sectionBox.className = "admin-section-editor";
+
+    sectionBox.innerHTML = `
+      <div class="section-edit-header">
+        <input 
+          value="${escapeHtml(section.name)}"
+          onchange="renameSection('${escapeAttr(section.name)}', this.value)"
+          placeholder="Nom de section"
+        >
+
+        <input 
+          type="number"
+          value="${section.order || 0}"
+          onchange="changeSectionOrder('${escapeAttr(section.name)}', this.value)"
+          title="Ordre section"
+        >
+
+        <button onclick="addItem('${escapeAttr(section.name)}')">
+          <i class="fas fa-plus"></i> Item
+        </button>
+
+        <button onclick="deleteSection('${escapeAttr(section.name)}')">
+          <i class="fas fa-trash"></i> Section
+        </button>
+      </div>
+
+      <div class="quick-add-box">
+        <input id="newItem-${sectionIndex}" placeholder="Ajouter un item dans ${escapeHtml(section.name)}">
+        <button onclick="quickAddItem('${escapeAttr(section.name)}', 'newItem-${sectionIndex}')">
+          Ajouter
+        </button>
+      </div>
+
+      <div id="items-${sectionIndex}" class="items-editor"></div>
+    `;
+
+    editor.appendChild(sectionBox);
+
+    const itemsBox = sectionBox.querySelector(`#items-${sectionIndex}`);
+
+    Object.keys(section.items || {}).forEach(item=>{
+      const row = document.createElement("div");
+      row.className = "admin-item-editor";
+
+      row.innerHTML = `
+        <input 
+          value="${escapeHtml(item)}"
+          onchange="renameItem('${escapeAttr(section.name)}', '${escapeAttr(item)}', this.value)"
+          placeholder="Nom de l’item"
+        >
+
+        <button onclick="moveItemUp('${escapeAttr(section.name)}', '${escapeAttr(item)}')" title="Monter">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+
+        <button onclick="moveItemDown('${escapeAttr(section.name)}', '${escapeAttr(item)}')" title="Descendre">
+          <i class="fas fa-arrow-down"></i>
+        </button>
+
+        <button onclick="deleteItem('${escapeAttr(section.name)}', '${escapeAttr(item)}')" title="Supprimer">
+          <i class="fas fa-trash"></i>
+        </button>
+      `;
+
+      itemsBox.appendChild(row);
+    });
+  });
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+function quickAddSection(){
+  const input = document.getElementById("quickSectionName");
+  const name = input.value.trim();
+
+  if(!name) return;
+
+  createSection(name);
+  input.value = "";
+}
+
+function addSection(){
+  const name = prompt("Nom de la nouvelle section");
+  if(!name) return;
+
+  createSection(name.trim());
+}
+
+function createSection(name){
+  if(!name) return;
+
+  if(currentEditData[name]){
+    alert("Cette section existe déjà.");
+    return;
+  }
+
+  currentEditData[name] = {
+    order: Object.keys(currentEditData).length + 1,
+    items: {}
+  };
+
+  renderEditModal();
+}
+
+function deleteSection(section){
+  if(!confirm("Supprimer la section : " + section + " ?")) return;
+
+  delete currentEditData[section];
+  renderEditModal();
+}
+
+function renameSection(oldName, newName){
+  newName = newName.trim();
+
+  if(!newName || oldName === newName) return;
+
+  if(currentEditData[newName]){
+    alert("Une section avec ce nom existe déjà.");
+    renderEditModal();
+    return;
+  }
+
+  currentEditData[newName] = currentEditData[oldName];
+  delete currentEditData[oldName];
+
+  renderEditModal();
+}
+
+function changeSectionOrder(section, order){
+  currentEditData[section].order = Number(order);
+  renderEditModal();
+}
+
+/* =========================================================
+   ITEMS
+========================================================= */
+function quickAddItem(section, inputId){
+  const input = document.getElementById(inputId);
+  const name = input.value.trim();
+
+  if(!name) return;
+
+  createItem(section, name);
+}
+
+function addItem(section){
+  const name = prompt("Nom du nouvel item");
+  if(!name) return;
+
+  createItem(section, name.trim());
+}
+
+function createItem(section, name){
+  if(!name) return;
+
+  if(!currentEditData[section].items){
+    currentEditData[section].items = {};
+  }
+
+  if(currentEditData[section].items[name]){
+    alert("Cet item existe déjà.");
+    return;
+  }
+
+  currentEditData[section].items[name] = true;
+  renderEditModal();
+}
+
+function deleteItem(section, item){
+  if(!confirm("Supprimer l’item : " + item + " ?")) return;
+
+  delete currentEditData[section].items[item];
+  renderEditModal();
+}
+
+function renameItem(section, oldName, newName){
+  newName = newName.trim();
+
+  if(!newName || oldName === newName) return;
+
+  const items = currentEditData[section].items;
+
+  if(items[newName]){
+    alert("Un item avec ce nom existe déjà.");
+    renderEditModal();
+    return;
+  }
+
+  const newItems = {};
+
+  Object.entries(items).forEach(([key, value])=>{
+    newItems[key === oldName ? newName : key] = value;
+  });
+
+  currentEditData[section].items = newItems;
+  renderEditModal();
+}
+
+function moveItemUp(section, item){
+  const items = Object.entries(currentEditData[section].items);
+  const index = items.findIndex(([key]) => key === item);
+
+  if(index <= 0) return;
+
+  [items[index - 1], items[index]] = [items[index], items[index - 1]];
+
+  currentEditData[section].items = Object.fromEntries(items);
+  renderEditModal();
+}
+
+function moveItemDown(section, item){
+  const items = Object.entries(currentEditData[section].items);
+  const index = items.findIndex(([key]) => key === item);
+
+  if(index === -1 || index >= items.length - 1) return;
+
+  [items[index], items[index + 1]] = [items[index + 1], items[index]];
+
+  currentEditData[section].items = Object.fromEntries(items);
+  renderEditModal();
+}
+
+/* =========================================================
+   SAVE
+========================================================= */
+async function saveEdit(){
+  if(!currentEditFiche || !currentEditData){
+    alert("Aucune fiche en cours de modification.");
+    return;
+  }
+
+  if(!confirm("Confirmer la sauvegarde de la fiche " + currentEditFiche + " ?")){
+    return;
+  }
+
+  await db.collection("FICHEVerif")
+    .doc(currentEditFiche)
+    .set(currentEditData);
+
+  alert("Fiche sauvegardée avec succès.");
+
+  closeEdit();
+
+  if(currentEngin){
+    openEngin(currentEngin);
+  }
+}
+
+/* =========================================================
+   HELPERS
+========================================================= */
+function getOrderedSections(data){
+  return Object.entries(data || {})
+    .map(([name, section]) => ({ name, ...section }))
+    .filter(section => section.items)
+    .sort((a,b) => (a.order || 0) - (b.order || 0));
+}
+
+function countItems(sections){
+  return sections.reduce((sum, section) => {
+    return sum + Object.keys(section.items || {}).length;
+  }, 0);
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function escapeAttr(value){
+  return String(value)
+    .replaceAll("\\", "\\\\")
+    .replaceAll("'", "\\'")
+    .replaceAll('"', "&quot;");
+}
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+window.logoutOps = logoutOps;
+window.showOpsSection = showOpsSection;
+window.scrollToPanel = scrollToPanel;
+window.refreshCurrentEngin = refreshCurrentEngin;
+window.clearSearch = clearSearch;
+
+window.changeOwnPassword = changeOwnPassword;
+window.clearPasswordForm = clearPasswordForm;
+window.initAccountCard = initAccountCard;
+
+
+window.openEngin = openEngin;
+window.filterFiches = filterFiches;
+window.duplicateFiche = duplicateFiche;
+
+window.viewFiche = viewFiche;
+window.closeView = closeView;
+
+window.editFiche = editFiche;
+window.closeEdit = closeEdit;
+window.saveEdit = saveEdit;
+
+window.quickAddSection = quickAddSection;
+window.addSection = addSection;
+window.deleteSection = deleteSection;
+window.renameSection = renameSection;
+window.changeSectionOrder = changeSectionOrder;
+
+window.quickAddItem = quickAddItem;
+window.addItem = addItem;
+window.deleteItem = deleteItem;
+window.renameItem = renameItem;
+window.moveItemUp = moveItemUp;
+window.moveItemDown = moveItemDown;
+
+/* =========================================================
+   PHOTO
+========================================================= */
+async function insertPhoto() {
+  const fileInput = document.getElementById("newPhotoFile");
+  const nameInput = document.getElementById("newPhotoName");
+
+  const file = fileInput.files[0];
+  const fileName = nameInput.value.trim();
+
+  if (!file || !fileName) {
+    alert("Choisis une image et indique un nom de fichier.");
+    return;
+  }
+
+  await uploadPhoto(fileName, file);
+
+  fileInput.value = "";
+  nameInput.value = "";
+}
+
+function isSupabaseFolder(file) {
+  return !file.id && !file.metadata;
+}
+
+function renderPhotos(files) {
+  const grid = document.getElementById("photosGrid");
+
+  if (!files.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-image"></i>
+        Aucune photo dans Supabase.
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = "";
+
+  const folders = files.filter(isSupabaseFolder);
+  const rootPhotos = files.filter(file => !isSupabaseFolder(file));
+
+  folders.forEach(folder => {
+    const card = document.createElement("div");
+    card.className = "photo-admin-card photo-folder-card";
+    card.onclick = () => openPhotoFolder(folder.name);
+
+    card.innerHTML = `
+      <div class="photo-folder-icon">
+        <i class="fas fa-folder-open"></i>
+      </div>
+
+      <div class="photo-folder-title">
+        <strong>${escapeHtml(folder.name)}</strong>
+        <small>Dossier</small>
+      </div>
+
+      <button type="button">
+        <i class="fas fa-images"></i> Voir les photos
+      </button>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  rootPhotos.forEach(file => {
+    renderPhotoCard(grid, file.name, file.name);
+  });
+}
+
+function renderPhotoCard(grid, displayName, storagePath) {
+  const url = getPhotoUrl(storagePath);
+
+  const card = document.createElement("div");
+  card.className = "photo-admin-card";
+
+  card.innerHTML = `
+    <img src="${url}?t=${Date.now()}" alt="${escapeHtml(displayName)}">
+
+    <strong>${escapeHtml(displayName)}</strong>
+
+    <input type="file" accept="image/*" onchange="replacePhoto('${escapeAttr(storagePath)}', this.files[0])">
+
+    <button onclick="copyPhotoUrl('${escapeAttr(url)}')">
+      <i class="fas fa-link"></i> Copier URL
+    </button>
+
+    <button class="delete-photo-btn" onclick="deletePhoto('${escapeAttr(storagePath)}')">
+      <i class="fas fa-trash"></i> Supprimer
+    </button>
+  `;
+
+  grid.appendChild(card);
+}
+
+async function openPhotoFolder(folderName) {
+  const { data, error } = await sb.storage
+    .from(supabaseBucket)
+    .list(folderName, {
+      limit: 100,
+      sortBy: { column: "name", order: "asc" }
+    });
+
+  if (error) {
+    alert("Erreur chargement dossier : " + error.message);
+    return;
+  }
+
+  renderFolderPhotos(folderName, data || []);
+}
+
+function renderFolderPhotos(folderName, files) {
+  const grid = document.getElementById("photosGrid");
+  grid.innerHTML = `
+    <div class="photo-folder-toolbar">
+      <h3><i class="fas fa-folder-open"></i> ${escapeHtml(folderName)}</h3>
+      <button onclick="refreshPhotos()">
+        <i class="fas fa-arrow-left"></i> Retour
+      </button>
+    </div>
+  `;
+
+  if (!files.length) {
+    grid.innerHTML += `
+      <div class="empty-state">
+        <i class="fas fa-image"></i>
+        Aucune photo dans ce dossier.
+      </div>
+    `;
+    return;
+  }
+
+  files
+    .filter(file => !isSupabaseFolder(file))
+    .forEach(file => {
+      renderPhotoCard(grid, file.name, `${folderName}/${file.name}`);
+    });
+}
+
+async function replacePhoto(fileName, file) {
+  if (!file) return;
+  await updatePhoto(fileName, file);
+}
+
+function copyPhotoUrl(url) {
+  navigator.clipboard?.writeText(url);
+  alert("URL copiée.");
+}
+
+window.insertPhoto = insertPhoto;
+window.replacePhoto = replacePhoto;
+window.copyPhotoUrl = copyPhotoUrl;
+window.deletePhoto = deletePhoto;
+window.refreshPhotos = refreshPhotos;
+window.openPhotoFolder = openPhotoFolder;
+
+document.addEventListener("DOMContentLoaded", refreshPhotos);
+</script>
+
+</body>
+</html>

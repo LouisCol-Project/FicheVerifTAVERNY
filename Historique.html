@@ -5,15 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Historique – CIS Taverny</title>
 
-<link rel="shortcut icon" href="images/logo.png">
+<link rel="preconnect" href="https://crekdqowqtivflqhhxfc.supabase.co">
+<link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+<link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png">
+
+
+<link rel="shortcut icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" />
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* Images communes chargées depuis Supabase */
+body {
+  background:
+    linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.70)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover fixed !important;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.65)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover no-repeat !important;
+}
+
+.comment-btn {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 999px;
+  background: #ff9800;
+  color: white;
+  font-size: 16px;
+}
+
+.comment-btn:hover {
+  background: #f57c00;
+}
+
+.comment-modal-content {
+  position: relative;
+}
+
+#commentModalText {
+  margin-top: 16px;
+  padding: 14px;
+  background: #f7f7f7;
+  border-radius: 14px;
+  color: #222;
+  font-weight: 700;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+</style>
+
 </head>
 
-<body>
+<body class="bg-image">
 
 <header>
-  <img src="images/logo.png" class="logoHeader" alt="Logo CIS Taverny">
+  <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" class="logoHeader" alt="Logo CIS Taverny" loading="eager" fetchpriority="high">
   <h1>Historique vérifications</h1>
   <div id="date"></div>
 </header>
@@ -29,7 +83,7 @@
       </div>
     </div>
 
-    <button class="back-btn" onclick="window.location.href='index.html'">
+    <button class="back-btn" onclick="window.location.href='AccVerif.html'">
       <i class="fa-solid fa-arrow-left"></i> Accueil
     </button>
   </section>
@@ -91,6 +145,18 @@
 
     <h3>Photos de la vérification</h3>
     <div id="photoModalGrid" class="photo-modal-grid"></div>
+  </div>
+</div>
+
+
+<div id="commentModal" class="modalConsignes">
+  <div class="modalConsignesContent comment-modal-content">
+    <button class="closeConsignes" onclick="closeComment()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h3><i class="fa-solid fa-comment-dots"></i> Commentaire</h3>
+    <p id="commentModalText"></p>
   </div>
 </div>
 
@@ -342,6 +408,20 @@ function renderVehicleCard(vehicle, posts, list){
   `;
 }
 
+
+function hasComment(verif){
+  return String(verif.commentaire || "").trim().length > 0;
+}
+
+function escapeHtml(text){
+  return String(text || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 function renderPostCard(vehicle, post, list){
   const verif = findVerification(list, vehicle, post);
 
@@ -367,6 +447,7 @@ function renderPostCard(vehicle, post, list){
   const verificateur = verif.verificateur || "Non renseigné";
   const showPhotoButton = canHavePhotos(verif);
   const folder = getPhotoFolder(verif);
+  const commentaire = String(verif.commentaire || "").trim();
 
   return `
     <div class="post-card ${missing.length ? 'alert' : 'done'}">
@@ -397,6 +478,15 @@ function renderPostCard(vehicle, post, list){
           title="Vérifier les photos">
           <i class="fa-solid fa-camera"></i>
           <span class="photo-count">0</span>
+        </button>
+      ` : ""}
+
+      ${commentaire ? `
+        <button
+          class="comment-btn"
+          onclick="openComment('${verif.id}')"
+          title="Voir le commentaire">
+          <i class="fa-solid fa-comment-dots"></i>
         </button>
       ` : ""}
 
@@ -534,6 +624,31 @@ window.openPhotos = async function(verifId){
 window.closePhotos = function(){
   document.getElementById("photoModal").classList.remove("active");
 };
+
+
+window.openComment = function(verifId){
+  const verif = verifs.find(v => v.id === verifId);
+  const commentaire = String(verif?.commentaire || "").trim();
+
+  if(!commentaire){
+    alert("Aucun commentaire pour cette vérification.");
+    return;
+  }
+
+  document.getElementById("commentModalText").textContent = commentaire;
+  document.getElementById("commentModal").style.display = "flex";
+};
+
+window.closeComment = function(){
+  document.getElementById("commentModal").style.display = "none";
+};
+
+document.getElementById("commentModal").addEventListener("click", e => {
+  if(e.target.id === "commentModal"){
+    closeComment();
+  }
+});
+
 
 document.getElementById("photoModal").addEventListener("click", e => {
   if(e.target.id === "photoModal"){

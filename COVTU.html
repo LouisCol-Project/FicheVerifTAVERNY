@@ -6,9 +6,33 @@
 
   <title>VTU – CIS Taverny</title>
 
-  <link rel="shortcut icon" href="images/logo.png" />
+<link rel="preconnect" href="https://crekdqowqtivflqhhxfc.supabase.co">
+<link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+<link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png">
+
+
+  <link rel="shortcut icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
+
+<style>
+/* Images communes chargées depuis Supabase */
+body {
+  background:
+    linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.70)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover fixed !important;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.65)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover no-repeat !important;
+}
+</style>
+
 </head>
 
 <body class="bg-image">
@@ -16,7 +40,7 @@
   <div class="app-bg"></div>
 
   <header>
-    <img src="images/logo.png" class="logoHeader" onclick="location.href='index.html'">
+    <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" class="logoHeader" onclick="location.href='AccVerif.html'" loading="eager" fetchpriority="high">
     <h1>Vérifications VTU</h1>
     <div class="headerRight">
       <div id="date"></div>
@@ -335,21 +359,51 @@
         .replace(/[^\w_]/g, "");
     }
 
-    function createSectionImage(sectionName) {
-      const normalize = (name) =>
-        name
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .replace(/\s+/g, "_")
-          .replace(/[^\w_]/g, "");
+function createSectionImage(sectionName) {
 
-      const img = document.createElement("img");
-      img.src = `images/COVTU/${normalize(sectionName)}.jpg`;
-      img.alt = sectionName;
-      img.onerror = () => img.remove();
+  const normalize = (name) =>
+    name
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "_")
+      .replace(/[^\w_]/g, "");
 
-      return img;
-    }
+  const folder = "COVTU"; // adapter selon la page
+  const baseName = normalize(sectionName);
+
+  const container = document.createElement("div");
+  container.className = "section-images";
+
+  const imageNames = [
+    `${baseName}.jpg`,
+    `${baseName}_2.jpg`,
+    `${baseName}_3.jpg`,
+    `${baseName}_4.jpg`
+  ];
+
+  imageNames.forEach(fileName => {
+
+    const img = document.createElement("img");
+
+    img.src =
+      `https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/${folder}/${fileName}`;
+
+    img.alt = sectionName;
+    img.loading = "lazy";
+
+    img.onerror = () => {
+      img.remove();
+
+      if (!container.children.length) {
+        container.remove();
+      }
+    };
+
+    container.appendChild(img);
+  });
+
+  return container;
+}
 
     /* ================= LOAD ================= */
 
@@ -423,13 +477,21 @@
     window.saveAndReturn = async function () {
       await saveCheck();
       stopCamera();
-      location.href = "index.html";
+      location.href = "AccVerif.html";
     };
 
-    /* ================= INIT ================= */
+    
+function uncheckAllBoxes(){
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+  });
+}
+
+/* ================= INIT ================= */
 
     window.addEventListener("DOMContentLoaded", async () => {
       await loadStructure();
+  uncheckAllBoxes();
       await highlightLastMissing();
     });
 

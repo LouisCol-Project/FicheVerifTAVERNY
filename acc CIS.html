@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestion CIS Taverny</title>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#c62828">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<link id="appleIcon" rel="apple-touch-icon">
+<link id="favicon" rel="shortcut icon">
+<link rel="preconnect" href="https://crekdqowqtivflqhhxfc.supabase.co">
+
+<link rel="preload"as="image"href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png">
+
+<meta name="format-detection" content="telephone=no">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-image">
+
+<div class="app-bg"></div>
+
+<header class="home-header">
+  <img id="logoHeader" class="logoHeader" onclick="location.href='index.html'">
+  <div>
+    <h1>Gestion CIS TAVERNY</h1>
+    <p id="dateHeure" class="header-subtitle"></p>
+  </div>
+</header>
+
+<main class="home-main">
+
+  <section class="dashboard-card hero-card">
+    <div class="hero-title">
+      <i class="fas fa-fire-flame-curved"></i>
+      <div>
+        <h2>Portail de gestion opérationnelle</h2>
+        <p>Accès centralisé aux outils du centre, aux vérifications et aux consignes.</p>
+      </div>
+    </div>
+
+    <div class="hero-status">
+      <span><i class="fas fa-circle-check"></i> Application active</span>
+      <span><i class="fas fa-shield-halved"></i> Accès sécurisé</span>
+    </div>
+  </section>
+
+  <button id="installBtn" class="install-btn" style="display:none;">
+    <i class="fas fa-download"></i>
+    Télécharger l'application
+  </button>
+
+  <div id="iosInstall" class="ios-install" style="display:none;">
+    <strong>📲 Installation iPhone</strong><br>
+    Appuyez sur <b>Partager</b>, puis <b>Ajouter à l’écran d’accueil</b>.
+  </div>
+
+  <section class="modules-section">
+
+    <div class="modules-grid">
+
+      <div class="module-card module-bureau" onclick="openBureauChoice()">
+        <div class="module-icon"><i class="fas fa-building"></i></div>
+        <div class="module-content">
+          <h3>Accès Bureau</h3>
+          <p>Gestion administrative, suivi interne et documents du centre.</p>
+        </div>
+        <i class="fas fa-chevron-right module-arrow"></i>
+      </div>
+
+      <div class="module-card module-verif" onclick="location.href='AccVerif.html'">
+        <div class="module-icon"><i class="fas fa-clipboard-check"></i></div>
+        <div class="module-content">
+          <h3>Vérifications journalières</h3>
+          <p>Contrôle quotidien des engins, matériels et équipements.</p>
+        </div>
+        <i class="fas fa-chevron-right module-arrow"></i>
+      </div>
+
+      <div class="module-card module-stationnaire" onclick="location.href='stationnaire.html'">
+        <div class="module-icon"><i class="fas fa-radio"></i></div>
+        <div class="module-content">
+          <h3>Stationnaire</h3>
+          <p>Suivi de la garde, transmissions et informations opérationnelles.</p>
+        </div>
+        <i class="fas fa-chevron-right module-arrow"></i>
+      </div>
+
+      <div class="module-card module-chef" onclick="location.href='chef-centre.html'">
+        <div class="module-icon"><i class="fas fa-user-shield"></i></div>
+        <div class="module-content">
+          <h3>Chef de centre</h3>
+          <p>Pilotage, validation, supervision et accès responsable.</p>
+        </div>
+        <i class="fas fa-chevron-right module-arrow"></i>
+      </div>
+
+      <div class="module-card module-sog" onclick="location.href='consignes-sog.html'">
+        <div class="module-icon"><i class="fas fa-file-signature"></i></div>
+        <div class="module-content">
+          <h3>Consignes SOG</h3>
+          <p>Consultation des consignes, notes et procédures applicables.</p>
+        </div>
+        <i class="fas fa-chevron-right module-arrow"></i>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="dashboard-card info-app-card">
+    <div class="infoHeader">
+      <i class="fas fa-mobile-alt"></i>
+      <h2>Application CIS Taverny</h2>
+    </div>
+
+    <div class="infoGrid">
+
+      <div class="infoItem">
+        <i class="fas fa-code-branch"></i>
+        <div>
+          <strong>Version</strong>
+          <span>2.5 - Juin 2026</span>
+        </div>
+      </div>
+
+      <div class="infoItem">
+        <i class="fas fa-bullseye"></i>
+        <div>
+          <strong>Objectif</strong>
+          <span>Centraliser les accès opérationnels et administratifs du CIS Taverny.</span>
+        </div>
+      </div>
+
+      <div class="infoItem">
+        <i class="fas fa-users-gear"></i>
+        <div>
+          <strong>Gestion</strong>
+          <span>SGT COLIN Louis et Bureau OPS</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div id="bureauChoicePopup" class="bureauPopup">
+    <div class="bureauPopupContent">
+
+      <button class="bureauPopupClose" onclick="closeBureauPopups()">
+        <i class="fas fa-xmark"></i>
+      </button>
+
+      <h2><i class="fas fa-building"></i> Accès Bureau</h2>
+      <p>Sélectionnez le bureau demandé</p>
+
+      <div class="bureauChoices">
+
+        <button onclick="openBureauLogin('ADMIN')">
+          <i class="fas fa-users"></i> Administration
+        </button>
+
+        <button onclick="openBureauLogin('OPS')">
+          <i class="fas fa-headset"></i> Bureau OPS
+        </button>
+
+        <button onclick="openBureauLogin('BMM')">
+          <i class="fas fa-screwdriver-wrench"></i> BMM
+        </button>
+
+        <button onclick="openBureauLogin('SAP')">
+          <i class="fas fa-briefcase-medical"></i> SAP
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="bureauLoginPopup" class="bureauPopup">
+    <div class="bureauPopupContent">
+
+      <button class="bureauPopupClose" onclick="closeBureauPopups()">
+        <i class="fas fa-xmark"></i>
+      </button>
+
+      <h2><i class="fas fa-user-shield"></i> Connexion Bureau</h2>
+      <p id="bureauSelectedText">Accès sélectionné</p>
+
+      <input type="text" id="bureauUser" placeholder="Nom utilisateur">
+
+      <div class="password-box">
+        <input type="password" id="bureauPass" placeholder="Mot de passe">
+        <i class="fa-solid fa-eye" id="toggleBureauPassword"></i>
+      </div>
+
+      <button id="bureauLoginBtn">Connexion</button>
+
+      <p id="bureauStatus"></p>
+
+    </div>
+  </div>
+
+</main>
+
+<footer class="home-footer">
+  CIS TAVERNY — Portail interne de gestion
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+
+<script>
+const supabaseUrl = "https://crekdqowqtivflqhhxfc.supabase.co";
+const supabaseAnonKey = "sb_publishable_556tCAQOJpCdKuBCM2lM7Q_962-59jD";
+const supabaseBucket = "Photo_Engins";
+
+const sb = window.supabase.createClient(
+  supabaseUrl,
+  supabaseAnonKey
+);
+
+function getPublicUrl(fileName) {
+  const { data } = sb.storage
+    .from("Photo_Engins")
+    .getPublicUrl(fileName);
+
+  return data.publicUrl;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const logoUrl = getPublicUrl("logo.png");
+
+  document.getElementById("logoHeader").src = logoUrl;
+  document.getElementById("favicon").href = logoUrl;
+  document.getElementById("appleIcon").href = logoUrl;
+
+});
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
+  authDomain: "veriftav.firebaseapp.com",
+  projectId: "veriftav",
+  storageBucket: "veriftav.appspot.com",
+  messagingSenderId: "401217101102",
+  appId: "1:401217101102:web:dd375734d4f0464c146ebf"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const dateHeure = document.getElementById("dateHeure");
+
+  function updateDateHeure() {
+    const now = new Date();
+
+    dateHeure.textContent = now.toLocaleDateString("fr-FR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    }) + " — " + now.toLocaleTimeString("fr-FR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
+  updateDateHeure();
+  setInterval(updateDateHeure, 30000);
+
+  let deferredPrompt;
+  const installBtn = document.getElementById("installBtn");
+
+  window.addEventListener("beforeinstallprompt", e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = "flex";
+  });
+
+  installBtn?.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+    installBtn.style.display = "none";
+  });
+
+  const iosInstall = document.getElementById("iosInstall");
+
+  if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+    iosInstall.style.display = "block";
+  }
+
+});
+
+let selectedBureau = null;
+
+function openBureauChoice() {
+  document.getElementById("bureauChoicePopup").classList.add("active");
+}
+
+function openBureauLogin(bureau) {
+  selectedBureau = bureau;
+
+  const labelsBureau = {
+    ADMIN: "Administration",
+    OPS: "Bureau OPS",
+    BMM: "Bureau BMM",
+    SAP: "Bureau SAP"
+  };
+
+  document.getElementById("bureauChoicePopup").classList.remove("active");
+  document.getElementById("bureauLoginPopup").classList.add("active");
+
+  document.getElementById("bureauSelectedText").innerText =
+    "Accès demandé : " + labelsBureau[bureau];
+
+  document.getElementById("bureauStatus").innerText = "";
+  document.getElementById("bureauUser").value = "";
+  document.getElementById("bureauPass").value = "";
+}
+
+function closeBureauPopups() {
+  document.getElementById("bureauChoicePopup").classList.remove("active");
+  document.getElementById("bureauLoginPopup").classList.remove("active");
+}
+
+document.getElementById("bureauLoginBtn").addEventListener("click", async () => {
+  const username = document.getElementById("bureauUser").value.trim();
+  const password = document.getElementById("bureauPass").value.trim();
+  const status = document.getElementById("bureauStatus");
+
+  if (!username || !password) {
+    status.innerText = "Champs obligatoires";
+    status.style.color = "red";
+    return;
+  }
+
+  const doc = await db.collection("users").doc(username).get();
+
+  if (!doc.exists) {
+    status.innerText = "Utilisateur introuvable";
+    status.style.color = "red";
+    return;
+  }
+
+  const data = doc.data();
+
+  if (data.password !== password) {
+    status.innerText = "Mot de passe incorrect";
+    status.style.color = "red";
+    return;
+  }
+
+  const role = data.role;
+  localStorage.setItem("userRole", role);
+  localStorage.setItem("bureauAccess", selectedBureau);
+
+  const autorisations = {
+    ADMIN: ["admin"],
+    OPS: ["admin", "OPS"],
+    BMM: ["admin", "BMM"],
+    SAP: ["admin", "SAP"]
+  };
+
+  const pages = {
+    ADMIN: "admin.html",
+    OPS: "bureau-ops.html",
+    BMM: "bureau-bmm.html",
+    SAP: "bureau-sap.html"
+  };
+
+  if (!autorisations[selectedBureau].includes(role)) {
+    status.innerText = "Accès refusé pour ce bureau";
+    status.style.color = "red";
+    return;
+  }
+
+  status.style.color = "green";
+  status.innerText = "Connexion OK";
+
+  setTimeout(() => {
+    location.href = pages[selectedBureau];
+  }, 800);
+});
+
+const toggleBureauPassword = document.getElementById("toggleBureauPassword");
+const bureauPass = document.getElementById("bureauPass");
+
+toggleBureauPassword?.addEventListener("click", () => {
+  const hidden = bureauPass.type === "password";
+
+  bureauPass.type = hidden ? "text" : "password";
+
+  toggleBureauPassword.classList.toggle("fa-eye");
+  toggleBureauPassword.classList.toggle("fa-eye-slash");
+});
+</script>
+
+</body>
+</html>

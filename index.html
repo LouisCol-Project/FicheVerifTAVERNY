@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Accueil – CIS Taverny</title>
+
+<title>Vérifications journalières – CIS Taverny</title>
 
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#c62828">
@@ -12,293 +13,228 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-<link rel="apple-touch-icon" href="./images/logo.png">
-<link rel="shortcut icon" href="./images/logo.png">
+<link rel="apple-touch-icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+<link rel="shortcut icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
 
 <meta name="format-detection" content="telephone=no">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
-<body class="bg-image">
+
+<style>
+/* Images communes chargées depuis Supabase */
+body {
+  background:
+    linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.70)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover fixed !important;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.65)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover no-repeat !important;
+}
+</style>
+
 </head>
 
-<body>
+<body class="bg-image">
 
 <div class="app-bg"></div>
 
 <header>
-    <img src="images/logo.png" class="logoHeader" onclick="location.href='index.html'">
-    <h1>Vérifications journalières CIS TAVERNY</h1>
+  <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" class="logoHeader" onclick="location.href='index.html'" loading="eager" fetchpriority="high">
+  <h1>Vérifications journalières CIS TAVERNY</h1>
 </header>
 
 <main>
 
-<!-- NOM -->
-<input type="text" id="verificateur" placeholder="Entrez votre nom">
-
-<!-- INSTALL PWA -->
-<button id="installBtn" style="display:none;width:100%;padding:14px;border:none;border-radius:12px;background:#2e7d32;color:white;font-weight:bold;">
-📲 Télécharger l'application
-</button>
-
-<div id="iosInstall" style="display:none;padding:14px;background:#1e1e1e;color:white;border-radius:14px;margin-bottom:1rem;">
-📲 Sur iPhone :<br><br>
-1️⃣ Partager<br>
-2️⃣ Ajouter à l’écran d’accueil
-</div>
-
-<!-- VEHICULES -->
-<div class="vehicules">
-  <div class="vehicule vsav" id="btn-vsav" onclick="selectVehicule('VSSUAP')"><i class="fas fa-ambulance"></i>VSSUAP</div>
-  <div class="vehicule fpt" id="btn-fpt" onclick="selectVehicule('FPTGP')"><i class="fas fa-fire-extinguisher"></i>FPTGP</div>
-  <div class="vehicule ccf" id="btn-ccf" onclick="selectVehicule('CCFM')"><i class="fas fa-tree"></i>CCFM</div>
-  <div class="vehicule vsr" id="btn-vsr" onclick="selectVehicule('VSRM')"><i class="fas fa-car-crash"></i>VSRM</div>
-  <div class="vehicule vtu" id="btn-vtu" onclick="selectVehicule('VTU')"><i class="fas fa-truck"></i>VTU</div>
-
-  <div class="vehicule stat" onclick="location.href='Historique.html'">
-    <i class="fas fa-history"></i>HISTORIQUE
-  </div>
-</div>
-
-<!-- LOGIN -->
-<div class="login-card">
-
-<h2><i class="fas fa-user-shield"></i> Connexion</h2>
-
-<input type="text" id="adminUser" placeholder="Nom utilisateur">
-<div class="password-box">
-
-  <input
-    type="password"
-    id="adminPass"
-    placeholder="Mot de passe"
-  >
-
-  <i class="fa-solid fa-eye" id="togglePassword"></i>
-
-</div>
-<button id="adminLoginBtn">Connexion</button>
-
-<p id="adminStatus"></p>
-
-</div>
-
-<!-- INFO APP -->
-<div class="infoCard">
-
-  <div class="infoHeader">
-    <i class="fas fa-mobile-alt"></i>
-    <h2>Application CIS Taverny</h2>
-  </div>
-
-  <div class="infoGrid">
-
-    <div class="infoItem">
-      <i class="fas fa-code-branch"></i>
-      <div><strong>Version</strong><span>2.5 - JUIN 2026</span></div>
+  <!-- SYNTHÈSE -->
+  <section class="infoCard">
+    <div class="infoHeader">
+      <i class="fas fa-gauge-high"></i>
+      <h2>Synthèse de prise de garde</h2>
     </div>
 
-    <div class="infoItem">
-      <i class="fas fa-fire"></i><div><strong>Mission</strong><span>Réalisation de contrôles quotidiens afin de garantir le bon état, la sécurité et le fonctionnement des équipements</span></div>
+    <div class="infoGrid">
+
+      <div class="infoItem">
+        <i class="fas fa-calendar-day"></i>
+        <div>
+          <strong>Date</strong>
+          <span id="dateJour">--</span>
+        </div>
+      </div>
+
+      <div class="infoItem">
+        <i class="fas fa-clock"></i>
+        <div>
+          <strong>Heure</strong>
+          <span id="heureJour">--</span>
+        </div>
+      </div>
+      
+      <div class="infoItem">
+        <i class="fas fa-triangle-exclamation"></i>
+        <div>
+          <strong>Consigne opérationnelle</strong>
+          <span>
+            Le nom du vérificateur est obligatoire. Toute anomalie constatée doit être signalée précisément afin d’assurer le suivi matériel et la disponibilité opérationnelle des engins.
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NOM -->
+  <input type="text" id="verificateur" placeholder="Entrez votre nom">
+
+  
+  <!-- VEHICULES -->
+  <div class="vehicules">
+
+    <div class="vehicule vsav" id="btn-vsav" onclick="selectVehicule('VSSUAP')">
+      <i class="fas fa-ambulance"></i>
+      VSSUAP
     </div>
 
-    <div class="infoItem">
-      <i class="fas fa-users"></i>
-      <div><strong>Gestion</strong><span> SGT COLIN Louis et Bureau OPS</span></div>
+    <div class="vehicule fpt" id="btn-fpt" onclick="selectVehicule('FPTGP')">
+      <i class="fas fa-fire-extinguisher"></i>
+      FPTGP
     </div>
+
+    <div class="vehicule ccf" id="btn-ccf" onclick="selectVehicule('CCFM')">
+      <i class="fas fa-tree"></i>
+      CCFM
+    </div>
+
+    <div class="vehicule vsr" id="btn-vsr" onclick="selectVehicule('VSRM')">
+      <i class="fas fa-car-crash"></i>
+      VSRM
+    </div>
+
+    <div class="vehicule vtu" id="btn-vtu" onclick="selectVehicule('VTU')">
+      <i class="fas fa-truck"></i>
+      VTU
+    </div>
+
   </div>
+
+   <!-- ACTIONS BAS DE PAGE -->
+<div class="bottomActions">
+
+  <button class="actionBtn historyBtn" onclick="location.href='Historique.html'">
+    <i class="fas fa-history"></i>
+    Historique
+  </button>
+
+  <button class="actionBtn homeReturnBtn" onclick="location.href='index.html'">
+    <i class="fas fa-house"></i>
+    Retour accueil
+  </button>
+
 </div>
 
 </main>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD14dNcDQW4SygSlo8YC8bJWisLYOh0Es",
-  authDomain: "veriftav.firebaseapp.com",
-  projectId: "veriftav",
-  storageBucket: "veriftav.appspot.com",
-  messagingSenderId: "401217101102",
-  appId: "1:401217101102:web:dd375734d4f0464c146ebf"
-};
+  const inputNom = document.getElementById("verificateur");
+  const dateJour = document.getElementById("dateJour");
+  const heureJour = document.getElementById("heureJour");
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+  const vehicules = [
+    "btn-vsav",
+    "btn-fpt",
+    "btn-ccf",
+    "btn-vsr",
+    "btn-vtu"
+  ];
 
-const inputNom = document.getElementById("verificateur");
+  function updateDateHeure() {
+    const now = new Date();
 
-/* MEMORISATION 24H */
-const savedNom = localStorage.getItem("nomVerificateur");
-const savedTime = localStorage.getItem("nomVerificateurTime");
+    dateJour.textContent = now.toLocaleDateString("fr-FR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    });
 
-const now = Date.now();
-const duree24h = 24 * 60 * 60 * 1000;
-
-if (
-  savedNom &&
-  savedTime &&
-  (now - Number(savedTime) < duree24h)
-) {
-  inputNom.value = savedNom;
-}
-
-const vehicules = [
-  "btn-vsav","btn-fpt","btn-ccf","btn-vsr","btn-vtu"
-];
-
-inputNom.addEventListener("input", () => {
-
-  const val = inputNom.value.trim().toUpperCase();
-  inputNom.value = val;
-
-  localStorage.setItem("nomVerificateur", val);
-  localStorage.setItem("nomVerificateurTime", Date.now());
-
-  const enable = val.length >= 3;
-
-  vehicules.forEach(id => {
-    document.getElementById(id)
-    ?.classList.toggle("disabled", !enable);
-  });
-
-});
-
-const enableOnLoad = inputNom.value.trim().length >= 3;
-
-vehicules.forEach(id => {
-  document.getElementById(id)
-  ?.classList.toggle("disabled", !enableOnLoad);
-});
-
-/* VEHICULE */
-window.selectVehicule = function(v) {
-
-  const nom = inputNom.value.trim().toUpperCase();
-
-localStorage.setItem("nomVerificateur", nom);
-localStorage.setItem("nomVerificateurTime", Date.now());
-
-  if (nom.length < 3) {
-    alert("Nom obligatoire");
-    return;
+    heureJour.textContent = now.toLocaleTimeString("fr-FR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
   }
 
-  const pages = {
-    VSSUAP:"VSAV.html",
-    FPTGP:"FPT.html",
-    CCFM:"CCF.html",
-    VSRM:"VSR.html",
-    VTU:"VTU.html"
+  updateDateHeure();
+  setInterval(updateDateHeure, 30000);
+
+  const savedNom = localStorage.getItem("nomVerificateur");
+  const savedTime = localStorage.getItem("nomVerificateurTime");
+
+  const now = Date.now();
+  const duree24h = 24 * 60 * 60 * 1000;
+
+  if (
+    savedNom &&
+    savedTime &&
+    now - Number(savedTime) < duree24h
+  ) {
+    inputNom.value = savedNom;
+  }
+
+  function updateVehiculesState() {
+    const val = inputNom.value.trim().toUpperCase();
+    const enable = val.length >= 3;
+
+    vehicules.forEach(id => {
+      document.getElementById(id)?.classList.toggle("disabled", !enable);
+    });
+  }
+
+  inputNom.addEventListener("input", () => {
+    const val = inputNom.value.trim().toUpperCase();
+
+    inputNom.value = val;
+
+    localStorage.setItem("nomVerificateur", val);
+    localStorage.setItem("nomVerificateurTime", Date.now());
+
+    updateVehiculesState();
+  });
+
+  window.selectVehicule = function(v) {
+    const nom = inputNom.value.trim().toUpperCase();
+
+    localStorage.setItem("nomVerificateur", nom);
+    localStorage.setItem("nomVerificateurTime", Date.now());
+
+    if (nom.length < 3) {
+      alert("Nom obligatoire avant de sélectionner un engin.");
+      inputNom.focus();
+      return;
+    }
+
+    const pages = {
+      VSSUAP: "VSAV.html",
+      FPTGP: "FPT.html",
+      CCFM: "CCF.html",
+      VSRM: "VSR.html",
+      VTU: "VTU.html"
+    };
+
+    location.href = pages[v];
   };
 
-  location.href = pages[v];
-};
-
-/* LOGIN */
-document.getElementById("adminLoginBtn")
-.addEventListener("click", async () => {
-
-const username = adminUser.value.trim();
-const password = adminPass.value.trim();
-const status = document.getElementById("adminStatus");
-
-if(!username || !password){
-status.innerText = "Champs obligatoires";
-status.style.color="red";
-return;
-}
-
-const doc = await db.collection("users").doc(username).get();
-
-if(!doc.exists){
-status.innerText="Utilisateur introuvable";
-status.style.color="red";
-return;
-}
-
-const data = doc.data();
-
-if(data.password !== password){
-status.innerText="Mot de passe incorrect";
-status.style.color="red";
-return;
-}
-
-localStorage.setItem("userRole", data.role);
-
-status.style.color="green";
-status.innerText="Connexion OK";
-
-setTimeout(()=>{
-
-switch(data.role){
-
-case "admin":
-location.href="admin.html";
-break;
-
-case "BMM":
-location.href="bureau-bmm.html";
-break;
-
-case "Chef":
-location.href="chef-centre.html";
-break;
-
-default:
-status.innerText="Rôle invalide";
-}
-
-},800);
+  updateVehiculesState();
 
 });
-
-/* PWA */
-let deferredPrompt;
-const installBtn = document.getElementById("installBtn");
-
-window.addEventListener("beforeinstallprompt", e=>{
-e.preventDefault();
-deferredPrompt=e;
-installBtn.style.display="block";
-});
-
-installBtn.addEventListener("click", async ()=>{
-deferredPrompt.prompt();
-await deferredPrompt.userChoice;
-deferredPrompt=null;
-installBtn.style.display="none";
-});
-
-/* IOS */
-if(/iphone|ipad|ipod/i.test(navigator.userAgent)){
-iosInstall.style.display="block";
-}
-
-});
-
-const togglePassword = document.getElementById("togglePassword");
-const passwordInput = document.getElementById("adminPass");
-
-togglePassword?.addEventListener("click", () => {
-
-  const isHidden = passwordInput.type === "password";
-
-  passwordInput.type = isHidden ? "text" : "password";
-
-  togglePassword.classList.toggle("fa-eye");
-  togglePassword.classList.toggle("fa-eye-slash");
-
-});
-
 </script>
 
 </body>
