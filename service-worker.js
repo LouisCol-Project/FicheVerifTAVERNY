@@ -1,4 +1,4 @@
-const CACHE_NAME = "cis-tav-v301";
+const CACHE_NAME = "cis-tav-v302";
 
 const FILES = [
   "./",

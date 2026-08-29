@@ -2774,3 +2774,364 @@ fieldset img {
 .comment-btn:hover {
   background: #f57c00;
 }
+/* =========================================================
+   MOBILE - PAGE VERIFICATIONS CIS TAVERNY
+   Surcharge finale pour un affichage smartphone propre
+========================================================= */
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    min-height: 100dvh;
+    background-attachment: scroll !important;
+  }
+
+  .app-bg {
+    background-attachment: scroll !important;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    align-items: center;
+    width: 100%;
+    padding: max(9px, env(safe-area-inset-top)) 12px 9px;
+    gap: 8px;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0,0,0,.07);
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+  }
+
+  header img,
+  header .logoHeader {
+    grid-column: 1;
+    width: 46px;
+    height: 46px;
+    padding: 3px;
+    border-radius: 12px;
+    object-fit: contain;
+  }
+
+  header h1 {
+    grid-column: 2;
+    margin: 0;
+    font-size: clamp(.85rem, 4vw, 1rem);
+    line-height: 1.15;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: .1px;
+  }
+
+  main {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 12px 12px calc(22px + env(safe-area-inset-bottom));
+    gap: 12px;
+  }
+
+  .infoCard {
+    width: 100%;
+    margin-top: 0;
+    padding: 14px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.95);
+    box-shadow: 0 8px 22px rgba(0,0,0,.09);
+  }
+
+  .infoHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .infoHeader i {
+    width: 30px;
+    flex-shrink: 0;
+    font-size: 22px;
+  }
+
+  .infoHeader h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.2;
+  }
+
+  .infoGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  .infoItem {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px;
+    border-radius: 13px;
+    background: #f6f6f6;
+  }
+
+  .infoItem i {
+    width: 24px;
+    min-width: 24px;
+    font-size: 19px;
+  }
+
+  .infoItem > div {
+    min-width: 0;
+  }
+
+  .infoItem strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: .76rem;
+  }
+
+  .infoItem span {
+    display: block;
+    font-size: .78rem;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .infoItem:last-child {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .infoItem:last-child span {
+    font-size: .75rem;
+    line-height: 1.4;
+  }
+
+  #verificateur {
+    width: 100%;
+    min-height: 54px;
+    margin: 2px 0;
+    padding: 0 16px;
+    border-radius: 15px;
+    border: 2px solid rgba(198,40,40,.13);
+    background: rgba(255,255,255,.97);
+    font-size: 16px;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    box-shadow: 0 7px 18px rgba(0,0,0,.08);
+  }
+
+  #verificateur:focus {
+    border-color: rgba(198,40,40,.55);
+    box-shadow: 0 0 0 4px rgba(198,40,40,.09), 0 7px 18px rgba(0,0,0,.08);
+  }
+
+  .vehicules {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .vehicules .vehicule,
+  .vehicules .vehicule:nth-child(1),
+  .vehicules .vehicule:nth-child(2),
+  .vehicules .vehicule:nth-child(3),
+  .vehicules .vehicule:nth-child(4),
+  .vehicules .vehicule:nth-child(5),
+  .vehicules .vehicule:nth-child(6) {
+    grid-column: auto !important;
+  }
+
+  .vehicule {
+    width: 100%;
+    min-width: 0;
+    min-height: 104px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 12px 8px;
+    border-radius: 16px;
+    font-size: .9rem;
+    font-weight: 900;
+    text-align: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 7px 16px rgba(0,0,0,.15);
+  }
+
+  .vehicule i {
+    font-size: 28px;
+  }
+
+  .vehicules .vehicule:last-child:nth-child(odd) {
+    grid-column: 1 / -1 !important;
+    width: calc(50% - 5px);
+    justify-self: center;
+  }
+
+  .vehicule:hover {
+    transform: none;
+  }
+
+  .vehicule:active {
+    transform: scale(.97);
+  }
+
+  .vehicule.disabled {
+    pointer-events: none;
+    filter: grayscale(.45);
+    opacity: .45;
+  }
+
+  .bottomActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .bottomActions .actionBtn {
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 8px;
+    border-radius: 15px;
+    font-size: .82rem;
+    font-weight: 900;
+    line-height: 1.15;
+    touch-action: manipulation;
+  }
+
+  .bottomActions .actionBtn i {
+    font-size: 16px;
+  }
+
+  .homeReturnBtn {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 390px) {
+
+  main {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  header {
+    grid-template-columns: 42px 1fr 42px;
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  header img,
+  header .logoHeader {
+    width: 42px;
+    height: 42px;
+  }
+
+  header h1 {
+    font-size: .82rem;
+  }
+
+  .infoCard {
+    padding: 11px;
+  }
+
+  .infoHeader {
+    margin-bottom: 9px;
+  }
+
+  .infoHeader h2 {
+    font-size: .95rem;
+  }
+
+  .infoGrid {
+    gap: 7px;
+  }
+
+  .infoItem {
+    padding: 9px 8px;
+  }
+
+  .infoItem strong {
+    font-size: .70rem;
+  }
+
+  .infoItem span {
+    font-size: .72rem;
+  }
+
+  #verificateur {
+    min-height: 52px;
+    font-size: 15px;
+  }
+
+  .vehicules {
+    gap: 8px;
+  }
+
+  .vehicule {
+    min-height: 94px;
+    padding: 10px 6px;
+    border-radius: 14px;
+    font-size: .82rem;
+  }
+
+  .vehicule i {
+    font-size: 25px;
+  }
+
+  .vehicules .vehicule:last-child:nth-child(odd) {
+    width: calc(50% - 4px);
+  }
+
+  .bottomActions {
+    gap: 8px;
+  }
+
+  .bottomActions .actionBtn {
+    min-height: 50px;
+    padding: 8px 6px;
+    font-size: .76rem;
+  }
+}
+
+@media (max-width: 340px) {
+
+  .vehicules {
+    grid-template-columns: 1fr !important;
+  }
+
+  .vehicules .vehicule,
+  .vehicules .vehicule:last-child:nth-child(odd) {
+    grid-column: 1 !important;
+    width: 100%;
+  }
+
+  .bottomActions {
+    grid-template-columns: 1fr;
+  }
+}
