@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vérifications journalières – CIS Taverny</title>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#c62828">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<link rel="apple-touch-icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+<link rel="shortcut icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
+
+<meta name="format-detection" content="telephone=no">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* Images communes chargées depuis Supabase */
+body {
+  background:
+    linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.70)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover fixed !important;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.65)),
+    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover no-repeat !important;
+}
+</style>
+
+</head>
+
+<body class="bg-image">
+
+<div class="app-bg"></div>
+
+<header>
+  <img src="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png" class="logoHeader" onclick="location.href='index.html'" loading="eager" fetchpriority="high">
+  <h1>Vérifications journalières CIS TAVERNY</h1>
+</header>
+
+<main>
+
+  <!-- SYNTHÈSE -->
+  <section class="infoCard">
+    <div class="infoHeader">
+      <i class="fas fa-gauge-high"></i>
+      <h2>Synthèse de prise de garde</h2>
+    </div>
+
+    <div class="infoGrid">
+
+      <div class="infoItem">
+        <i class="fas fa-calendar-day"></i>
+        <div>
+          <strong>Date</strong>
+          <span id="dateJour">--</span>
+        </div>
+      </div>
+
+      <div class="infoItem">
+        <i class="fas fa-clock"></i>
+        <div>
+          <strong>Heure</strong>
+          <span id="heureJour">--</span>
+        </div>
+      </div>
+      
+      <div class="infoItem">
+        <i class="fas fa-triangle-exclamation"></i>
+        <div>
+          <strong>Consigne opérationnelle</strong>
+          <span>
+            Le nom du vérificateur est obligatoire. Toute anomalie constatée doit être signalée précisément afin d’assurer le suivi matériel et la disponibilité opérationnelle des engins.
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NOM -->
+  <input type="text" id="verificateur" placeholder="Entrez votre nom">
+
+  
+  <!-- VEHICULES -->
+  <div class="vehicules">
+
+    <div class="vehicule vsav" id="btn-vsav" onclick="selectVehicule('VSSUAP')">
+      <i class="fas fa-ambulance"></i>
+      VSSUAP
+    </div>
+
+    <div class="vehicule fpt" id="btn-fpt" onclick="selectVehicule('FPTGP')">
+      <i class="fas fa-fire-extinguisher"></i>
+      FPTGP
+    </div>
+
+    <div class="vehicule ccf" id="btn-ccf" onclick="selectVehicule('CCFM')">
+      <i class="fas fa-tree"></i>
+      CCFM
+    </div>
+
+    <div class="vehicule vsr" id="btn-vsr" onclick="selectVehicule('VSRM')">
+      <i class="fas fa-car-crash"></i>
+      VSRM
+    </div>
+
+    <div class="vehicule vtu" id="btn-vtu" onclick="selectVehicule('VTU')">
+      <i class="fas fa-truck"></i>
+      VTU
+    </div>
+
+  </div>
+
+   <!-- ACTIONS BAS DE PAGE -->
+<div class="bottomActions">
+
+  <button class="actionBtn historyBtn" onclick="location.href='Historique.html'">
+    <i class="fas fa-history"></i>
+    Historique
+  </button>
+
+  <button class="actionBtn homeReturnBtn" onclick="location.href='index.html'">
+    <i class="fas fa-house"></i>
+    Retour accueil
+  </button>
+
+</div>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const inputNom = document.getElementById("verificateur");
+  const dateJour = document.getElementById("dateJour");
+  const heureJour = document.getElementById("heureJour");
+
+  const vehicules = [
+    "btn-vsav",
+    "btn-fpt",
+    "btn-ccf",
+    "btn-vsr",
+    "btn-vtu"
+  ];
+
+  function updateDateHeure() {
+    const now = new Date();
+
+    dateJour.textContent = now.toLocaleDateString("fr-FR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    });
+
+    heureJour.textContent = now.toLocaleTimeString("fr-FR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
+  updateDateHeure();
+  setInterval(updateDateHeure, 30000);
+
+  const savedNom = localStorage.getItem("nomVerificateur");
+  const savedTime = localStorage.getItem("nomVerificateurTime");
+
+  const now = Date.now();
+  const duree24h = 24 * 60 * 60 * 1000;
+
+  if (
+    savedNom &&
+    savedTime &&
+    now - Number(savedTime) < duree24h
+  ) {
+    inputNom.value = savedNom;
+  }
+
+  function updateVehiculesState() {
+    const val = inputNom.value.trim().toUpperCase();
+    const enable = val.length >= 3;
+
+    vehicules.forEach(id => {
+      document.getElementById(id)?.classList.toggle("disabled", !enable);
+    });
+  }
+
+  inputNom.addEventListener("input", () => {
+    const val = inputNom.value.trim().toUpperCase();
+
+    inputNom.value = val;
+
+    localStorage.setItem("nomVerificateur", val);
+    localStorage.setItem("nomVerificateurTime", Date.now());
+
+    updateVehiculesState();
+  });
+
+  window.selectVehicule = function(v) {
+    const nom = inputNom.value.trim().toUpperCase();
+
+    localStorage.setItem("nomVerificateur", nom);
+    localStorage.setItem("nomVerificateurTime", Date.now());
+
+    if (nom.length < 3) {
+      alert("Nom obligatoire avant de sélectionner un engin.");
+      inputNom.focus();
+      return;
+    }
+
+    const pages = {
+      VSSUAP: "VSAV.html",
+      FPTGP: "FPT.html",
+      CCFM: "CCF.html",
+      VSRM: "VSR.html",
+      VTU: "VTU.html"
+    };
+
+    location.href = pages[v];
+  };
+
+  updateVehiculesState();
+
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+
+  let refreshing = false;
+
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (refreshing) return;
+
+    refreshing = true;
+    window.location.reload();
+  });
+
+  window.addEventListener("load", async () => {
+    try {
+
+      const registration = await navigator.serviceWorker.register(
+        "./service-worker.js",
+        {
+          updateViaCache: "none"
+        }
+      );
+
+      console.log("Service Worker enregistré :", registration.scope);
+
+      // Force la vérification d'une éventuelle nouvelle version
+      await registration.update();
+
+    } catch (error) {
+      console.error("Erreur Service Worker :", error);
+    }
+  });
+}
+</script>
+</body>
+</html>
