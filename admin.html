@@ -14,6 +14,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="photo-admin.css">
 
 <style>
 body { background:#f4f5f7 !important; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
@@ -245,10 +246,14 @@ body { background:#f4f5f7 !important; font-family:system-ui,-apple-system,"Segoe
       <div class="card-top">
         <div>
           <h2><i class="fas fa-images"></i> Gestion des photos</h2>
-          <p>Ajouter, modifier ou supprimer les images du bucket Supabase.</p>
+          <p>Choisir la photo de présentation ou le compartiment à modifier.</p>
         </div>
       </div>
 
+      <div id="photo-admin-mount" class="photo-management"><p>Chargement de la gestion des visuels…</p></div>
+      <details class="advanced-photos">
+      <summary>Gestion avancée des fichiers</summary>
+      <button type="button" onclick="refreshPhotos()">Afficher le contenu des dossiers</button>
       <div class="photo-upload-panel">
         <input type="file" id="newPhotoFile" accept="image/*">
         <input id="newPhotoName" placeholder="Nom du fichier : logo.png ou DOSSIER/image.jpg">
@@ -258,6 +263,7 @@ body { background:#f4f5f7 !important; font-family:system-ui,-apple-system,"Segoe
       </div>
 
       <div id="photosGrid" class="photo-admin-grid"></div>
+      </details>
     </section>
 
   </section>
@@ -404,6 +410,7 @@ if(currentRole !== "admin" || !localStorage.getItem("currentUser")){
   location.replace("index.html?view=office");
   throw new Error("Accès administrateur refusé");
 }
+window.verifPhotoAdminServices = {db,sb};
 
 function logoutAdmin(){
   localStorage.removeItem("userRole");
@@ -453,7 +460,7 @@ function showSection(section){
 
     document.getElementById("btnPhotos").classList.add("active");
 
-    refreshPhotos();
+    // La gestion guidée est prête, sans charger tout le stockage.
   }
 }
 
@@ -1034,6 +1041,7 @@ window.moveItemDown = moveItemDown;
 loadUsers();
 showSection("users");
 </script>
+<script type="module" src="./photo-admin.js"></script>
 
 </body>
 </html>

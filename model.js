@@ -11,6 +11,16 @@ export const posts = vehicles.flatMap(v => v.posts.map(role => ({vehicle:v, role
   pressure:v.id==='FPTGP' ? (role==='CO'?'CABINE':'CABINE ARRIERE') : null
 })));
 export const imageRoot = 'https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/';
+export function validVerifier(value){const n=String(value||'').trim();return n.length>=2&&n.length<=80&&/\p{L}/u.test(n);}
+export const verifierKey=value=>String(value||'').trim().replace(/\s+/g,' ').normalize('NFC').toLocaleLowerCase('fr-FR');
+export const presentationPhotos = [
+  {path:'TAV.png',label:'Photo de la caserne · accueil',fallback:'./assets/centre.webp'},
+  {path:'logo.png',label:'Logo du CIS',fallback:'./assets/logo.png'},
+  ...vehicles.map(v=>({path:v.legacy+'.png',label:'Photo de présentation · '+v.id,fallback:'./assets/vehicles/'+v.id+'.webp'}))
+];
+export const referenceSlots=post=>post.id==='COVTU'?[1,2,3,4]:[1];
+export const referencePath=(post,section,slot=1)=>post.id+'/'+normalize(section)+(slot===1?'':'_'+slot)+'.jpg';
+export const publicPhotoUrl=(path,revision)=>imageRoot+path.split('/').map(encodeURIComponent).join('/')+(revision?'?v='+encodeURIComponent(revision):'');
 export const normalize = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'_').replace(/[^\w_]/g,'');
 export const itemId = (s,l) => normalize(s+'_'+l);
 export const isReminder = (post,section) => Number(section.order)===1 && (post.reminderAll || section.name.toUpperCase()==='RAPPEL');

@@ -10,15 +10,54 @@
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="./assets/logo.png" type="image/png">
   <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="apple-touch-startup-image" href="./assets/splash/750x1334.jpg" media="(device-width:375px) and (device-height:667px) and (-webkit-device-pixel-ratio:2) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1242x2208.jpg" media="(device-width:414px) and (device-height:736px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1125x2436.jpg" media="(device-width:375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/828x1792.jpg" media="(device-width:414px) and (device-height:896px) and (-webkit-device-pixel-ratio:2) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1242x2688.jpg" media="(device-width:414px) and (device-height:896px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1080x2340.jpg" media="(device-width:360px) and (device-height:780px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1170x2532.jpg" media="(device-width:390px) and (device-height:844px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1179x2556.jpg" media="(device-width:393px) and (device-height:852px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1284x2778.jpg" media="(device-width:428px) and (device-height:926px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1290x2796.jpg" media="(device-width:430px) and (device-height:932px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1206x2622.jpg" media="(device-width:402px) and (device-height:874px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <link rel="apple-touch-startup-image" href="./assets/splash/1320x2868.jpg" media="(device-width:440px) and (device-height:956px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
+  <style>
+    body.booting{margin:0;background:#121b29;color:#fff}
+    .booting .topbar,.booting .bottom-nav{display:none!important}
+    .booting #main{max-width:none;padding:0;margin:0}
+    #boot-screen{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:flex-start;flex-direction:column;text-align:center;position:relative;overflow:hidden;isolation:isolate;padding:clamp(32px,9vh,90px) 24px 42px;background:#141f2f;color:#fff;font-family:system-ui,-apple-system,sans-serif}
+    #boot-screen::after{position:absolute;inset:43% 0 7%;z-index:-2;content:"";background:url('./assets/centre.webp') 50% 76%/cover no-repeat}
+    #boot-screen::before{position:absolute;inset:41% 0 5%;z-index:-1;content:"";background:linear-gradient(180deg,#141f2f 0%,#141f2f12 27%,#141f2f15 62%,#141f2f 100%)}
+    .boot-brand{width:clamp(84px,26vw,115px);height:clamp(84px,26vw,115px);object-fit:contain;border-radius:50%;box-shadow:0 6px 40px #050a1460}
+    .boot-kicker{font-size:12px;letter-spacing:.19em;font-weight:800;margin-top:26px;color:#ffdbd9}
+    .boot-title{margin:9px 0 9px;font-size:clamp(36px,10vw,56px);line-height:1.05;letter-spacing:-.06em;font-weight:850}
+    .boot-sub{font-size:14px;color:#e5e8ee;max-width:280px;margin:0 0 23px}
+    .boot-loader{width:54px;height:5px;background:#ffffff30;overflow:hidden;border-radius:8px}
+    .boot-loader::after{content:"";display:block;width:25px;height:5px;border-radius:8px;background:#ff6576;animation:boot-slide 1.3s ease-in-out infinite alternate}
+    @keyframes boot-slide{to{transform:translateX(29px)}}
+    .boot-status{font-size:12px;color:#d7dce5;margin:13px 0}
+    .boot-footer{position:absolute;bottom:max(20px,env(safe-area-inset-bottom));color:#ecd4d7;font-size:13px;font-weight:700;letter-spacing:.02em}
+    #boot-fallback{background:white;color:#a91f2c;font-weight:750;border:none;border-radius:10px;padding:12px}
+    @media(prefers-reduced-motion:reduce){.boot-loader::after{animation:none}}
+  </style>
   <link rel="stylesheet" href="./app.css">
   <link rel="stylesheet" href="./mobile.css">
 </head>
-<body>
+<body class="booting">
   <header class="topbar">
-    <a class="brand" href="./index.html" aria-label="Accueil Vérif Taverny"><img src="./assets/logo.png" alt=""><span><strong>Vérif Taverny</strong><small>SDIS 95 · CIS TAVERNY</small></span></a>
+    <a class="brand" href="./index.html" aria-label="Accueil Vérif Taverny"><img id="brand-logo" src="./assets/logo.png" alt=""><span><strong>Vérif Taverny</strong><small>SDIS 95 · CIS TAVERNY</small></span></a>
     <span id="network" class="network" role="status">● En ligne</span>
   </header>
-  <main id="main" tabindex="-1"><p class="notice">Chargement de l’application…</p></main>
+  <main id="main" tabindex="-1"><section id="boot-screen" role="status" aria-label="Ouverture de l’application">
+    <img class="boot-brand" src="./assets/logo.png" alt="CIS Taverny">
+    <span class="boot-kicker">SDIS 95 · CIS TAVERNY</span>
+    <h1 class="boot-title">Vérif Taverny</h1>
+    <p class="boot-sub">Vérifications opérationnelles<br>Prêt pour chaque départ.</p>
+    <div class="boot-loader" aria-hidden="true"></div><p class="boot-status">Ouverture de l’application…</p>
+    <button id="boot-fallback" type="button" onclick="location.reload()" hidden>Réessayer l’ouverture</button>
+    <span class="boot-footer">Prêt pour chaque départ.</span>
+  </section></main>
   <nav class="bottom-nav" aria-label="Navigation principale">
     <a href="./index.html" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10h-6v-7H9v7H3z"/></svg>Accueil</a>
     <a href="./index.html?view=vehicles" data-nav="vehicles"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 5V3h6v2m-6 8 2 2 4-4"/></svg>Vérifier</a>
@@ -31,5 +70,6 @@
     <p id="image-note"></p>
   </dialog>
   <script type="module" src="./app.js"></script>
+  <script>setTimeout(()=>{const b=document.getElementById('boot-fallback');if(b)b.hidden=false;},10000);</script>
 </body>
 </html>
