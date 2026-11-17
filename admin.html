@@ -16,21 +16,8 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* Images communes chargées depuis Supabase */
-body {
-  background:
-    linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.70)),
-    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover fixed !important;
-}
-
-.app-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.65)),
-    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover no-repeat !important;
-}
+body { background:#f4f5f7 !important; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
+.app-bg { display:none !important; }
 
 
 /* Gestion photos alignée avec le design Admin */
@@ -412,14 +399,16 @@ async function refreshPhotos() {
 
 
 const currentRole = localStorage.getItem("userRole");
-if(currentRole && currentRole !== "admin"){
+if(currentRole !== "admin" || !localStorage.getItem("currentUser")){
   alert("Accès réservé administrateur.");
-  location.href = "index.html";
+  location.replace("index.html?view=office");
+  throw new Error("Accès administrateur refusé");
 }
 
 function logoutAdmin(){
   localStorage.removeItem("userRole");
   localStorage.removeItem("bureauAccess");
+  localStorage.removeItem("currentUser");
   location.href = "index.html";
 }
 
@@ -486,7 +475,6 @@ async function loadUsers(){
     const user = {
       id: doc.id,
       role: normalizeRole(u.role),
-      password: u.password || "",
       createdAt: u.createdAt || null
     };
 
@@ -855,7 +843,7 @@ function escapeHtml(value){
 }
 
 function escapeAttr(value){
-  return String(value).replaceAll("\\", "\\\\").replaceAll("'", "\\'").replaceAll('"', "&quot;");
+  return escapeHtml(JSON.stringify(String(value)).slice(1,-1).replaceAll("'", "\\u0027"));
 }
 
 /* =========================================================

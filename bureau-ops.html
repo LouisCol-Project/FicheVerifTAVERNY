@@ -15,7 +15,6 @@
 
 <link rel="preconnect" href="https://crekdqowqtivflqhhxfc.supabase.co">
 <link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
-<link rel="preload" as="image" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png">
 
 <link id="appleIcon" rel="apple-touch-icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
 <link id="favicon" rel="shortcut icon" href="https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/logo.png">
@@ -26,21 +25,8 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* Images Supabase chargées immédiatement */
-body {
-  background:
-    linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.70)),
-    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover fixed !important;
-}
-
-.app-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.65)),
-    url("https://crekdqowqtivflqhhxfc.supabase.co/storage/v1/object/public/Photo_Engins/TAV.png") center / cover no-repeat !important;
-}
+body { background:#f4f5f7 !important; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
+.app-bg { display:none !important; }
 
 /* Gestion photos alignée avec le design OPS */
 .photo-upload-panel {
@@ -418,12 +404,7 @@ body {
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js">
-document.addEventListener("DOMContentLoaded", () => {
-  showOpsSection("verifications");
-});
-
-</script>
+<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -538,30 +519,29 @@ const db = firebase.firestore();
 const currentRole = localStorage.getItem("userRole");
 const allowedRoles = ["admin", "OPS"];
 
-if(!allowedRoles.includes(currentRole)){
+if(!allowedRoles.includes(currentRole) || !localStorage.getItem("currentUser")){
   alert("Accès réservé au Bureau OPS.");
-  location.href = "index.html";
+  location.replace("index.html?view=office");
+  throw new Error("Accès OPS refusé");
 }
 
 function logoutOps(){
   localStorage.removeItem("userRole");
   localStorage.removeItem("bureauAccess");
+  localStorage.removeItem("currentUser");
   location.href = "index.html";
 }
 
 
 function getConnectedUsername(){
-  return localStorage.getItem("currentUser")
-    || localStorage.getItem("connectedUser")
-    || localStorage.getItem("bureauUser")
-    || localStorage.getItem("username")
-    || "";
+  return localStorage.getItem("currentUser") || "";
 }
 
 function initAccountCard(){
   const input = document.getElementById("accountUserId");
   if(input && !input.value){
     input.value = getConnectedUsername();
+    input.readOnly = true;
   }
 }
 
@@ -578,6 +558,10 @@ function setAccountStatus(message, type = "info"){
 
 async function changeOwnPassword(){
   const userId = document.getElementById("accountUserId")?.value.trim();
+  if(userId !== getConnectedUsername()){
+    setAccountStatus("Ce compte n’est pas le compte connecté.", "error");
+    return;
+  }
   const oldPassword = document.getElementById("accountOldPassword")?.value.trim();
   const newPassword = document.getElementById("accountNewPassword")?.value.trim();
   const confirmPassword = document.getElementById("accountConfirmPassword")?.value.trim();
@@ -796,7 +780,6 @@ function renderFicheCard(panel, poste){
   div.innerHTML = `
     <p>
       <strong>${escapeHtml(poste.label)}</strong>
-      <small>ID Firebase : ${escapeHtml(poste.fiche)}</small>
     </p>
 
     <div>
@@ -808,9 +791,6 @@ function renderFicheCard(panel, poste){
         <i class="fas fa-pen"></i> Modifier
       </button>
 
-      <button onclick="duplicateFiche('${escapeAttr(poste.fiche)}')">
-        <i class="fas fa-copy"></i> Copier ID
-      </button>
     </div>
   `;
 
@@ -825,11 +805,6 @@ function filterFiches(){
   cards.forEach(card => {
     card.style.display = !q || card.dataset.search.includes(q) ? "grid" : "none";
   });
-}
-
-function duplicateFiche(ficheId){
-  navigator.clipboard?.writeText(ficheId);
-  alert("ID copié : " + ficheId);
 }
 
 /* =========================================================
@@ -1261,10 +1236,7 @@ function escapeHtml(value){
 }
 
 function escapeAttr(value){
-  return String(value)
-    .replaceAll("\\", "\\\\")
-    .replaceAll("'", "\\'")
-    .replaceAll('"', "&quot;");
+  return escapeHtml(JSON.stringify(String(value)).slice(1,-1).replaceAll("'", "\\u0027"));
 }
 
 /* =========================================================
@@ -1283,7 +1255,6 @@ window.initAccountCard = initAccountCard;
 
 window.openEngin = openEngin;
 window.filterFiches = filterFiches;
-window.duplicateFiche = duplicateFiche;
 
 window.viewFiche = viewFiche;
 window.closeView = closeView;
