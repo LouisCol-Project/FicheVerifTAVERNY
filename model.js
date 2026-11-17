@@ -25,6 +25,7 @@ export const normalize = s => String(s).normalize('NFD').replace(/[\u0300-\u036f
 export const itemId = (s,l) => normalize(s+'_'+l);
 export const isReminder = (post,section) => Number(section.order)===1 && (post.reminderAll || section.name.toUpperCase()==='RAPPEL');
 export const orderedSections = data => Object.entries(data||{}).filter(([,s])=>s?.items && typeof s.items==='object').map(([name,s])=>({...s,name})).sort((a,b)=>Number(a.order)-Number(b.order));
+export function orderedItems(section){const items=section?.items||{},keys=Object.keys(items),seen=new Set(),result=[];for(const k of [...(Array.isArray(section?.itemOrder)?section.itemOrder:[]),...keys])if(typeof k==='string'&&Object.hasOwn(items,k)&&!seen.has(k)){seen.add(k);result.push(k);}return result;}
 export const pressureId = post => itemId(post.pressure,"Pression de la bouteille de l'ARI");
 export const asDate = d => d?.toDate ? d.toDate() : d?.seconds ? new Date(d.seconds*1000) : new Date(d);
 export const dateKey = d => [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');

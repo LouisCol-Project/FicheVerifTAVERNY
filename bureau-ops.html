@@ -854,7 +854,7 @@ async function viewFiche(ficheId, title){
       <legend>${escapeHtml(section.name)}</legend>
     `;
 
-    Object.keys(section.items || {}).forEach((item, index)=>{
+    getOrderedItemNames(section).forEach((item, index)=>{
       const row = document.createElement("div");
       row.className = "admin-list-row";
       row.innerHTML = `
@@ -1002,7 +1002,7 @@ function renderStructureEditor(){
 
     const itemsBox = sectionBox.querySelector(`#items-${sectionIndex}`);
 
-    Object.keys(section.items || {}).forEach(item=>{
+    getOrderedItemNames(section).forEach(item=>{
       const row = document.createElement("div");
       row.className = "admin-item-editor";
 
@@ -1128,6 +1128,7 @@ function createItem(section, name){
   }
 
   currentEditData[section].items[name] = true;
+  currentEditData[section].itemOrder = getOrderedItemNames(currentEditData[section]);
   renderEditModal();
 }
 
@@ -1135,6 +1136,7 @@ function deleteItem(section, item){
   if(!confirm("Supprimer l’item : " + item + " ?")) return;
 
   delete currentEditData[section].items[item];
+  currentEditData[section].itemOrder = getOrderedItemNames(currentEditData[section]);
   renderEditModal();
 }
 
@@ -1153,16 +1155,17 @@ function renameItem(section, oldName, newName){
 
   const newItems = {};
 
-  Object.entries(items).forEach(([key, value])=>{
+  getOrderedItemNames(currentEditData[section]).map(key=>[key,items[key]]).forEach(([key, value])=>{
     newItems[key === oldName ? newName : key] = value;
   });
 
   currentEditData[section].items = newItems;
+  currentEditData[section].itemOrder = Object.keys(newItems);
   renderEditModal();
 }
 
 function moveItemUp(section, item){
-  const items = Object.entries(currentEditData[section].items);
+  const items = getOrderedItemNames(currentEditData[section]).map(key=>[key,currentEditData[section].items[key]]);
   const index = items.findIndex(([key]) => key === item);
 
   if(index <= 0) return;
@@ -1170,11 +1173,12 @@ function moveItemUp(section, item){
   [items[index - 1], items[index]] = [items[index], items[index - 1]];
 
   currentEditData[section].items = Object.fromEntries(items);
+  currentEditData[section].itemOrder = items.map(([key])=>key);
   renderEditModal();
 }
 
 function moveItemDown(section, item){
-  const items = Object.entries(currentEditData[section].items);
+  const items = getOrderedItemNames(currentEditData[section]).map(key=>[key,currentEditData[section].items[key]]);
   const index = items.findIndex(([key]) => key === item);
 
   if(index === -1 || index >= items.length - 1) return;
@@ -1182,6 +1186,7 @@ function moveItemDown(section, item){
   [items[index], items[index + 1]] = [items[index + 1], items[index]];
 
   currentEditData[section].items = Object.fromEntries(items);
+  currentEditData[section].itemOrder = items.map(([key])=>key);
   renderEditModal();
 }
 
@@ -1214,6 +1219,11 @@ async function saveEdit(){
 /* =========================================================
    HELPERS
 ========================================================= */
+function getOrderedItemNames(section){
+  const items=section.items||{};
+  return [...new Set([...(Array.isArray(section.itemOrder)?section.itemOrder:[]),...Object.keys(items)])].filter(key=>Object.hasOwn(items,key));
+}
+
 function getOrderedSections(data){
   return Object.entries(data || {})
     .map(([name, section]) => ({ name, ...section }))

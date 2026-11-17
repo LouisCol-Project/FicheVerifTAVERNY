@@ -1,4 +1,4 @@
-import {vehicles,roles,posts,validVerifier,verifierKey,publicPhotoUrl,referenceSlots,referencePath,itemId,isReminder,orderedSections,pressureId,asDate,dateKey,shift,missing,findPost,validDraft} from './model.js';
+import {vehicles,roles,posts,validVerifier,verifierKey,publicPhotoUrl,referenceSlots,referencePath,itemId,isReminder,orderedSections,orderedItems,pressureId,asDate,dateKey,shift,missing,findPost,validDraft} from './model.js';
 import * as api from './backend.js';
 import {archivedReferences} from './assets-index.js';
 const $=s=>document.querySelector(s), main=$('#main');
@@ -69,7 +69,7 @@ function home(){
   show('<section class="hero photo-hero"><img class="hero-photo-live" src="'+esc(publicPhotoUrl('TAV.png',rev))+'" alt="" data-optional><div class="hero-content"><span class="eyebrow">CIS TAVERNY · '+esc(now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}))+'</span><h1>Prêts pour la garde.</h1><p>Vérifie ton engin en quelques gestes.</p><a class="primary light" href="'+url('vehicles')+'">Vérifier un engin <span>→</span></a></div></section>'+
   '<div id="identity-home">'+(name()?identity():identityForm())+'</div>'+resumeCard()+'<section class="section fleet-section"><div class="section-title"><div><span class="eyebrow">ACCÈS RAPIDE</span><h2>Choisir un engin</h2></div>'+badge('5 engins')+'</div><div id="fleet-alert"></div><div class="vehicles">'+vehicles.map(vehicleCard).join('')+'</div></section>'+
   '<section class="section"><div class="section-title"><div><span class="eyebrow">SUIVI OPÉRATIONNEL</span><h2>Garde en cours</h2></div>'+badge(s.label)+'</div><div id="summary">'+state('Chargement des contrôles…')+'</div></section>'+
-  '<p class="footer">CIS TAVERNY · Vérif Taverny 4.2</p>');
+  '<p class="footer">CIS TAVERNY · Vérif Taverny 4.3</p>');
   bindIdentity();
   api.records(s.start,s.end).then(records=>{
     const recent=new Map();records.forEach(r=>{const p=findPost(r);if(p&&!recent.has(p.id))recent.set(p.id,r);});
@@ -107,7 +107,7 @@ async function checkPage(){
   const sections=orderedSections(structureData);
   if(!sections.length){status.innerHTML=state('Fiche vide : contacte le bureau OPS. Aucun enregistrement possible.','error');return;}
   const items=[], reminders=[], pressureSection=p.pressure&&sections.find(s=>s.name===p.pressure&&Object.keys(s.items).some(l=>l.includes(p.role==='CO'?'ARI complet derrière le siège':'ARI complet')));
-  for(const s of sections)for(const label of Object.keys(s.items)){if(isReminder(p,s))reminders.push(label);else items.push({section:s.name,label,id:itemId(s.name,label)});}
+  for(const s of sections)for(const label of orderedItems(s)){if(isReminder(p,s))reminders.push(label);else items.push({section:s.name,label,id:itemId(s.name,label)});}
   if(!items.length||new Set(items.map(i=>i.id)).size!==items.length){status.innerHTML=state('Fiche vide ou identifiants de matériel dupliqués. Contacte le bureau OPS.','error');return;}
   const values={};for(const item of items){const v=draft?.values?.[item.id];if(v===true||v===false)values[item.id]=v;}
   let photos=[], busy=false, preparing=false, dirty=false, last=null, finished=false;

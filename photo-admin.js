@@ -1,11 +1,7 @@
 import {vehicles,roles,posts,orderedSections,isReminder,referencePath,referenceSlots,presentationPhotos,publicPhotoUrl} from './model.js';
 import {archivedReferences} from './assets-index.js';
 
-const mount=document.getElementById('photo-admin-mount'), services=window.verifPhotoAdminServices;
-if(mount&&services&&localStorage.getItem('userRole')==='admin')init();
-else if(mount)mount.textContent='Gestion des photos indisponible. Vérifie ta connexion et ton accès administrateur.';
-function init(){
-  const {db,sb}=services;
+export function mountPhotoAdmin(mount,services){
   mount.innerHTML=`
     <div class="pa-tabs" role="group" aria-label="Type de photo">
       <button type="button" data-mode="presentation" class="active">Présentation</button>
@@ -21,13 +17,13 @@ function init(){
       <div class="pa-preview"><strong>Photo actuellement utilisée</strong><img id="pa-current" alt="Visuel actuel" hidden><p id="pa-current-note">Choisir un visuel.</p></div>
       <div class="pa-preview"><strong>Nouvelle photo</strong><img id="pa-new" alt="Aperçu de la nouvelle photo" hidden><p id="pa-new-note">Sélectionner un fichier image.</p><label class="pa-file">Choisir une image<input id="pa-file" type="file" accept="image/*"></label></div>
     </div>
-    <button id="pa-save" type="button" class="pa-save" disabled>Enregistrer la nouvelle photo</button>
+    <div class="pa-actions"><button id="pa-save" type="button" class="pa-save" disabled>Enregistrer la nouvelle photo</button><button id="pa-delete" type="button" class="danger" disabled>Supprimer le visuel en ligne</button></div>
     <p id="pa-status" class="pa-status" role="status" aria-live="polite"></p>
     <p class="pa-help">Le chemin est généré automatiquement. Après validation, la photo est remplacée ou créée dans le stockage existant. Les utilisateurs verront le nouveau visuel à la prochaine ouverture ou actualisation.</p>
   `;
   const $=id=>mount.querySelector('#'+id), buttons=[...mount.querySelectorAll('[data-mode]')];
   const fill=(select,entries)=>select.replaceChildren(...entries.map(([value,label])=>new Option(label,value)));
-  let mode='presentation',target=null,selectedFile=null,previewUrl=null,loading=false,uploading=false,token=0,previewToken=0;
+  let mode='presentation',target=null,selectedFile=null,previewUrl=null,loading=false,uploading=false,token=0,previewToken=0,onlinePhoto=false;
   function message(t,type=''){const el=$('pa-status');el.textContent=t;el.className='pa-status '+type;}
   function resetSelection(){selectedFile=null;$('pa-file').value='';if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=null;$('pa-new').hidden=true;$('pa-new').removeAttribute('src');$('pa-new-note').textContent='Sélectionner un fichier image.';updateControls();}
   function updateControls(){
@@ -36,16 +32,17 @@ function init(){
     mount.querySelectorAll('select').forEach(el=>el.disabled=uploading||(loading&&['pa-section','pa-slot'].includes(el.id)));
     $('pa-save').disabled=busy||!target||!selectedFile;
     $('pa-file').disabled=busy||!target;
+    $('pa-delete').disabled=busy||!target||!onlinePhoto;
   }
   function displayTarget(next){
-    target=next;resetSelection();message('');
+    target=next;onlinePhoto=false;resetSelection();message('');
     const img=$('pa-current'),note=$('pa-current-note'),id=++previewToken;
     img.hidden=true;img.removeAttribute('src');img.onload=null;img.onerror=null;
     $('pa-path').textContent=next?'Emplacement : '+next.path:'Choisir un compartiment.';
     if(!next){note.textContent='Aucun emplacement sélectionné.';updateControls();return;}
     note.textContent='Chargement de la photo…';
     const remote=publicPhotoUrl(next.path,Date.now());let fallback=false;
-    img.onload=()=>{if(id!==previewToken)return;img.hidden=false;note.textContent=fallback?'Photo d’archive locale · aucune photo en ligne accessible.':'Photo en ligne.';};
+    img.onload=()=>{if(id!==previewToken)return;img.hidden=false;onlinePhoto=!fallback;note.textContent=fallback?'Photo d’archive locale · aucune photo en ligne accessible.':'Photo en ligne.';updateControls();};
     img.onerror=()=>{if(id!==previewToken)return;if(next.fallback&&!fallback){fallback=true;img.src=next.fallback;}else{img.hidden=true;note.textContent='Aucune photo accessible. Tu peux en ajouter une.';}};
     img.src=remote;updateControls();
   }
@@ -62,9 +59,9 @@ function init(){
     if(!post){loading=false;updateControls();return;}
     fill($('pa-slot'),referenceSlots(post).map(n=>[String(n),'Photo '+n]));
     try{
-      const snap=await db.collection('FICHEVerif').doc(post.id).get();
+      const data=await services.structure(post.id);
       if(seq!==token||mode!=='reference')return;
-      const sections=orderedSections(snap.exists?snap.data():{}).filter(s=>!isReminder(post,s));
+      const sections=orderedSections(data||{}).filter(s=>!isReminder(post,s));
       fill($('pa-section'),[['','Sélectionner un compartiment'],...sections.map(s=>[s.name,s.name])]);
       if(!sections.length)message('Aucun compartiment trouvé dans cette fiche.','error');
     }catch(e){if(seq===token){fill($('pa-section'),[['','Erreur de chargement']]);message('Impossible de charger la fiche : '+(e.message||e),'error');}}
@@ -95,13 +92,25 @@ function init(){
     uploading=true;updateControls();message('Préparation et envoi de la photo…');
     try{
       const blob=await convertImage(source,dest.path);
-      const {error}=await sb.storage.from('Photo_Engins').upload(dest.path,blob,{upsert:true,cacheControl:'60',contentType:blob.type});
-      if(error)throw Error(error.message||'Échec du stockage.');
+      await services.replacePhoto(dest.path,blob);
       displayTarget(dest);message('✓ Photo enregistrée. Elle sera visible à la prochaine ouverture des fiches.','success');
     }catch(e){message('Échec : '+(e.message||'Vérifie le fichier et les autorisations du stockage.'),'error');}
     finally{uploading=false;updateControls();}
   };
+  $('pa-delete').onclick=async()=>{
+    if(!target||uploading||!onlinePhoto)return;
+    const dest=target;if(!confirm('Supprimer définitivement la photo en ligne « '+dest.label+' » ?'))return;
+    uploading=true;updateControls();message('Suppression…');
+    try{await services.removePhoto(dest.path);displayTarget(dest);message('✓ Photo en ligne supprimée. Une éventuelle archive locale reste disponible.','success');}
+    catch(e){message('Échec : '+(e.message||e),'error');}
+    finally{uploading=false;updateControls();}
+  };
   selectMode('presentation');
+  return {canLeave:()=>!uploading&&(!selectedFile||confirm('Abandonner la nouvelle photo non enregistrée ?')),hasChanges:()=>uploading||!!selectedFile,dispose:()=>{token++;previewToken++;if(previewUrl)URL.revokeObjectURL(previewUrl);},async selectReference(id,section){
+    const p=posts.find(x=>x.id===id);if(!p)return;
+    selectMode('reference');$('pa-vehicle').value=p.vehicle.id;fill($('pa-post'),posts.filter(x=>x.vehicle.id===p.vehicle.id).map(x=>[x.id,roles[x.role]+' · '+x.role]));$('pa-post').value=id;
+    await fetchSections();if([...$('pa-section').options].some(o=>o.value===section)){$('pa-section').value=section;showRef();}
+  }};
 }
 async function convertImage(file,path){
   let bitmap,url;

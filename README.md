@@ -1,4 +1,4 @@
-# Vérif Taverny 4.2 — édition terrain
+# Vérif Taverny 4.3 — administration
 
 Application web statique responsive pour le CIS Taverny. Déployable sur un hébergement statique HTTPS, sans compilation ni serveur applicatif supplémentaire.
 
@@ -13,6 +13,16 @@ Application web statique responsive pour le CIS Taverny. Déployable sur un héb
 Sur Android/Chrome, l'installation est proposée si le navigateur la permet. Sur iOS, utiliser Safari > Partager > Sur l'écran d'accueil.
 
 ## Ce qui change
+
+### Version 4.3
+
+- Administration entièrement refondue : navigation latérale sur ordinateur et cinq onglets fixes accessibles au pouce sur mobile.
+- Tableau de bord de la garde : dernière vérification par poste, progression par engin, matériel manquant et anomalies prioritaires.
+- Suivi des vérifications : période, engin, résultat, recherche, détail des contrôles et photos, export CSV des résultats filtrés.
+- Comptes : création, modification des rôles, réinitialisation du mot de passe, suppression confirmée ; interdiction de supprimer ou déclasser son propre compte administrateur.
+- Éditeur des 18 fiches : ajout, renommage, suppression et réorganisation des compartiments et matériels ; contrôles des doublons et protection du déclenchement du contrôle de pression ARI déjà configuré. Les champs historiques sont préservés ; `itemOrder` est une liste facultative pour conserver l'ordre des matériels. L'éditeur OPS lit également cet ordre.
+- Sauvegarde des fiches par transaction avec détection des changements effectués simultanément. Les photos sont accessibles depuis chaque fiche ou compartiment ; gestion guidée des visuels et bibliothèque avancée.
+- Les données distantes n'ont pas été modifiées pendant le développement. La connexion et les règles Firestore/Supabase existantes restent à vérifier avec un vrai compte administrateur. Le système de connexion historique côté client n'est pas une authentification serveur ; les droits doivent être protégés par les règles du service pour constituer une sécurité effective.
 
 ### Version 4.2
 

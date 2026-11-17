@@ -1,4 +1,4 @@
-const CACHE='verif-tav-v42-20261117';
+const CACHE='verif-tav-v43-20261117';
 const SHELL=['./index.html','./app.css','./mobile.css','./app.js','./model.js','./backend.js','./assets-index.js','./manifest.json','./icon.svg','./icon-192.png','./icon-512.png','./icon-maskable.png','./assets/logo.png','./assets/centre.webp',...['VSSUAP','FPTGP','CCFM','VSRM','VTU'].map(v=>'./assets/vehicles/'+v+'.webp')];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE&&(k.startsWith('verif-tav-')||k.startsWith('cis-tav-'))).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
